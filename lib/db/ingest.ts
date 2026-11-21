@@ -15,9 +15,9 @@ const today = () => new Date().toISOString().slice(0, 10);
 const validDate = (s: string | null) => (s && !Number.isNaN(Date.parse(s)) ? s : null);
 
 const findJob = async (c: Client, source: string, externalId: string) =>
-  (await c.from('jobs').select('id').eq('source', source).eq('external_id', externalId).maybeSingle()).data as { id: string } | null;
+  (await c.from('jobs').select('id, company_id').eq('source', source).eq('external_id', externalId).maybeSingle()).data as { id: string; company_id: string | null } | null;
 // Refreshing last_seen_at is best effort: a failed refresh must not fail the add, so the result is deliberately ignored.
-const touch = (c: Client, id: string) => c.from('jobs').update({ last_seen_at: new Date().toISOString() }).eq('id', id);
+const touch = (c: Client, id: string, extra: Record<string, string> = {}) => c.from('jobs').update({ last_seen_at: new Date().toISOString(), ...extra }).eq('id', id);
 
 /** Reuse a shared (cron-ingested) row, refreshing last_seen_at; null when there is none. Admin client: shared rows are service-role only. */
 export async function reuseSharedJob(source: string, externalId: string): Promise<string | null> {
@@ -39,7 +39,8 @@ export async function upsertJob(
   const existing = await findJob(c, raw.source, raw.externalId);
   if (existing) {
     id = existing.id;
-    await touch(c, id);
+    // A shared row first added by URL has no company until its board is followed and ingested.
+    await touch(c, id, companyId && !existing.company_id ? { company_id: companyId } : {});
   } else {
     const { data, error } = await c.from('jobs').insert({
       owner_id: ownerId, source: raw.source, external_id: raw.externalId, url: raw.url || null, company_id: companyId, company_name: raw.companyName,
@@ -62,12 +63,13 @@ export async function upsertJob(
   return { id, created };
 }
 
-// Days a fingerprint was seen, counting only sightings at least 14 days after the previous counted one:
-// a posting that stays up continuously is one sighting, a relisting is another.
+// Days a fingerprint was seen, counting a new listing only after a gap of at least 14 days since the previous sighting:
+// a posting that stays up continuously (sighted daily by cron) is one listing, a relisting after a break is another.
 function sightingDays(seen: string[]): number {
-  let count = 0, last = -Infinity;
+  let count = 0, prev = -Infinity;
   for (const t of [...new Set(seen)].map((d) => Date.parse(d)).sort((a, b) => a - b)) {
-    if (t - last >= 14 * DAY) { count++; last = t; }
+    if (t - prev >= 14 * DAY) count++;
+    prev = t;
   }
   return count;
 }
@@ -85,7 +87,9 @@ async function onCareersPage(c: Client, job: JobRow, fp: string): Promise<boolea
   const company = (companies as { id: string; name: string }[] | null)?.find((x) => normalize(x.name) === normalize(job.company_name!));
   if (!company) return null;
   const { data: board } = await c.from('jobs').select('fingerprint').eq('company_id', company.id);
-  return (board as { fingerprint: string | null }[] | null)?.some((b) => b.fingerprint === fp) ?? false;
+  const list = (board ?? []) as { fingerprint: string | null }[];
+  if (!list.length) return null; // board not ingested yet (just followed, or its fetch failed): no verdict
+  return list.some((b) => b.fingerprint === fp);
 }
 
 export async function evaluateForUser(jobId: string, kind: 'evaluate_manual' | 'evaluate_auto'): Promise<'done' | 'quota' | 'failed'> {
@@ -107,7 +111,7 @@ export async function evaluateForUser(jobId: string, kind: 'evaluate_manual' | '
   });
   const row = { user_id: user.id, job_id: jobId, ghost_level: ghostLevel(signals), ghost_signals: signals, profile_version: profile?.profile_version ?? null };
   const fail = async (error: string) => {
-    await c.from('evaluations').upsert({ ...row, score: null, error }); // already failing: nothing more to report if this write fails too
+    await c.from('evaluations').upsert({ ...row, score: null, matches: [], gaps: [], notes: [], error }); // already failing: nothing more to report if this write fails too
     return 'failed' as const;
   };
 

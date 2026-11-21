@@ -211,3 +211,37 @@ test('parse quota exhausted returns quota without calling AI', async () => {
   expect(consumeQuota).toHaveBeenCalledWith('parse_job');
   expect(parseJobPosting).not.toHaveBeenCalled();
 });
+
+const sightings = (fp: string, days: number[]) => days.map((d) => ({
+  fingerprint: fp, source_domain: 'a', seen_on: new Date(Date.UTC(2026, 0, 1) + d * 86_400_000).toISOString().slice(0, 10),
+}));
+test('a job listed every day for 20 days is not reposted', async () => {
+  db.seed('job_sightings', sightings(fingerprint('C', 'T'), Array.from({ length: 20 }, (_, i) => i)));
+  await evaluateForUser('j1', 'evaluate_manual');
+  expect(db.upserts('evaluations')[0]).toMatchObject({ ghost_signals: [] });
+});
+test('a job seen on day 0 and again on day 30 is reposted', async () => {
+  db.seed('job_sightings', sightings(fingerprint('C', 'T'), [0, 30]));
+  await evaluateForUser('j1', 'evaluate_manual');
+  expect(db.upserts('evaluations')[0]).toMatchObject({ ghost_signals: ['reposted'] });
+});
+test('a company whose board has no jobs yet gives no careers-page verdict', async () => {
+  db.seed('companies', [{ id: 'c1', name: 'C' }]);
+  await evaluateForUser('j1', 'evaluate_manual');
+  expect(db.upserts('evaluations')[0]).toMatchObject({ ghost_signals: [] });
+});
+test('upsertJob sets company_id on an existing shared row that has none', async () => {
+  db.seedJob({ id: 'g1', source: 'greenhouse', external_id: '123', company_id: null });
+  await upsertJob(rawGh, null, null, 'c9');
+  expect(db.rows('jobs').find((j) => j.id === 'g1')).toMatchObject({ company_id: 'c9' });
+});
+test('upsertJob keeps the company_id an existing row already has', async () => {
+  db.seedJob({ id: 'g1', source: 'greenhouse', external_id: '123', company_id: 'c1' });
+  await upsertJob(rawGh, null, null, 'c9');
+  expect(db.rows('jobs').find((j) => j.id === 'g1')).toMatchObject({ company_id: 'c1' });
+});
+test('a failed re-evaluation clears the old matches, gaps and notes', async () => {
+  evaluateJob.mockRejectedValue(new AiError('timeout'));
+  await evaluateForUser('j1', 'evaluate_manual');
+  expect(db.upserts('evaluations')[0]).toMatchObject({ score: null, matches: [], gaps: [], notes: [] });
+});
