@@ -36,5 +36,76 @@
     "sendLink": "ส่งลิงก์เข้าสู่ระบบ",
     "sent": "ส่งลิงก์ไปที่อีเมลของคุณแล้ว เปิดอีเมลเพื่อเข้าสู่ระบบ",
     "error": "เข้าสู่ระบบไม่สำเร็จ ลองอีกครั้งนะ"
+  },
+  "prefs": {
+    "modesLabel": "รูปแบบงานที่สนใจ",
+    "rolesLabel": "สายงานที่สนใจ",
+    "modes": {
+      "remote": "รีโมต",
+      "thailand": "ในไทย",
+      "hybrid": "ไฮบริด"
+    },
+    "roles": {
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "full-stack": "Full-stack",
+      "data": "Data",
+      "devops": "DevOps",
+      "mobile": "Mobile"
+    },
+    "minSalary": "เงินเดือนขั้นต่ำ (บาท)",
+    "seniority": "ระดับประสบการณ์",
+    "seniorityAny": "ไม่ระบุ",
+    "seniorities": {
+      "junior": "จูเนียร์",
+      "mid": "กลาง",
+      "senior": "ซีเนียร์",
+      "lead": "หัวหน้าทีม"
+    }
+  },
+  "resume": {
+    "label": "ไฟล์ resume (PDF ไม่เกิน 5 MB)",
+    "privacy": "resume จะถูกส่งให้ AI เพื่ออ่านข้อมูล",
+    "privacyLink": "ดูนโยบายความเป็นส่วนตัว",
+    "errors": {
+      "not_pdf": "ไฟล์นี้ไม่ใช่ PDF ลองส่งไฟล์ PDF นะ",
+      "too_large": "ไฟล์ใหญ่เกิน 5 MB ลองบีบอัดแล้วส่งใหม่",
+      "unreadable": "อ่านไฟล์นี้ไม่ออก ลองส่งไฟล์ PDF ที่เป็นข้อความ ไม่ใช่รูปสแกน",
+      "quota": "วันนี้อ่าน resume ครบโควตาแล้ว ลองใหม่พรุ่งนี้",
+      "ai_failed": "AI อ่าน resume ไม่สำเร็จ ลองอีกครั้งนะ",
+      "save_failed": "บันทึกไม่สำเร็จ ลองอีกครั้งนะ"
+    }
+  },
+  "onboarding": {
+    "hello": "สวัสดี เราชื่อผีน้อย ขอถามสองข้อก่อนเริ่มหางานให้นะ",
+    "wait": "รอแป๊บ ผีน้อยกำลังอ่าน resume",
+    "next": "ไปต่อ",
+    "pickFirst": "เลือกรูปแบบงานและสายงานอย่างน้อยอย่างละหนึ่ง",
+    "optional": "ข้ามไปก่อนก็ได้ เพิ่ม resume ทีหลังได้ที่หน้าโปรไฟล์"
+  },
+  "profile": {
+    "title": "โปรไฟล์",
+    "prefsTitle": "ความต้องการ",
+    "savePrefs": "บันทึกความต้องการ",
+    "resumeTitle": "ข้อมูลจาก resume",
+    "skills": "ทักษะ (คั่นด้วยจุลภาค)",
+    "years": "ประสบการณ์รวม (ปี)",
+    "experience": "ประสบการณ์ทำงาน",
+    "jobTitle": "ตำแหน่ง",
+    "company": "บริษัท",
+    "start": "เริ่ม",
+    "end": "สิ้นสุด (เว้นว่างถ้ายังทำอยู่)",
+    "summary": "สรุปงาน",
+    "addExperience": "เพิ่มประสบการณ์",
+    "removeExperience": "ลบประสบการณ์นี้",
+    "education": "การศึกษา",
+    "school": "สถาบัน",
+    "degree": "วุฒิ",
+    "addEducation": "เพิ่มการศึกษา",
+    "removeEducation": "ลบการศึกษานี้",
+    "saveResume": "บันทึกข้อมูล resume",
+    "uploadTitle": "อัปโหลด resume ใหม่",
+    "upload": "อัปโหลดและอ่านใหม่",
+    "saved": "บันทึกแล้ว"
   }
 }

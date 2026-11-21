@@ -36,5 +36,76 @@
     "sendLink": "Email me a sign-in link",
     "sent": "We sent a link to your email. Open it to sign in.",
     "error": "Sign-in did not work. Please try again."
+  },
+  "prefs": {
+    "modesLabel": "Work styles you want",
+    "rolesLabel": "Roles you want",
+    "modes": {
+      "remote": "Remote",
+      "thailand": "In Thailand",
+      "hybrid": "Hybrid"
+    },
+    "roles": {
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "full-stack": "Full-stack",
+      "data": "Data",
+      "devops": "DevOps",
+      "mobile": "Mobile"
+    },
+    "minSalary": "Minimum salary (THB)",
+    "seniority": "Seniority",
+    "seniorityAny": "Not specified",
+    "seniorities": {
+      "junior": "Junior",
+      "mid": "Mid",
+      "senior": "Senior",
+      "lead": "Lead"
+    }
+  },
+  "resume": {
+    "label": "Résumé file (PDF, up to 5 MB)",
+    "privacy": "Your résumé is sent to an AI to read it.",
+    "privacyLink": "Read the privacy policy",
+    "errors": {
+      "not_pdf": "That file is not a PDF. Please send a PDF.",
+      "too_large": "The file is over 5 MB. Compress it and try again.",
+      "unreadable": "We could not read that file. Try a text-based PDF, not a scan.",
+      "quota": "You have used today's résumé reads. Try again tomorrow.",
+      "ai_failed": "The AI could not read your résumé. Please try again.",
+      "save_failed": "Saving did not work. Please try again."
+    }
+  },
+  "onboarding": {
+    "hello": "Hi, I'm Little Ghost. Two quick questions before I start finding jobs for you.",
+    "wait": "One moment, Little Ghost is reading your résumé",
+    "next": "Continue",
+    "pickFirst": "Pick at least one work style and one role",
+    "optional": "You can skip this and add a résumé later on your profile page."
+  },
+  "profile": {
+    "title": "Profile",
+    "prefsTitle": "Preferences",
+    "savePrefs": "Save preferences",
+    "resumeTitle": "Résumé details",
+    "skills": "Skills (comma separated)",
+    "years": "Total experience (years)",
+    "experience": "Work experience",
+    "jobTitle": "Title",
+    "company": "Company",
+    "start": "Start",
+    "end": "End (leave empty if current)",
+    "summary": "Summary",
+    "addExperience": "Add experience",
+    "removeExperience": "Remove this experience",
+    "education": "Education",
+    "school": "School",
+    "degree": "Degree",
+    "addEducation": "Add education",
+    "removeEducation": "Remove this education",
+    "saveResume": "Save résumé details",
+    "uploadTitle": "Upload a new résumé",
+    "upload": "Upload and re-read",
+    "saved": "Saved"
   }
 }
