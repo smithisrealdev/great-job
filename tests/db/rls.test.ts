@@ -15,7 +15,7 @@ async function as<T>(uid: string, fn: (tx: PGlite) => Promise<T>): Promise<T> {
     return fn(tx as unknown as PGlite);
   });
 }
-const rows = async (tx: PGlite, q: string, p: unknown[] = []) => (await tx.query(q, p)).rows;
+const rows = async (tx: PGlite, q: string, p: unknown[] = []) => (await tx.query<Record<string, unknown>>(q, p)).rows;
 
 // A failed statement aborts the transaction, so isolate it in a savepoint.
 async function fails(tx: PGlite, q: string, p: unknown[] = []) {
@@ -27,6 +27,7 @@ beforeAll(async () => {
   db = new PGlite();
   await db.exec(sql('./supabaseShim.sql'));
   await db.exec(sql('../../supabase/migrations/0001_init.sql'));
+  await db.exec(sql('../../supabase/migrations/0002_user_job_sources.sql'));
   A = (await db.query<{ id: string }>(`insert into auth.users (email) values ('a@x.test') returning id`)).rows[0].id;
   B = (await db.query<{ id: string }>(`insert into auth.users (email) values ('b@x.test') returning id`)).rows[0].id;
   privateJobOfA = (await db.query<{ id: string }>(
@@ -62,6 +63,21 @@ test('both users can read shared jobs, neither can modify them', async () => {
 test('users can only insert jobs they own', async () => {
   await as(A, async (tx) => {
     expect(await fails(tx, `insert into jobs (source, external_id, title) values ('m', 'n1', 't')`)).toBe(true);
+  });
+});
+
+test('users can only write paste or extension jobs, never shared sources', async () => {
+  await as(A, async (tx) => {
+    const ins = (src: string, owner: string | null) =>
+      fails(tx, `insert into jobs (owner_id, source, external_id, title) values ($1, $2, 'x-' || $2, 't')`, [owner, src]);
+    expect(await ins('greenhouse', A)).toBe(true);
+    expect(await ins('greenhouse', null)).toBe(true);
+    expect(await ins('paste', A)).toBe(false);
+    expect(await ins('extension', A)).toBe(false);
+    // cannot rewrite an own row into a shared source
+    const [own] = await rows(tx, `insert into jobs (owner_id, source, external_id, title) values ($1, 'paste', 'own', 't') returning id`, [A]);
+    expect(await fails(tx, `update jobs set source = 'lever' where id = $1`, [own.id])).toBe(true);
+    expect(await rows(tx, `update jobs set title = 'x' where id = $1 returning id`, [privateJobOfA])).toEqual([]); // legacy source rows are read-only
   });
 });
 

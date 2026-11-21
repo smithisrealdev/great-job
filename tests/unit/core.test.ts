@@ -16,7 +16,8 @@ test.each([
   ['https://jobs.lever.co/acme/abc-123', { ats: 'lever', token: 'acme' }],
   ['https://jobs.ashbyhq.com/acme', { ats: 'ashby', token: 'acme' }],
 ])('detectAts %s', (u, want) => expect(detectAts(u)).toEqual(want));
-test.each(['https://th.jobsdb.com/job/1', 'https://www.linkedin.com/jobs/view/1', 'https://www.jobthai.com/x', 'not a url', 'http://boards.greenhouse.io.evil.com/acme'])
+test.each(['https://th.jobsdb.com/job/1', 'https://www.linkedin.com/jobs/view/1', 'https://www.jobthai.com/x', 'not a url', 'http://boards.greenhouse.io.evil.com/acme',
+  'http://boards.greenhouse.io/acme', 'https://boards.greenhouse.io@evil.com/x', 'https://boards.greenhouse.io/', 'https://jobs.lever.co/a%2F..%2Fb', 'https://boards.greenhouse.io:8443/acme'])
   ('detectAts refuses %s', (u) => expect(detectAts(u)).toBeNull());
 
 const prefs: Prefs = { roles: ['backend','full-stack'], modes: ['remote'], minSalaryThb: null, seniority: null };

@@ -107,5 +107,23 @@
     "uploadTitle": "Upload a new résumé",
     "upload": "Upload and re-read",
     "saved": "Saved"
+  },
+  "addJob": {
+    "title": "Add a job",
+    "hello": "Paste a job link or the posting text. I will read it and tell you how well it fits.",
+    "urlLabel": "Job link (Greenhouse, Lever or Ashby)",
+    "urlButton": "Add from link",
+    "textLabel": "Or paste the posting text",
+    "textButton": "Add from text",
+    "searching": "Little Ghost is fetching the posting",
+    "thinking": "Little Ghost is reading it and scoring the fit",
+    "errors": {
+      "empty": "Paste some text first.",
+      "not_a_job": "That does not look like a job posting. Check the text and try again.",
+      "unsupported_url": "We can only read links from Greenhouse, Lever and Ashby. For other sites, copy the posting text and paste it in the box below.",
+      "fetch_failed": "We could not fetch that posting. It may be closed, or the site is not answering. Paste the text instead.",
+      "ai_failed": "The AI could not read that posting. Please try again.",
+      "failed": "Adding the job did not work. Please try again."
+    }
   }
 }
