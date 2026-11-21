@@ -28,6 +28,7 @@ beforeAll(async () => {
   await db.exec(sql('./supabaseShim.sql'));
   await db.exec(sql('../../supabase/migrations/0001_init.sql'));
   await db.exec(sql('../../supabase/migrations/0002_user_job_sources.sql'));
+  await db.exec(sql('../../supabase/migrations/0003_companies_admin_insert.sql'));
   A = (await db.query<{ id: string }>(`insert into auth.users (email) values ('a@x.test') returning id`)).rows[0].id;
   B = (await db.query<{ id: string }>(`insert into auth.users (email) values ('b@x.test') returning id`)).rows[0].id;
   privateJobOfA = (await db.query<{ id: string }>(
@@ -81,9 +82,10 @@ test('users can only write paste or extension jobs, never shared sources', async
   });
 });
 
-test('companies are readable and insertable but not editable', async () => {
+test('companies are readable but users cannot insert, edit or delete them', async () => {
+  await db.query(`insert into companies (name, ats, board_token) values ('Acme', 'lever', 'acme')`);
   await as(A, async (tx) => {
-    await tx.query(`insert into companies (name, ats, board_token) values ('Acme', 'lever', 'acme')`);
+    expect(await fails(tx, `insert into companies (name, ats, board_token) values ('Evil', 'lever', 'evil')`)).toBe(true);
     expect(await rows(tx, 'select id from companies')).toHaveLength(1);
     expect(await rows(tx, `update companies set name = 'x' returning id`)).toEqual([]);
     expect(await rows(tx, 'delete from companies returning id')).toEqual([]);

@@ -5,6 +5,7 @@ import { AiError } from '@/lib/ai/client';
 import { parseJobPosting } from '@/lib/ai/parseJob';
 import { detectAts } from '@/lib/core/ats';
 import { fingerprint } from '@/lib/core/fingerprint';
+import { createAdminSupabase } from '@/lib/db/admin';
 import { consumeQuota } from '@/lib/db/quota';
 import { evaluateForUser, reuseSharedJob, upsertJob } from '@/lib/db/ingest';
 import { createServerSupabase } from '@/lib/db/server';
@@ -98,7 +99,8 @@ export async function followCompany(url: string): Promise<FollowCompanyResult> {
   let jobs;
   try { jobs = await fetchBoard(found.ats, found.token); } catch { return { ok: false, reason: 'board_not_found' }; }
   if (!jobs.length) return { ok: false, reason: 'board_not_found' };
-  const { error } = await (await createServerSupabase()).from('companies').insert({ name: jobs[0].companyName, ats: found.ats, board_token: found.token });
+  // Admin client: users cannot insert companies directly (RLS), only through this validated path.
+  const { error } = await createAdminSupabase().from('companies').insert({ name: jobs[0].companyName, ats: found.ats, board_token: found.token });
   if (error && error.code !== '23505') return { ok: false, reason: 'board_not_found' }; // duplicate (ats, board_token) is already followed: success
   revalidatePath('/[locale]', 'layout');
   return { ok: true };
