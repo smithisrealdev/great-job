@@ -8,7 +8,7 @@ vi.mock('@anthropic-ai/sdk', async (orig) => {
 });
 vi.mock('@/lib/db/server', () => ({ createServerSupabase: async () => ({ rpc }) }));
 
-import Anthropic from '@anthropic-ai/sdk';
+import Anthropic, { APIConnectionError, APIError } from '@anthropic-ai/sdk';
 import { callStructured, AiError } from '@/lib/ai/client';
 import { EvaluationSchema, ParsedJobSchema } from '@/lib/ai/schemas';
 import { parseJobPosting } from '@/lib/ai/parseJob';
@@ -92,4 +92,23 @@ test('profile and job fields containing closing tags cannot break out in evaluat
   expect(sentText().match(/<\/profile>/g)).toHaveLength(1);
   expect(sentText().match(/<\/posting>/g)).toHaveLength(1);
   expect(sentText().match(/<\/prefs>/g)).toHaveLength(1);
+});
+
+const apiError = (status: number) => APIError.generate(status, { type: 'error', error: { type: 'x', message: 'm' } }, 'm', new Headers());
+test.each([429, 529, 500, 503])('an SDK %i error becomes AiError unavailable', async (status) => {
+  mockSdkThrows(apiError(status));
+  await expect(callStructured({ model: 'm', system: 's', content: [], schema: EvaluationSchema })).rejects.toMatchObject({ kind: 'unavailable' });
+});
+test('a connection error becomes AiError unavailable', async () => {
+  mockSdkThrows(new APIConnectionError({ message: 'down' }));
+  await expect(callStructured({ model: 'm', system: 's', content: [], schema: EvaluationSchema })).rejects.toMatchObject({ kind: 'unavailable' });
+});
+test.each(['max_tokens', 'refusal'])('a %s stop is invalid_output even when the text parses', async (stop_reason) => {
+  create.mockResolvedValue({ stop_reason, content: [{ type: 'text', text: JSON.stringify({ score: 1, matches: [], gaps: [], notes: [] }) }] });
+  await expect(callStructured({ model: 'm', system: 's', content: [], schema: EvaluationSchema })).rejects.toMatchObject({ kind: 'invalid_output' });
+});
+test('requests ask for low effort with room for thinking plus the JSON', async () => {
+  mockSdkReturns({ score: 1, matches: [], gaps: [], notes: [] });
+  await callStructured({ model: 'm', system: 's', content: [], schema: EvaluationSchema });
+  expect(lastSdkCall()).toMatchObject({ max_tokens: 16_000, output_config: { effort: 'low' } });
 });

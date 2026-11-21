@@ -1,8 +1,14 @@
 import { beforeEach, expect, test, vi } from 'vitest';
 
-const { parseJobPosting, evaluateJob, consumeQuota, fetchOne } = vi.hoisted(() => ({
-  parseJobPosting: vi.fn(), evaluateJob: vi.fn(), consumeQuota: vi.fn(), fetchOne: vi.fn(),
+const { parseJobPosting, evaluateJob, consumeQuota, fetchOne, create } = vi.hoisted(() => ({
+  parseJobPosting: vi.fn(), evaluateJob: vi.fn(), consumeQuota: vi.fn(), fetchOne: vi.fn(), create: vi.fn(),
 }));
+vi.mock('@anthropic-ai/sdk', async (orig) => {
+  const actual = await orig<typeof import('@anthropic-ai/sdk')>();
+  class Mock { messages = { create }; }
+  return { ...actual, default: Mock };
+});
+vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
 vi.mock('@/lib/ai/parseJob', () => ({ parseJobPosting }));
 vi.mock('@/lib/ai/evaluate', () => ({ evaluateJob }));
 vi.mock('@/lib/db/quota', () => ({ consumeQuota }));
@@ -21,7 +27,8 @@ import { db, USER_ID } from '../helpers/fakeDb';
 import { AiError } from '@/lib/ai/client';
 import { ghostLevel } from '@/lib/core/ghost';
 import { fingerprint } from '@/lib/core/fingerprint';
-import { addJobFromText, addJobFromUrl } from '@/lib/actions/jobs';
+import { APIError } from '@anthropic-ai/sdk';
+import { addJobFromText, addJobFromUrl, retryEvaluation } from '@/lib/actions/jobs';
 import { evaluateForUser, upsertJob } from '@/lib/db/ingest';
 import { fetchJson, postingId } from '@/lib/sources';
 
@@ -244,4 +251,20 @@ test('a failed re-evaluation clears the old matches, gaps and notes', async () =
   evaluateJob.mockRejectedValue(new AiError('timeout'));
   await evaluateForUser('j1', 'evaluate_manual');
   expect(db.upserts('evaluations')[0]).toMatchObject({ score: null, matches: [], gaps: [], notes: [] });
+});
+
+// Runs the real evaluateJob against an SDK that answers with an HTTP error.
+const sdkFails = async (status: number) => {
+  const real = await vi.importActual<typeof import('@/lib/ai/evaluate')>('@/lib/ai/evaluate');
+  evaluateJob.mockImplementation(real.evaluateJob);
+  create.mockReset().mockRejectedValue(APIError.generate(status, { type: 'error', error: { type: 'x', message: 'busy' } }, 'busy', new Headers()));
+};
+test('an overloaded AI keeps the pasted job with an unscored evaluation', async () => {
+  await sdkFails(529);
+  expect(await addJobFromText('Senior Backend Engineer at Lumen Pay ...')).toMatchObject({ ok: true });
+  expect(db.upserts('evaluations')[0]).toMatchObject({ score: null, error: 'unavailable' });
+});
+test('a rate-limited retry reports failed instead of throwing', async () => {
+  await sdkFails(429);
+  expect(await retryEvaluation('j1')).toBe('failed');
 });

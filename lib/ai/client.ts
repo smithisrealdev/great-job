@@ -1,19 +1,19 @@
 import 'server-only';
-import Anthropic from '@anthropic-ai/sdk';
+import Anthropic, { APIConnectionTimeoutError, APIError } from '@anthropic-ai/sdk';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
 import type { z } from 'zod';
 import { EvaluationSchema, ParsedJobSchema, ResumeProfileSchema } from './schemas';
 
 export class AiError extends Error {
-  constructor(public kind: 'invalid_output' | 'timeout' | 'not_a_job' | 'unreadable', message?: string) {
+  constructor(public kind: 'invalid_output' | 'timeout' | 'unavailable' | 'not_a_job' | 'unreadable', message?: string) {
     super(message ?? kind);
     this.name = 'AiError';
   }
 }
 
 let client: Anthropic | undefined;
-// Lazy so `next build` works without ANTHROPIC_API_KEY. 45s timeout, no automatic retry.
-const sdk = () => (client ??= new Anthropic({ timeout: 45_000, maxRetries: 0 }));
+// Lazy so `next build` works without ANTHROPIC_API_KEY. 45s per attempt; the SDK retries 429/5xx/connection errors twice.
+const sdk = () => (client ??= new Anthropic({ timeout: 45_000, maxRetries: 2 }));
 
 /** AI_FAKE=1 (e2e only): canned output from tests/fixtures/ai/, ignored in production builds. */
 export const fakeEnabled = () => process.env.AI_FAKE === '1' && process.env.NODE_ENV !== 'production';
@@ -31,15 +31,20 @@ export async function callStructured<T>(o: { model: string; system: string; cont
   try {
     res = await sdk().messages.create({
       model: o.model,
-      max_tokens: 4096,
+      max_tokens: 16_000, // covers the model's thinking plus the JSON
       system: o.system,
       messages: [{ role: 'user', content: o.content as Anthropic.ContentBlockParam[] }],
-      output_config: { format: zodOutputFormat(o.schema as never) },
+      // Thinking is always on for these models; low effort keeps it short. Extraction and scoring do not need more.
+      output_config: { effort: 'low', format: zodOutputFormat(o.schema as never) },
     });
   } catch (e) {
-    if (e instanceof Anthropic.APIConnectionTimeoutError) throw new AiError('timeout');
+    if (e instanceof APIConnectionTimeoutError) throw new AiError('timeout');
+    // Rate limit, overload, 5xx and connection errors (after the SDK's retries), and any other API error:
+    // the caller keeps its work unscored and the user can retry.
+    if (e instanceof APIError) throw new AiError('unavailable', e.message);
     throw e;
   }
+  if (res.stop_reason === 'max_tokens' || res.stop_reason === 'refusal') throw new AiError('invalid_output', `stopped: ${res.stop_reason}`);
   const text = res.content.find((b) => b.type === 'text');
   let json: unknown;
   try { json = JSON.parse(text && 'text' in text ? text.text : ''); } catch { throw new AiError('invalid_output', 'not JSON'); }
