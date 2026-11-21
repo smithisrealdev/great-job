@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "eval": "tsx --conditions=react-server evals/run.ts",
+    "e2e": "playwright test --trace off"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.12.0",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "1.63.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^22.20.5",
@@ -32,6 +35,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.29",
     "jsdom": "^31.0.1",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.1.1"
   },

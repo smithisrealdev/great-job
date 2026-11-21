@@ -38,6 +38,8 @@
     "login": "Go to login"
   },
   "login": {
+    "e2ePassword": "E2E password",
+    "e2eSignIn": "Sign in (test only)",
     "title": "Sign in",
     "google": "Continue with Google",
     "emailLabel": "Email",

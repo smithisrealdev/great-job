@@ -1,0 +1,48 @@
+{
+  "_note": "Fictional person (Mali Sample); no real data.",
+  "profile": {
+    "skills": [
+      "Python",
+      "SQL",
+      "pandas",
+      "scikit-learn",
+      "Airflow",
+      "Tableau"
+    ],
+    "experience": [
+      {
+        "title": "Data Scientist",
+        "company": "Example Retail",
+        "start": "2021-01",
+        "end": null,
+        "summary": "Built churn and forecasting models in Python with scikit-learn; scheduled pipelines in Airflow; dashboards in Tableau."
+      }
+    ],
+    "education": [
+      {
+        "school": "Example University",
+        "degree": "MSc Statistics"
+      }
+    ],
+    "yearsTotal": 5
+  },
+  "prefs": {
+    "roles": [
+      "Data scientist"
+    ],
+    "modes": [
+      "remote",
+      "hybrid"
+    ],
+    "minSalaryThb": null,
+    "seniority": "mid"
+  },
+  "ranked": [
+    "10.txt",
+    "11.txt",
+    "12.txt",
+    "01.txt",
+    "14.txt",
+    "19.txt"
+  ]
+}

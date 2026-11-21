@@ -1,0 +1,47 @@
+{
+  "_note": "Fictional person (Nate Sample); no real data.",
+  "profile": {
+    "skills": [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "CSS",
+      "Figma",
+      "GraphQL"
+    ],
+    "experience": [
+      {
+        "title": "Frontend Engineer",
+        "company": "Example Studio",
+        "start": "2019-09",
+        "end": null,
+        "summary": "Built design-system components in React and TypeScript and shipped Next.js apps with GraphQL."
+      }
+    ],
+    "education": [
+      {
+        "school": "Example University",
+        "degree": "BA Interactive Media"
+      }
+    ],
+    "yearsTotal": 6
+  },
+  "prefs": {
+    "roles": [
+      "Frontend engineer"
+    ],
+    "modes": [
+      "remote"
+    ],
+    "minSalaryThb": null,
+    "seniority": "senior"
+  },
+  "ranked": [
+    "07.txt",
+    "09.txt",
+    "08.txt",
+    "10.txt",
+    "18.txt",
+    "20.txt"
+  ]
+}

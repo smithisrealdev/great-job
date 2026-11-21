@@ -3,3 +3,8 @@ project_id = "great-job"
 [auth]
 site_url = "http://localhost:3000"
 additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+
+# Local only (this file is never applied to a hosted project): the e2e suite signs in with email + password.
+[auth.email]
+enable_signup = true
+enable_confirmations = false

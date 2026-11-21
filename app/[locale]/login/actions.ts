@@ -25,3 +25,13 @@ export async function signInWithEmail(locale: string, formData: FormData) {
   });
   redirect(`/${locale}/login?${error ? 'error=1' : 'sent=1'}`);
 }
+
+/** Test-only: the form that calls this renders only when NEXT_PUBLIC_E2E=1. */
+export async function signInWithPassword(locale: string, formData: FormData) {
+  if (process.env.NEXT_PUBLIC_E2E !== '1') redirect(`/${locale}/login?error=1`);
+  const { error } = await (await createServerSupabase()).auth.signInWithPassword({
+    email: String(formData.get('email') ?? ''),
+    password: String(formData.get('password') ?? ''),
+  });
+  redirect(error ? `/${locale}/login?error=1` : `/${locale}`);
+}

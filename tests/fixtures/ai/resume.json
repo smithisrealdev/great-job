@@ -1,0 +1,1 @@
+{ "readable": true, "skills": ["Java", "PostgreSQL", "APIs"], "experience": [{ "title": "Backend Developer", "company": "Example Co", "start": "2020-01", "end": null, "summary": "Built payment APIs in Java." }], "education": [{ "school": "Example University", "degree": "BSc Computer Science" }], "yearsTotal": 5 }

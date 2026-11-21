@@ -1,0 +1,49 @@
+{
+  "_note": "Fictional person (Aom Sample); no real data.",
+  "profile": {
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "Terraform",
+      "Linux",
+      "Go",
+      "AWS",
+      "Prometheus"
+    ],
+    "experience": [
+      {
+        "title": "Site Reliability Engineer",
+        "company": "Example Cloud",
+        "start": "2017-05",
+        "end": null,
+        "summary": "Ran Kubernetes clusters on AWS with Terraform, wrote Go tooling, and built Prometheus alerting."
+      }
+    ],
+    "education": [
+      {
+        "school": "Example University",
+        "degree": "BEng Computer Engineering"
+      }
+    ],
+    "yearsTotal": 9
+  },
+  "prefs": {
+    "roles": [
+      "Platform engineer",
+      "SRE"
+    ],
+    "modes": [
+      "remote"
+    ],
+    "minSalaryThb": null,
+    "seniority": "senior"
+  },
+  "ranked": [
+    "17.txt",
+    "18.txt",
+    "06.txt",
+    "02.txt",
+    "15.txt",
+    "20.txt"
+  ]
+}

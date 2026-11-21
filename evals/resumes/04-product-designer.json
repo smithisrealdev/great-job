@@ -1,0 +1,46 @@
+{
+  "_note": "Fictional person (Ben Sample); no real data.",
+  "profile": {
+    "skills": [
+      "Figma",
+      "Prototyping",
+      "User research",
+      "Design systems",
+      "Accessibility"
+    ],
+    "experience": [
+      {
+        "title": "Product Designer",
+        "company": "Example Apps",
+        "start": "2018-02",
+        "end": null,
+        "summary": "Led design of onboarding flows, ran user research, and maintained a Figma design system."
+      }
+    ],
+    "education": [
+      {
+        "school": "Example University",
+        "degree": "BA Design"
+      }
+    ],
+    "yearsTotal": 8
+  },
+  "prefs": {
+    "roles": [
+      "Product designer"
+    ],
+    "modes": [
+      "remote"
+    ],
+    "minSalaryThb": null,
+    "seniority": "senior"
+  },
+  "ranked": [
+    "14.txt",
+    "13.txt",
+    "09.txt",
+    "16.txt",
+    "03.txt",
+    "18.txt"
+  ]
+}

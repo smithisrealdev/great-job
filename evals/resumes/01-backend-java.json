@@ -1,0 +1,54 @@
+{
+  "_note": "Fictional person (Ploy Sample); no real data.",
+  "profile": {
+    "skills": [
+      "Java",
+      "Spring",
+      "PostgreSQL",
+      "Kafka",
+      "REST APIs",
+      "Docker"
+    ],
+    "experience": [
+      {
+        "title": "Backend Developer",
+        "company": "Example Pay Co",
+        "start": "2020-03",
+        "end": null,
+        "summary": "Built payment and subscription APIs in Java and Spring, backed by PostgreSQL and Kafka."
+      },
+      {
+        "title": "Junior Developer",
+        "company": "Example Soft",
+        "start": "2018-06",
+        "end": "2020-02",
+        "summary": "Maintained internal REST services."
+      }
+    ],
+    "education": [
+      {
+        "school": "Example University",
+        "degree": "BSc Computer Science"
+      }
+    ],
+    "yearsTotal": 6
+  },
+  "prefs": {
+    "roles": [
+      "Backend engineer"
+    ],
+    "modes": [
+      "remote"
+    ],
+    "minSalaryThb": null,
+    "seniority": "mid"
+  },
+  "ranked": [
+    "04.txt",
+    "01.txt",
+    "05.txt",
+    "07.txt",
+    "13.txt",
+    "19.txt"
+  ]
+}

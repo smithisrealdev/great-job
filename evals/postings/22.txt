@@ -1,0 +1,10 @@
+Introducing Northwind Notes 3.0
+
+We are thrilled to announce Northwind Notes 3.0, our biggest release yet. Version 3.0 brings offline mode, shared folders and a redesigned editor that opens 40% faster. Our team has grown to 60 people across three countries, and we are proud of what we built together.
+
+What is new
+- Offline mode for iOS and Android
+- Shared folders with comment threads
+- A new dark theme
+
+Download the update today from the App Store or Google Play. Pricing is unchanged: free for individuals, 5 dollars per seat per month for teams. Read the full release notes on our blog.
