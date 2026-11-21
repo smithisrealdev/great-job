@@ -23,6 +23,8 @@ function builder(table: string) {
   let op: 'select' | 'insert' | 'update' | 'upsert' | 'delete' = 'select';
   let values: Row = {};
   const filters: ((r: Row) => boolean)[] = [];
+  let order: { k: string; asc: boolean } | null = null;
+  let max = Infinity;
   const match = () => rows(table).filter((r) => filters.every((f) => f(r)) && !(table === 'jobs' && state.hidden.has(r.id as string)));
   const run = (): Row[] | { error: { code?: string; message: string } } => {
     if (op !== 'select') {
@@ -37,7 +39,9 @@ function builder(table: string) {
     }
     if (op === 'update') { state.log.push({ op, table, values }); match().forEach((r) => Object.assign(r, values)); return []; }
     if (op === 'delete') { state.log.push({ op, table, values: {} }); state.tables[table] = rows(table).filter((r) => !match().includes(r)); return []; }
-    return match();
+    const m = match();
+    if (order) m.sort((a, b) => (String(a[order!.k]) < String(b[order!.k]) ? -1 : 1) * (order!.asc ? 1 : -1));
+    return m.slice(0, max);
   };
   const b = {
     select: () => b,
@@ -47,6 +51,9 @@ function builder(table: string) {
     delete: () => { op = 'delete'; return b; },
     eq: (k: string, v: unknown) => { filters.push((r) => r[k] === v); return b; },
     in: (k: string, vs: unknown[]) => { filters.push((r) => vs.includes(r[k])); return b; },
+    gte: (k: string, v: unknown) => { filters.push((r) => (r[k] as string) >= (v as string)); return b; },
+    order: (k: string, o?: { ascending?: boolean }) => { order = { k, asc: o?.ascending ?? true }; return b; },
+    limit: (n: number) => { max = n; return b; },
     is: (k: string, v: unknown) => { filters.push((r) => (r[k] ?? null) === v); return b; },
     single: async () => out(run(), (d) => d[0] ?? null),
     maybeSingle: async () => out(run(), (d) => d[0] ?? null),
@@ -70,6 +77,7 @@ export const db = {
   seedJob: (row: Row) => { rows('jobs').push({ owner_id: null, title: 'Job', company_name: 'Co', ...row }); },
   /** Simulates RLS hiding a job from the signed-in user. */
   hideJob: (id: string) => { state.hidden.add(id); },
+  rows: (t: string) => rows(t),
   seed: (table: string, r: Row[]) => { state.tables[table] = r.map((x) => ({ ...x })); },
   signOut: () => { state.signedIn = false; },
   inserts: (t: string) => logged('insert', t),

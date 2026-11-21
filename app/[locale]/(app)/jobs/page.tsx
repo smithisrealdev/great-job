@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Ghost } from '@/components/ghost/Ghost';
+import { RecommendedLoader } from '@/components/RecommendedLoader';
 import { JobList } from '@/components/JobList';
 import { getJobList, STATUSES, type Tab } from '@/lib/db/jobQueries';
 import type { Status } from '@/lib/types';
@@ -27,6 +28,7 @@ export default async function Jobs({ params, searchParams }: { params: Promise<{
           <Link key={x} href={`/${locale}/jobs${x === 'recommended' ? '' : `?tab=${x}`}`} aria-pressed={!status && x === tab}>{t(`jobs.tabs.${x}`)}</Link>
         ))}
       </div>
+      {tab === 'recommended' && <RecommendedLoader />}
       {rows.length ? <JobList rows={rows} /> : (
         <div className="hello">
           <Ghost mood="sleepy" size={90} label={t('ghost.name.sleepy')} />

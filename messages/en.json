@@ -226,5 +226,10 @@
     "quota": "You have used all of today's scoring, try again tomorrow",
     "retryFailed": "Still could not score it, you can try again",
     "statusFailed": "Could not change the status, please try again"
+  },
+  "recommend": {
+    "working": "Scoring new jobs, {count} done",
+    "found": "{count} new jobs scored for you",
+    "nothing": "No new jobs for you right now, check back tomorrow"
   }
 }
