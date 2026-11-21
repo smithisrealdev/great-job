@@ -9,7 +9,7 @@
   --ink:#27272B; --mute:#85858E;
   --blue:#1673EE; --blue-wash:#E3EEFF; --on-blue:#FFFFFF;
   --good:#1B8A57; --good-wash:#E1F3E9; --warn:#A96300; --warn-wash:#FFF0D2; --risk:#CC3550; --risk-wash:#FFE7EB;
-  --sun:#FFD25E; --sun-ink:#5B4300; --blush:#FF9FB2; --ghost-edge:#A7ACE4; --halo:#ECEEFD;
+  --sun:#FFD25E; --sun-ink:#5B4300; --blush:#FF9FB2; --ghost-edge:#A7ACE4; --halo:#ECEEFD; --g1:#3B3B44; --g2:#1C1C21; --garm:#2B2B32;
   --font:"Anuphan","Leelawadee UI","Thonburi",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
@@ -17,13 +17,13 @@
   --ink:#EDEDF0; --mute:#9B9BA5;
   --blue:#5AA5FF; --blue-wash:#1D3250; --on-blue:#0E1B2E;
   --good:#5FD39E; --good-wash:#18392C; --warn:#F1B04C; --warn-wash:#3F2F10; --risk:#FF8CA1; --risk-wash:#45212A;
-  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#2A2C4A; color-scheme:dark } }
+  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#3A3D63; --g1:#5A5A66; --g2:#3A3A43; --garm:#4A4A54; color-scheme:dark } }
 :root[data-theme="dark"]{
   --canvas:#1B1B1E; --paper:#232327; --wash:#2D2D32; --line:#35353B;
   --ink:#EDEDF0; --mute:#9B9BA5;
   --blue:#5AA5FF; --blue-wash:#1D3250; --on-blue:#0E1B2E;
   --good:#5FD39E; --good-wash:#18392C; --warn:#F1B04C; --warn-wash:#3F2F10; --risk:#FF8CA1; --risk-wash:#45212A;
-  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#2A2C4A; color-scheme:dark }
+  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#3A3D63; --g1:#5A5A66; --g2:#3A3A43; --garm:#4A4A54; color-scheme:dark }
 
 *{box-sizing:border-box}
 body{background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.55;
@@ -40,7 +40,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 /* ---------- ghost ---------- */
 .ghost{display:block;overflow:visible;flex:none}
-.ghost .ink{fill:#2A2382} .ghost .line{fill:none;stroke:#2A2382;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white visor */
+.ghost .ink{fill:#1C1C21} .ghost .line{fill:none;stroke:#1C1C21;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white visor */
 .ghost .blush{fill:var(--blush);opacity:.6}
 .ghost .shadow{fill:var(--ink);opacity:.1}
 .ghost .prop{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round}
@@ -183,13 +183,13 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 <div class="wrap">
   <header class="intro">
-    <h1>Great Job ฉบับร่างที่สี่</h1>
+    <h1>Great Job ฉบับร่างที่ห้า</h1>
     <p>หน้าตาใหม่ใช้แนวทางแอปเอกสารที่เงียบและโล่ง: พื้นขาว แถบข้างไม่มีเส้นกั้น รายการเป็นแถวเรียบ สีฟ้าสีเดียวสำหรับสิ่งที่กดได้ และผีน้อยเป็นตัวละครสีเดียวแบบเรียบ ข้อมูลงานทั้งหมดเป็นตัวอย่างสมมติ</p>
   </header>
 
   <section class="sec">
     <h2>ผีน้อยตัวใหม่</h2>
-    <p>ตัวสีม่วงเรียบ ไม่มีแสงเงาและไม่มีเส้นขอบ หน้าเป็นแถบขาวเล็กกับตาวงรีสองจุด บอกอารมณ์ด้วยรูปตาและท่าทาง กดเลือกเพื่อดูทั้งสิบแบบ</p>
+    <p>ตัวสีดำเรียบ ไม่มีแสงเงาและไม่มีเส้นขอบ หน้าเป็นแถบขาวเล็กกับตาวงรีสองจุด บอกอารมณ์ด้วยรูปตาและท่าทาง กดเลือกเพื่อดูทั้งสิบแบบ</p>
     <div class="stage">
       <div class="halo"><div class="say" id="say"></div><div id="bigGhost"></div></div>
       <div>
@@ -366,14 +366,14 @@ const MOODS={
 const BODY='M100 22 C142 22 168 56 168 102 C168 126 170 144 180 160 C188 173 180 186 166 182 C154 178 148 170 138 176 C128 182 122 192 108 190 C96 188 92 176 80 176 C68 176 62 190 48 190 C34 190 24 178 28 162 C32 146 32 126 32 102 C32 56 58 22 100 22 Z';
 function ghost(mood,size){
   const d=MOODS[mood], p=POSE[d.p], id='gg'+(gid++);
-  const arm=(a,side)=>`<g transform="translate(${a[0]} ${a[1]}) rotate(${a[2]})"><ellipse class="arm ${side}" rx="15" ry="10.5" fill="#7767EF"/></g>`;
+  const arm=(a,side)=>`<g transform="translate(${a[0]} ${a[1]}) rotate(${a[2]})"><ellipse class="arm ${side}" rx="15" ry="10.5" fill="var(--garm)"/></g>`;
   const arms=arm(p.l,'l')+arm(p.r,'r');
   return `<svg class="ghost g-${mood}" width="${size}" height="${Math.round(size*1.15)}" viewBox="-24 -44 248 286" role="img" aria-label="ผีน้อย ${d.th}">
-    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E7DF8"/><stop offset="1" stop-color="#6252E6"/></linearGradient></defs>
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--g1)"/><stop offset="1" style="stop-color:var(--g2)"/></linearGradient></defs>
     <ellipse class="shadow" cx="102" cy="216" rx="46" ry="6"/>
     <g class="gb">
       ${p.front?'':arms}
-      <path d="M98 26 C94 10 106 0 118 8 C109 9 106 17 108 26 Z" fill="#8E7DF8"/>
+      <path d="M98 26 C94 10 106 0 118 8 C109 9 106 17 108 26 Z" fill="var(--g1)"/>
       <path d="${BODY}" fill="url(#${id})"/>
       <rect x="60" y="78" width="80" height="40" rx="20" fill="#fff"/>
       ${EYES[d.e]}${MOUTH[d.m]}
