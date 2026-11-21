@@ -1,0 +1,396 @@
+<title>Great Job UI Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Mitr:wght@400;500&display=swap">
+<style>
+/* Layout: one column of labelled screens; each screen sits in a device frame on a "night sky" stage so the white ghost always has contrast. */
+:root{
+  --bg:#EDEFFA; --surface:#FFFFFF; --surface-2:#F4F5FD; --stage:#DDE1F7;
+  --ink:#1D2046; --muted:#5E628A; --line:#D7DBF0;
+  --primary:#3B3FD1; --primary-ink:#FFFFFF;
+  --moon:#FFCF4D; --moon-ink:#5A4300; --cheek:#FF8FA3;
+  --good:#17805A; --good-bg:#DDF4EA; --warn:#9A5E00; --warn-bg:#FFEFC9; --risk:#C4324F; --risk-bg:#FFE1E7;
+  --ghost-line:#BFC4E8;
+  --display:"Mitr","IBM Plex Sans Thai",system-ui,sans-serif;
+  --body:"IBM Plex Sans Thai","Leelawadee UI","Thonburi",system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12142A; --surface:#1B1E3A; --surface-2:#232748; --stage:#1F2345;
+  --ink:#ECEEFF; --muted:#A3A8D0; --line:#30355E;
+  --primary:#9498FF; --primary-ink:#12142A;
+  --moon:#FFD766; --moon-ink:#3B2C00; --cheek:#FF8FA3;
+  --good:#5BD8A3; --good-bg:#173B30; --warn:#F2B04A; --warn-bg:#40300E; --risk:#FF8AA0; --risk-bg:#47202B;
+  --ghost-line:#5A5F94; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12142A; --surface:#1B1E3A; --surface-2:#232748; --stage:#1F2345;
+  --ink:#ECEEFF; --muted:#A3A8D0; --line:#30355E;
+  --primary:#9498FF; --primary-ink:#12142A;
+  --moon:#FFD766; --moon-ink:#3B2C00; --cheek:#FF8FA3;
+  --good:#5BD8A3; --good-bg:#173B30; --warn:#F2B04A; --warn-bg:#40300E; --risk:#FF8AA0; --risk-bg:#47202B;
+  --ghost-line:#5A5F94; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
+  padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;text-wrap:balance;line-height:1.25}
+h1{font-size:34px} h2{font-size:22px} h3{font-size:16px}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec>p{color:var(--muted);max-width:68ch}
+.tag{font-size:12px;letter-spacing:.06em;color:var(--muted)}
+.sample{font-size:12px;color:var(--muted)}
+
+/* ---------- ghost ---------- */
+.ghost{display:block;overflow:visible}
+.ghost .body{fill:#fff;stroke:var(--ghost-line);stroke-width:2}
+.ghost .ink{fill:#1D2046} .ghost .inkline{fill:none;stroke:#1D2046;stroke-width:2.6;stroke-linecap:round} /* face sits on the always-white body */
+.ghost .cheek{fill:var(--cheek);opacity:.75}
+.ghost .shadow{fill:var(--ink);opacity:.12}
+.ghost .arm{fill:#fff;stroke:var(--ghost-line);stroke-width:2}
+.ghost .prop{stroke:var(--ink);stroke-width:2.4;fill:none;stroke-linecap:round}
+.ghost .moonfill{fill:var(--moon)} .ghost .txt{font-family:var(--display);fill:var(--ink)}
+.ghost .gb,.ghost .eye,.ghost .arm,.ghost .anim{transform-box:fill-box;transform-origin:center}
+@keyframes float{50%{transform:translateY(-6px)}}
+@keyframes bounce{0%,100%{transform:translateY(0) scaleY(1)}40%{transform:translateY(-12px) scaleY(1.04)}60%{transform:translateY(0) scaleY(.96)}}
+@keyframes sway{0%,100%{transform:translateX(-5px) rotate(-3deg)}50%{transform:translateX(5px) rotate(3deg)}}
+@keyframes shake{0%,100%{transform:translateX(-2px)}50%{transform:translateX(2px)}}
+@keyframes party{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-12px) rotate(10deg)}}
+@keyframes breathe{50%{transform:scale(1.03,.97)}}
+@keyframes droop{50%{transform:translateY(2px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes wave{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(22deg)}}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes fall{0%{transform:translateY(-8px);opacity:0}20%{opacity:1}100%{transform:translateY(46px) rotate(160deg);opacity:0}}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(16px);opacity:0}}
+@keyframes zz{0%{transform:translate(0,4px);opacity:0}40%{opacity:1}100%{transform:translate(6px,-10px);opacity:0}}
+.g-idle .gb,.g-wave .gb{animation:float 3.2s ease-in-out infinite}
+.g-thinking .gb{animation:float 4s ease-in-out infinite;rotate:-7deg}
+.g-searching .gb{animation:sway 2.2s ease-in-out infinite}
+.g-happy .gb,.g-cheer .gb{animation:bounce .9s ease-in-out infinite}
+.g-celebrate .gb{animation:party .8s ease-in-out infinite}
+.g-spooked .gb{animation:shake .13s linear infinite}
+.g-sad .gb{animation:droop 3s ease-in-out infinite;scale:.97 .94}
+.g-sleepy .gb{animation:breathe 4s ease-in-out infinite}
+.ghost .eye{animation:blink 4.5s infinite}
+.g-wave .arm.r{animation:wave .55s ease-in-out infinite;transform-origin:20% 90%}
+.ghost .dot{animation:pulse 1.2s infinite} .ghost .dot:nth-child(2){animation-delay:.2s} .ghost .dot:nth-child(3){animation-delay:.4s}
+.ghost .conf{animation:fall 1.4s linear infinite} .ghost .conf:nth-child(2n){animation-delay:.5s} .ghost .conf:nth-child(3n){animation-delay:.9s}
+.ghost .tear{animation:tear 1.8s ease-in infinite}
+.ghost .z{animation:zz 2.4s ease-out infinite} .ghost .z2{animation-delay:1.2s}
+@media (prefers-reduced-motion: reduce){ .ghost *{animation:none!important} }
+
+/* ---------- mood stage ---------- */
+.stage{background:var(--stage);border-radius:22px;padding:22px;display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:22px;align-items:center}
+.stage .big{display:flex;flex-direction:column;align-items:center;gap:6px}
+.bubble{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px;position:relative;font-size:14px}
+.bubble.down::after{content:"";position:absolute;left:50%;bottom:-7px;width:12px;height:12px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
+.moods{display:flex;flex-wrap:wrap;gap:8px}
+.moods button{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.moods button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.moods button:focus-visible,summary:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.when{color:var(--muted);font-size:14px;margin-top:12px}
+.when b{color:var(--ink);font-weight:600}
+
+/* ---------- device frames ---------- */
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.chrome{display:flex;gap:6px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);font-size:12px;color:var(--muted)}
+.chrome i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.chrome span{margin-left:8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.side{border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.side .logo{font-family:var(--display);font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.side div{padding:6px 10px;border-radius:9px;color:var(--muted)}
+.side .on{background:var(--surface-2);color:var(--ink);font-weight:500}
+.main{padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.greet{display:flex;gap:12px;align-items:center}
+.greet .bubble{flex:1;min-width:0}
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.pipe div{background:var(--surface-2);border-radius:12px;padding:8px 10px;font-size:12px;color:var(--muted)}
+.pipe b{display:block;font-family:var(--display);font-weight:500;font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
+.tabs span{padding-bottom:8px} .tabs .on{color:var(--ink);font-weight:600;border-bottom:2px solid var(--ink)}
+.jobs{display:flex;flex-direction:column;gap:10px}
+.job{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.job .lg{width:40px;height:40px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;font-family:var(--display);color:var(--muted)}
+.job h3{font-size:15px} .job .co{font-size:13px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.chip.good{background:var(--good-bg);color:var(--good)} .chip.warn{background:var(--warn-bg);color:var(--warn)} .chip.risk{background:var(--risk-bg);color:var(--risk)}
+.chip svg{width:11px;height:12px;fill:currentColor}
+.ringbox{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
+.ring text{font-family:var(--display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.ring .track{stroke:var(--line)} .ring .hi{stroke:var(--good)} .ring .mid{stroke:var(--moon)} .ring .lo{stroke:var(--muted)}
+.btn{display:inline-block;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;background:var(--primary);color:var(--primary-ink);text-align:center}
+.btn.ghosty{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* detail */
+.detail{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;padding:18px}
+.dhead{display:flex;gap:14px;align-items:center}
+.dhead>div{min-width:0}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+details+details{margin-top:8px}
+summary{cursor:pointer;font-weight:600;display:flex;justify-content:space-between;gap:8px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary span{font-weight:400;color:var(--muted);font-size:13px}
+details ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
+.riskbox{background:var(--risk-bg);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.riskbox .top{display:flex;gap:10px;align-items:center}
+.riskbox h3{color:var(--risk)}
+.riskbox ul{margin:0;padding-left:18px;font-size:14px}
+.riskbox small{color:var(--muted);font-size:12px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* extension */
+.ext{display:grid;grid-template-columns:minmax(0,1fr) 270px}
+.fake{padding:18px;display:flex;flex-direction:column;gap:10px}
+.fake i{display:block;height:10px;border-radius:5px;background:var(--surface-2)}
+.panel{border-left:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--surface)}
+.panel .hd{display:flex;gap:10px;align-items:center}
+
+/* phones */
+.phones{display:flex;flex-wrap:wrap;gap:22px}
+.phone{width:290px;max-width:100%;border:1px solid var(--line);border-radius:30px;background:var(--surface);padding:16px 14px;display:flex;flex-direction:column;gap:12px;position:relative;min-height:520px}
+.phone .center{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick .chip.on{background:var(--ink);color:var(--bg)}
+.drop{border:1.5px dashed var(--line);border-radius:12px;padding:14px;text-align:center;font-size:13px;color:var(--muted)}
+.fine{font-size:11px;color:var(--muted)}
+.fab{position:absolute;right:12px;bottom:12px;display:flex;align-items:flex-end;gap:6px}
+.fab .bubble{font-size:12px;padding:6px 10px;max-width:170px}
+.fab .circle{width:56px;height:56px;border-radius:50%;background:var(--stage);display:grid;place-items:center;position:relative}
+.fab .circle::after{content:"";position:absolute;top:2px;right:2px;width:11px;height:11px;border-radius:50%;background:var(--risk);border:2px solid var(--surface)}
+.phone .job{grid-template-columns:minmax(0,1fr) auto;padding:10px}
+.phone .job .lg{display:none}
+
+@media (max-width:760px){
+  h1{font-size:27px}
+  .stage,.detail,.ext{grid-template-columns:minmax(0,1fr)}
+  .app{grid-template-columns:minmax(0,1fr)} .side{display:none}
+  .pipe{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .panel{border-left:0;border-top:1px solid var(--line)}
+}
+</style>
+
+<div class="wrap">
+  <header class="sec">
+    <span class="tag">GREAT JOB · V1 MOCKUP</span>
+    <h1>ผีน้อยช่วยหางาน</h1>
+    <p class="lead">ภาพร่างหน้าจอหลักของเวอร์ชันแรก: ตัวละครผีน้อย หน้าหลักบนคอมและมือถือ หน้ารายละเอียดงาน และแผงของ extension ข้อมูลงานทั้งหมดในหน้านี้เป็นตัวอย่างสมมติ</p>
+  </header>
+
+  <section class="sec">
+    <h2>ผีน้อย 10 อารมณ์</h2>
+    <p>กดเลือกอารมณ์เพื่อดูท่าและดูว่าแอปใช้อารมณ์นั้นตอนไหน ตัวละครเป็น SVG ชิ้นเดียวที่ใช้ซ้ำทุกหน้าด้านล่าง</p>
+    <div class="stage">
+      <div class="big">
+        <div class="bubble down" id="say"></div>
+        <div id="bigGhost"></div>
+      </div>
+      <div>
+        <div class="moods" id="moods" role="group" aria-label="อารมณ์ของผีน้อย"></div>
+        <p class="when" id="when"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>หน้าหลักบนคอม</h2>
+    <p>ผีน้อยสรุปสิ่งที่เกิดขึ้นวันนี้ไว้บนสุด ถัดมาเป็นจำนวนงานในแต่ละสถานะ การ์ดงานแสดงคะแนน อายุประกาศ และความเสี่ยง ghost job โดยไม่ต้องกดเข้าไปดู</p>
+    <div class="frame">
+      <div class="chrome"><i></i><i></i><i></i><span>greatjob.app/jobs</span></div>
+      <div class="app">
+        <div class="side">
+          <div class="logo"><span id="logoGhost"></span>Great Job</div>
+          <div class="on">งานของฉัน</div><div>งานแนะนำ</div><div>Profile และ resume</div><div>บริษัทที่ติดตาม</div><div>ตั้งค่า</div>
+        </div>
+        <div class="main">
+          <div class="greet"><span id="greetGhost"></span><div class="bubble">วันนี้เจองานใหม่ที่เข้ากับคุณ 4 งาน และมี 1 งานที่สมัครไปครบ 7 วันแล้วยังเงียบอยู่</div></div>
+          <div class="pipe">
+            <div><b>6</b>สนใจ</div><div><b>2</b>เตรียมสมัคร</div><div><b>5</b>สมัครแล้ว</div><div><b>1</b>สัมภาษณ์</div><div><b>0</b>ได้ offer</div>
+          </div>
+          <div class="tabs"><span class="on">งานแนะนำ</span><span>กำลังดำเนินการ</span><span>ทั้งหมด</span></div>
+          <div class="jobs" id="deskJobs"></div>
+          <span class="sample">ข้อมูลตัวอย่าง ชื่อบริษัทสมมติ</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>หน้ารายละเอียดงาน</h2>
+    <p>คะแนนมาพร้อมเหตุผลสามกลุ่มที่กดขยายได้ ส่วนคำเตือน ghost job แสดงสัญญาณที่เจอทุกข้อและบอกว่าเป็นการคาดเดา</p>
+    <div class="frame">
+      <div class="chrome"><i></i><i></i><i></i><span>greatjob.app/jobs/full-stack-developer</span></div>
+      <div class="detail">
+        <div class="col">
+          <div class="dhead"><span id="bigRing"></span><div><h3>Full-stack Developer</h3><div class="sample">Baan Cloud · กรุงเทพ (Hybrid) · ฿70,000–95,000/เดือน</div></div></div>
+          <div>
+            <details open><summary>ตรงกับคุณ <span>4 ข้อ</span></summary><ul><li>ใช้ TypeScript และ React มา 5 ปี ตรงกับที่ประกาศต้องการ</li><li>เคยดูแลระบบบน AWS</li><li>เงินเดือนอยู่ในช่วงที่คุณตั้งไว้</li><li>ทำงานแบบ hybrid ได้ตามที่คุณเลือก</li></ul></details>
+            <details><summary>ยังขาด <span>2 ข้อ</span></summary><ul><li>ประกาศต้องการ Go ซึ่งไม่มีใน resume ของคุณ</li><li>ต้องการประสบการณ์นำทีม 2 ปี คุณมี 1 ปี</li></ul></details>
+            <details><summary>ควรรู้ <span>1 ข้อ</span></summary><ul><li>ประกาศไม่ระบุทีมหรือผลิตภัณฑ์ที่จะทำ</li></ul></details>
+          </div>
+          <div class="row"><span class="btn">เก็บเข้า list</span><span class="btn ghosty">ปรับ resume ให้ตรงงานนี้</span></div>
+        </div>
+        <div class="col">
+          <div class="riskbox">
+            <div class="top"><span id="riskGhost"></span><div><h3>เสี่ยงเป็น ghost job สูง</h3><small>ผีน้อยเดาจากสัญญาณด้านล่าง อาจผิดได้</small></div></div>
+            <ul><li>ประกาศนี้ลงมาแล้ว 92 วัน</li><li>ลงซ้ำ 3 รอบในช่วง 4 เดือน</li><li>ไม่พบตำแหน่งนี้ในหน้า careers ของบริษัท</li><li>รายละเอียดงานกว้าง ไม่ระบุทีม</li></ul>
+          </div>
+          <span class="sample">ข้อมูลตัวอย่าง</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Extension บนหน้าเว็บงาน</h2>
+    <p>ผู้ใช้เปิดประกาศงานบนเว็บอื่นแล้วกดไอคอนผีน้อย แผงข้างจะบอกคะแนนและความเสี่ยงทันที เก็บงานได้ในคลิกเดียว และกรอกฟอร์มสมัครให้โดยผู้ใช้เป็นคนกดส่ง</p>
+    <div class="frame">
+      <div class="chrome"><i></i><i></i><i></i><span>เว็บหางาน / ประกาศงาน Platform Engineer</span></div>
+      <div class="ext">
+        <div class="fake"><i style="width:55%;height:16px"></i><i style="width:30%"></i><i style="width:90%;margin-top:14px"></i><i style="width:84%"></i><i style="width:88%"></i><i style="width:60%"></i><i style="width:86%;margin-top:14px"></i><i style="width:78%"></i><i style="width:40%"></i></div>
+        <div class="panel">
+          <div class="hd"><span id="extGhost"></span><div class="bubble">งานนี้เข้ากับคุณดีเลย</div></div>
+          <div class="dhead"><span id="extRing"></span><div><h3>Platform Engineer</h3><div class="sample">Kite Robotics · Remote</div></div></div>
+          <div class="meta"><span class="chip warn" id="extRisk"></span><span class="chip">ลงมา 38 วัน</span></div>
+          <span class="btn">เก็บเข้า list</span>
+          <span class="btn ghosty">ให้ผีน้อยกรอกฟอร์มสมัคร</span>
+          <span class="fine">ผีน้อยอ่านหน้านี้เมื่อคุณเปิดแผงเท่านั้น และไม่กดส่งใบสมัครแทนคุณ</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>บนมือถือ</h2>
+    <p>ซ้ายคือหน้าต้อนรับครั้งแรก ถามความต้องการก่อนแล้วค่อยขอ resume ขวาคือรายการงาน ผีน้อยย่อเป็นปุ่มมุมขวาล่างพร้อมจุดแจ้งเตือน</p>
+    <div class="phones">
+      <div class="phone">
+        <div class="center"><div class="bubble down">สวัสดี เราชื่อผีน้อย จะช่วยคุณหางานเอง ขอถามสองสามข้อก่อนนะ</div><span id="helloGhost"></span></div>
+        <h3>อยากทำงานแบบไหน</h3>
+        <div class="pick"><span class="chip on">Remote ต่างประเทศ</span><span class="chip on">ในไทย</span><span class="chip">Hybrid</span></div>
+        <h3>สายงาน</h3>
+        <div class="pick"><span class="chip on">Backend</span><span class="chip">Frontend</span><span class="chip on">Full-stack</span><span class="chip">Data</span><span class="chip">DevOps</span><span class="chip">Mobile</span></div>
+        <div class="drop">แตะเพื่ออัปโหลด resume (PDF หรือ DOCX)</div>
+        <span class="fine">Resume ของคุณจะถูกส่งให้ AI วิเคราะห์เพื่อสร้าง profile อ่านนโยบายความเป็นส่วนตัว</span>
+        <span class="btn">ไปต่อ</span>
+      </div>
+      <div class="phone">
+        <h3>งานแนะนำวันนี้</h3>
+        <div class="pick"><span class="chip on">ทั้งหมด</span><span class="chip">Remote</span><span class="chip">ในไทย</span><span class="chip">คะแนน 80+</span></div>
+        <div class="jobs" id="phoneJobs"></div>
+        <div class="fab"><div class="bubble">มี 1 งานควรตามผล</div><div class="circle" id="fabGhost"></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ---- ghost: one function, used everywhere ----
+const EYES = {
+  open:'<ellipse class="ink eye" cx="46" cy="56" rx="5" ry="7"/><ellipse class="ink eye" cx="74" cy="56" rx="5" ry="7"/><circle cx="47.5" cy="53" r="1.6" fill="#fff"/><circle cx="75.5" cy="53" r="1.6" fill="#fff"/>',
+  big:'<ellipse class="ink" cx="45" cy="55" rx="7" ry="9"/><ellipse class="ink" cx="75" cy="55" rx="7" ry="9"/><circle cx="47" cy="51" r="2.2" fill="#fff"/><circle cx="77" cy="51" r="2.2" fill="#fff"/>',
+  arc:'<path class="inkline" d="M40 58 Q46 50 52 58"/><path class="inkline" d="M68 58 Q74 50 80 58"/>',
+  closed:'<path class="inkline" d="M40 57 Q46 61 52 57"/><path class="inkline" d="M68 57 Q74 61 80 57"/>',
+  sad:'<ellipse class="ink" cx="46" cy="58" rx="4.5" ry="6"/><ellipse class="ink" cx="74" cy="58" rx="4.5" ry="6"/><path class="inkline" d="M39 49 L51 46"/><path class="inkline" d="M81 49 L69 46"/>'
+};
+const MOUTH = {
+  smile:'<path class="inkline" d="M54 68 Q60 74 66 68"/>',
+  open:'<path class="ink" d="M53 67 Q60 80 67 67 Z"/>',
+  o:'<ellipse class="ink" cx="60" cy="72" rx="4.5" ry="6"/>',
+  frown:'<path class="inkline" d="M54 73 Q60 67 66 73"/>',
+  flat:'<path class="inkline" d="M55 70 L65 70"/>'
+};
+const ARMS = { // [left cx,cy, right cx,cy]
+  down:[19,76,101,76], wave:[19,76,104,54], up:[22,22,98,22], hold:[19,76,100,72], cheeks:[30,74,90,74]
+};
+const PROPS = {
+  searching:'<circle class="prop" cx="108" cy="56" r="10" fill="var(--surface-2)"/><path class="prop" d="M115 64 L123 76"/>',
+  thinking:'<g><circle class="ink dot" cx="92" cy="14" r="3.2" style="fill:var(--ink)"/><circle class="ink dot" cx="103" cy="8" r="3.2" style="fill:var(--ink)"/><circle class="ink dot" cx="114" cy="2" r="3.2" style="fill:var(--ink)"/></g>',
+  happy:'<path class="moonfill" d="M8 28 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z"/><path class="moonfill" d="M110 14 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>',
+  celebrate:'<g><rect class="conf anim" x="6" y="-6" width="6" height="6" fill="var(--moon)"/><rect class="conf anim" x="30" y="-14" width="5" height="5" fill="var(--cheek)"/><rect class="conf anim" x="58" y="-18" width="6" height="6" fill="var(--primary)"/><rect class="conf anim" x="86" y="-12" width="5" height="5" fill="var(--good)"/><rect class="conf anim" x="110" y="-4" width="6" height="6" fill="var(--moon)"/><rect class="conf anim" x="18" y="6" width="5" height="5" fill="var(--primary)"/><rect class="conf anim" x="100" y="8" width="5" height="5" fill="var(--cheek)"/></g>',
+  spooked:'<text class="txt" x="104" y="26" font-size="26" style="fill:var(--risk)">!</text><path class="prop" d="M6 46 L0 42 M6 58 L-2 58 M6 70 L0 74"/>',
+  sad:'<ellipse class="tear anim" cx="40" cy="68" rx="2.6" ry="4" fill="var(--primary)"/>',
+  cheer:'<rect x="20" y="-18" width="80" height="26" rx="7" class="moonfill"/><text class="txt" x="60" y="1" font-size="15" text-anchor="middle" style="fill:var(--moon-ink)">สู้ ๆ นะ</text><path class="prop" d="M24 8 L23 18 M96 8 L97 18"/>',
+  sleepy:'<text class="txt z anim" x="92" y="24" font-size="14">z</text><text class="txt z z2 anim" x="102" y="12" font-size="19">Z</text>'
+};
+const MOODS = {
+  idle:     {th:'ปกติ',     e:'open',  m:'smile', a:'down',  say:'ผีน้อยอยู่ตรงนี้นะ',                 when:'สถานะปกติ ลอยขึ้นลงช้า ๆ และกะพริบตา'},
+  wave:     {th:'ทักทาย',   e:'arc',   m:'open',  a:'wave',  say:'สวัสดี! วันนี้หางานกัน',             when:'เปิดแอปครั้งแรกของวัน และหน้าต้อนรับผู้ใช้ใหม่'},
+  searching:{th:'กำลังหา',   e:'open',  m:'smile', a:'hold',  say:'ขอส่องดูงานใหม่แป๊บนะ',              when:'กำลังดึงงานใหม่หรืออ่านประกาศที่เพิ่งเก็บ'},
+  thinking: {th:'กำลังคิด',  e:'open',  m:'flat',  a:'down',  say:'อืม งานนี้เข้ากับคุณแค่ไหนนะ',        when:'AI กำลังให้คะแนนหรือปรับ resume'},
+  happy:    {th:'ดีใจ',     e:'arc',   m:'open',  a:'down',  say:'เจองานที่ใช่แล้ว คะแนน 88!',          when:'เจองานคะแนนสูง หรือเก็บงานเข้า list สำเร็จ'},
+  celebrate:{th:'ฉลอง',     e:'arc',   m:'open',  a:'up',    say:'ได้นัดสัมภาษณ์แล้ว เก่งมาก!',         when:'สถานะเปลี่ยนเป็นสัมภาษณ์ หรือได้ offer'},
+  spooked:  {th:'ตกใจ',     e:'big',   m:'o',     a:'cheeks',say:'งานนี้ดูแปลก ๆ อาจเป็น ghost job',    when:'งานมีความเสี่ยง ghost job ระดับสูง'},
+  sad:      {th:'เศร้า',    e:'sad',   m:'frown', a:'down',  say:'เสียดายจัง งานนี้ไม่ผ่าน',            when:'สถานะเปลี่ยนเป็นไม่ผ่าน'},
+  cheer:    {th:'ให้กำลังใจ',e:'arc',   m:'open',  a:'up',    say:'ยังมีอีก 4 งานที่เข้ากับคุณนะ',       when:'หลังงานไม่ผ่าน และตอนเตือนให้ตามผลการสมัคร'},
+  sleepy:   {th:'ง่วง',     e:'closed',m:'flat',  a:'down',  say:'วันนี้ยังไม่มีงานใหม่ พรุ่งนี้มาดูกัน', when:'ไม่มีงานใหม่ หรือใช้ AI ครบโควตาของวันแล้ว'}
+};
+const BODY='M20 60 C20 30 40 12 60 12 C80 12 100 30 100 60 L100 108 Q93 118 86 108 Q80 98 73 108 Q66 118 60 108 Q54 98 47 108 Q40 118 34 108 Q27 98 20 108 Z';
+function ghost(mood, size){
+  const d=MOODS[mood], a=ARMS[d.a];
+  return `<svg class="ghost g-${mood}" width="${size}" height="${Math.round(size*1.13)}" viewBox="-12 -22 144 162" role="img" aria-label="ผีน้อย: ${d.th}">
+    <ellipse class="shadow" cx="60" cy="130" rx="26" ry="4"/>
+    <g class="gb">
+      <ellipse class="arm l" cx="${a[0]}" cy="${a[1]}" rx="8" ry="6"/>
+      <path class="body" d="${BODY}"/>
+      <ellipse class="cheek" cx="35" cy="68" rx="6" ry="3.5"/><ellipse class="cheek" cx="85" cy="68" rx="6" ry="3.5"/>
+      ${EYES[d.e]}${MOUTH[d.m]}
+      ${PROPS[mood]||''}
+      <ellipse class="arm r" cx="${a[2]}" cy="${a[3]}" rx="8" ry="6"/>
+    </g></svg>`;
+}
+const GLYPH=`<svg viewBox="0 0 22 24" aria-hidden="true"><path d="M2 11 C2 5 6 1 11 1 C16 1 20 5 20 11 L20 22 Q17.7 24 15.5 22 Q13.3 20 11 22 Q8.7 24 6.5 22 Q4.3 20 2 22 Z"/></svg>`;
+
+// ---- score ring ----
+function ring(score,size){
+  const r=size/2-4, c=2*Math.PI*r, cls=score>=80?'hi':score>=65?'mid':'lo';
+  return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="คะแนน ${score} จาก 100">
+    <circle class="track" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="5"/>
+    <circle class="${cls}" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="5" stroke-linecap="round"
+      stroke-dasharray="${c*score/100} ${c}" transform="rotate(-90 ${size/2} ${size/2})"/>
+    <text x="50%" y="50%" dy=".35em" text-anchor="middle" font-size="${size*.34}">${score}</text></svg>`;
+}
+const RISK={low:['good','ต่ำ'],mid:['warn','กลาง'],high:['risk','สูง']};
+const riskChip=k=>`${GLYPH}ghost ${RISK[k][1]}`;
+
+// ---- example jobs (fictional) ----
+const JOBS=[
+  {t:'Senior Backend Engineer',c:'Lumen Pay',l:'Remote (APAC)',pay:'$4,500–6,000/เดือน',age:'ลงมา 4 วัน',src:'หน้า careers ของบริษัท',s:88,r:'low'},
+  {t:'Platform Engineer',c:'Kite Robotics',l:'Remote',pay:'$4,000–5,200/เดือน',age:'ลงมา 38 วัน',src:'RemoteOK',s:81,r:'mid'},
+  {t:'Full-stack Developer',c:'Baan Cloud',l:'กรุงเทพ (Hybrid)',pay:'฿70,000–95,000/เดือน',age:'ลงมา 92 วัน · ลงซ้ำ 3 รอบ',src:'เก็บผ่าน extension',s:74,r:'high'},
+  {t:'Frontend Engineer (React)',c:'Sukhumvit Digital',l:'กรุงเทพ',pay:'฿60,000–80,000/เดือน',age:'ลงมา 2 วัน',src:'หน้า careers ของบริษัท',s:69,r:'low'}
+];
+const jobCard=(j,compact)=>`<div class="job">
+  <div class="lg">${j.c[0]}</div>
+  <div><h3>${j.t}</h3><div class="co">${j.c} · ${j.l}</div>
+    <div class="meta"><span class="chip">${j.pay}</span><span class="chip">${j.age}</span>${compact?'':`<span class="chip">${j.src}</span>`}<span class="chip ${RISK[j.r][0]}">${riskChip(j.r)}</span></div></div>
+  <div class="ringbox">${ring(j.s,compact?44:50)}<span>เข้ากับคุณ</span></div></div>`;
+
+const $=id=>document.getElementById(id);
+$('deskJobs').innerHTML=JOBS.map(j=>jobCard(j,false)).join('');
+$('phoneJobs').innerHTML=JOBS.slice(0,3).map(j=>jobCard(j,true)).join('');
+$('logoGhost').innerHTML=ghost('idle',26);
+$('greetGhost').innerHTML=ghost('happy',64);
+$('riskGhost').innerHTML=ghost('spooked',58);
+$('extGhost').innerHTML=ghost('happy',46);
+$('helloGhost').innerHTML=ghost('wave',120);
+$('fabGhost').innerHTML=ghost('cheer',40);
+$('bigRing').innerHTML=ring(74,76);
+$('extRing').innerHTML=ring(81,52);
+$('extRisk').innerHTML=riskChip('mid');
+
+// ---- mood switcher ----
+function setMood(m){
+  $('bigGhost').innerHTML=ghost(m,190);
+  $('say').textContent=MOODS[m].say;
+  $('when').innerHTML=`<b>ใช้เมื่อ:</b> ${MOODS[m].when}`;
+  document.querySelectorAll('#moods button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+}
+$('moods').innerHTML=Object.entries(MOODS).map(([k,v])=>`<button type="button" id="mood-${k}" data-m="${k}" aria-pressed="false">${v.th}</button>`).join('');
+$('moods').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) setMood(b.dataset.m);});
+setMood('happy');
+</script>
