@@ -1,245 +1,275 @@
 <title>Great Job UI Mockup</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Mitr:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: one column of labelled screens; each screen sits in a device frame on a "night sky" stage so the white ghost always has contrast. */
+/* Layout: quiet document-app chrome. Borderless sidebar on the same canvas as the content, plain rows instead of cards,
+   one blue for actions; the ghost is the only decorated thing on any screen. Left-aligned throughout. */
 :root{
-  --bg:#EDEFFA; --surface:#FFFFFF; --surface-2:#F4F5FD; --stage:#DDE1F7;
-  --ink:#1D2046; --muted:#5E628A; --line:#D7DBF0;
-  --primary:#3B3FD1; --primary-ink:#FFFFFF;
-  --moon:#FFCF4D; --moon-ink:#5A4300; --cheek:#FF8FA3;
-  --good:#17805A; --good-bg:#DDF4EA; --warn:#9A5E00; --warn-bg:#FFEFC9; --risk:#C4324F; --risk-bg:#FFE1E7;
-  --ghost-line:#BFC4E8;
-  --display:"Mitr","IBM Plex Sans Thai",system-ui,sans-serif;
-  --body:"IBM Plex Sans Thai","Leelawadee UI","Thonburi",system-ui,sans-serif;
-  --r:14px;
+  --canvas:#FAFAF9; --paper:#FFFFFF; --wash:#EFEFED; --line:#E6E6E3;
+  --ink:#27272B; --mute:#85858E;
+  --blue:#1673EE; --blue-wash:#E3EEFF; --on-blue:#FFFFFF;
+  --good:#1B8A57; --good-wash:#E1F3E9; --warn:#A96300; --warn-wash:#FFF0D2; --risk:#CC3550; --risk-wash:#FFE7EB;
+  --sun:#FFD25E; --sun-ink:#5B4300; --blush:#FF9FB2; --ghost-edge:#A7ACE4; --halo:#ECEEFD;
+  --font:"Anuphan","Leelawadee UI","Thonburi",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#12142A; --surface:#1B1E3A; --surface-2:#232748; --stage:#1F2345;
-  --ink:#ECEEFF; --muted:#A3A8D0; --line:#30355E;
-  --primary:#9498FF; --primary-ink:#12142A;
-  --moon:#FFD766; --moon-ink:#3B2C00; --cheek:#FF8FA3;
-  --good:#5BD8A3; --good-bg:#173B30; --warn:#F2B04A; --warn-bg:#40300E; --risk:#FF8AA0; --risk-bg:#47202B;
-  --ghost-line:#5A5F94; color-scheme:dark } }
+  --canvas:#1B1B1E; --paper:#232327; --wash:#2D2D32; --line:#35353B;
+  --ink:#EDEDF0; --mute:#9B9BA5;
+  --blue:#5AA5FF; --blue-wash:#1D3250; --on-blue:#0E1B2E;
+  --good:#5FD39E; --good-wash:#18392C; --warn:#F1B04C; --warn-wash:#3F2F10; --risk:#FF8CA1; --risk-wash:#45212A;
+  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#2A2C4A; color-scheme:dark } }
 :root[data-theme="dark"]{
-  --bg:#12142A; --surface:#1B1E3A; --surface-2:#232748; --stage:#1F2345;
-  --ink:#ECEEFF; --muted:#A3A8D0; --line:#30355E;
-  --primary:#9498FF; --primary-ink:#12142A;
-  --moon:#FFD766; --moon-ink:#3B2C00; --cheek:#FF8FA3;
-  --good:#5BD8A3; --good-bg:#173B30; --warn:#F2B04A; --warn-bg:#40300E; --risk:#FF8AA0; --risk-bg:#47202B;
-  --ghost-line:#5A5F94; color-scheme:dark }
+  --canvas:#1B1B1E; --paper:#232327; --wash:#2D2D32; --line:#35353B;
+  --ink:#EDEDF0; --mute:#9B9BA5;
+  --blue:#5AA5FF; --blue-wash:#1D3250; --on-blue:#0E1B2E;
+  --good:#5FD39E; --good-wash:#18392C; --warn:#F1B04C; --warn-wash:#3F2F10; --risk:#FF8CA1; --risk-wash:#45212A;
+  --sun:#FFD25E; --sun-ink:#4A3600; --blush:#FF9FB2; --ghost-edge:#8E94D8; --halo:#2A2C4A; color-scheme:dark }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
-  padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
-h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;text-wrap:balance;line-height:1.25}
-h1{font-size:34px} h2{font-size:22px} h3{font-size:16px}
-p{margin:0}
-.lead{color:var(--muted);max-width:62ch}
+body{background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.55;
+  padding-block:36px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3,p{margin:0} h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-size:30px;font-weight:700} h2{font-size:20px;font-weight:700} h3{font-size:14px;font-weight:600}
+.intro{display:flex;flex-direction:column;gap:8px}
+.intro p,.sec>p{color:var(--mute);max-width:66ch;font-size:15px}
 .sec{display:flex;flex-direction:column;gap:14px}
-.sec>p{color:var(--muted);max-width:68ch}
-.tag{font-size:12px;letter-spacing:.06em;color:var(--muted)}
-.sample{font-size:12px;color:var(--muted)}
+.note{font-size:12px;color:var(--mute)}
+button{font:inherit;color:inherit}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 /* ---------- ghost ---------- */
-.ghost{display:block;overflow:visible}
-.ghost .body{fill:#fff;stroke:var(--ghost-line);stroke-width:2}
-.ghost .ink{fill:#1D2046} .ghost .inkline{fill:none;stroke:#1D2046;stroke-width:2.6;stroke-linecap:round} /* face sits on the always-white body */
-.ghost .cheek{fill:var(--cheek);opacity:.75}
-.ghost .shadow{fill:var(--ink);opacity:.12}
-.ghost .arm{fill:#fff;stroke:var(--ghost-line);stroke-width:2}
-.ghost .prop{stroke:var(--ink);stroke-width:2.4;fill:none;stroke-linecap:round}
-.ghost .moonfill{fill:var(--moon)} .ghost .txt{font-family:var(--display);fill:var(--ink)}
-.ghost .gb,.ghost .eye,.ghost .arm,.ghost .anim{transform-box:fill-box;transform-origin:center}
-@keyframes float{50%{transform:translateY(-6px)}}
-@keyframes bounce{0%,100%{transform:translateY(0) scaleY(1)}40%{transform:translateY(-12px) scaleY(1.04)}60%{transform:translateY(0) scaleY(.96)}}
-@keyframes sway{0%,100%{transform:translateX(-5px) rotate(-3deg)}50%{transform:translateX(5px) rotate(3deg)}}
-@keyframes shake{0%,100%{transform:translateX(-2px)}50%{transform:translateX(2px)}}
-@keyframes party{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-12px) rotate(10deg)}}
+.ghost{display:block;overflow:visible;flex:none}
+.ghost .edge{stroke:var(--ghost-edge);stroke-width:3;stroke-linejoin:round}
+.ghost .ink{fill:#2B2E5A} .ghost .line{fill:none;stroke:#2B2E5A;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white body */
+.ghost .blush{fill:var(--blush);opacity:.6}
+.ghost .shadow{fill:var(--ink);opacity:.1}
+.ghost .prop{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round}
+.ghost .t{font-family:var(--font);font-weight:700}
+.ghost .gb,.ghost .eye,.ghost .arm,.ghost .a{transform-box:fill-box;transform-origin:center}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1,1)}35%{transform:translateY(-16px) scale(.97,1.04)}60%{transform:translateY(0) scale(1.04,.95)}}
+@keyframes sway{0%,100%{transform:translateX(-6px) rotate(-3deg)}50%{transform:translateX(6px) rotate(3deg)}}
+@keyframes shake{0%,100%{transform:translateX(-2.5px)}50%{transform:translateX(2.5px)}}
+@keyframes party{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-14px) rotate(8deg)}}
 @keyframes breathe{50%{transform:scale(1.03,.97)}}
-@keyframes droop{50%{transform:translateY(2px)}}
+@keyframes droop{50%{transform:translateY(3px)}}
 @keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
-@keyframes wave{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(22deg)}}
+@keyframes wave{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(18deg)}}
 @keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
-@keyframes fall{0%{transform:translateY(-8px);opacity:0}20%{opacity:1}100%{transform:translateY(46px) rotate(160deg);opacity:0}}
-@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(16px);opacity:0}}
-@keyframes zz{0%{transform:translate(0,4px);opacity:0}40%{opacity:1}100%{transform:translate(6px,-10px);opacity:0}}
-.g-idle .gb,.g-wave .gb{animation:float 3.2s ease-in-out infinite}
-.g-thinking .gb{animation:float 4s ease-in-out infinite;rotate:-7deg}
-.g-searching .gb{animation:sway 2.2s ease-in-out infinite}
-.g-happy .gb,.g-cheer .gb{animation:bounce .9s ease-in-out infinite}
-.g-celebrate .gb{animation:party .8s ease-in-out infinite}
+@keyframes fall{0%{transform:translateY(-10px);opacity:0}20%{opacity:1}100%{transform:translateY(70px) rotate(160deg);opacity:0}}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(24px);opacity:0}}
+@keyframes zz{0%{transform:translate(0,6px);opacity:0}40%{opacity:1}100%{transform:translate(8px,-14px);opacity:0}}
+@keyframes bubble{50%{transform:scale(1.5)}}
+.g-idle .gb,.g-wave .gb{animation:float 3.4s ease-in-out infinite}
+.g-thinking .gb{animation:float 4.2s ease-in-out infinite;rotate:-6deg}
+.g-searching .gb{animation:sway 2.4s ease-in-out infinite}
+.g-happy .gb,.g-cheer .gb{animation:bounce 1s ease-in-out infinite}
+.g-celebrate .gb{animation:party .85s ease-in-out infinite}
 .g-spooked .gb{animation:shake .13s linear infinite}
-.g-sad .gb{animation:droop 3s ease-in-out infinite;scale:.97 .94}
+.g-sad .gb{animation:droop 3s ease-in-out infinite}
 .g-sleepy .gb{animation:breathe 4s ease-in-out infinite}
-.ghost .eye{animation:blink 4.5s infinite}
-.g-wave .arm.r{animation:wave .55s ease-in-out infinite;transform-origin:20% 90%}
+.ghost .eye{animation:blink 4.6s infinite}
+.g-wave .arm.r{animation:wave .55s ease-in-out infinite;transform-origin:0% 50%}
 .ghost .dot{animation:pulse 1.2s infinite} .ghost .dot:nth-child(2){animation-delay:.2s} .ghost .dot:nth-child(3){animation-delay:.4s}
-.ghost .conf{animation:fall 1.4s linear infinite} .ghost .conf:nth-child(2n){animation-delay:.5s} .ghost .conf:nth-child(3n){animation-delay:.9s}
-.ghost .tear{animation:tear 1.8s ease-in infinite}
+.ghost .conf{animation:fall 1.5s linear infinite} .ghost .conf:nth-child(2n){animation-delay:.5s} .ghost .conf:nth-child(3n){animation-delay:1s}
+.ghost .tear{animation:tear 1.9s ease-in infinite}
 .ghost .z{animation:zz 2.4s ease-out infinite} .ghost .z2{animation-delay:1.2s}
+.ghost .snot{animation:bubble 4s ease-in-out infinite}
 @media (prefers-reduced-motion: reduce){ .ghost *{animation:none!important} }
 
+/* ---------- shared UI pieces ---------- */
+.win{background:var(--canvas);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  box-shadow:0 30px 60px -36px rgba(20,20,45,.45),0 2px 6px rgba(20,20,45,.05)}
+.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg>*{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:var(--wash);color:var(--mute);font-size:13px;font-weight:500;border:0;cursor:default}
+.seg>.on,.seg>[aria-pressed="true"]{background:var(--blue-wash);color:var(--blue)}
+.seg>button{cursor:pointer}
+.chip{font-size:12px;padding:1px 7px;border-radius:5px;background:var(--wash);color:var(--mute);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.chip.good{background:var(--good-wash);color:var(--good)} .chip.warn{background:var(--warn-wash);color:var(--warn)} .chip.risk{background:var(--risk-wash);color:var(--risk)}
+.chip svg{width:10px;height:11px;fill:currentColor}
+.btn{display:inline-flex;justify-content:center;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;background:var(--blue);color:var(--on-blue)}
+.btn.quiet{background:var(--wash);color:var(--ink)}
+.ring text{font-family:var(--font);font-weight:700;fill:var(--ink);font-variant-numeric:tabular-nums}
+.ring .track{stroke:var(--line)} .ring .hi{stroke:var(--good)} .ring .mid{stroke:var(--sun)} .ring .lo{stroke:var(--mute)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 14px 4px 6px;font-size:13px;font-weight:500;
+  box-shadow:0 6px 18px -8px rgba(20,20,45,.3)}
+.say{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px 12px;font-size:13px;box-shadow:0 8px 22px -12px rgba(20,20,45,.3)}
+
 /* ---------- mood stage ---------- */
-.stage{background:var(--stage);border-radius:22px;padding:22px;display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:22px;align-items:center}
-.stage .big{display:flex;flex-direction:column;align-items:center;gap:6px}
-.bubble{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px;position:relative;font-size:14px}
-.bubble.down::after{content:"";position:absolute;left:50%;bottom:-7px;width:12px;height:12px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
-.moods{display:flex;flex-wrap:wrap;gap:8px}
-.moods button{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
-.moods button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.moods button:focus-visible,summary:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-.when{color:var(--muted);font-size:14px;margin-top:12px}
-.when b{color:var(--ink);font-weight:600}
+.stage{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:26px}
+.halo{background:var(--halo);border-radius:28px;padding:18px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:330px;justify-content:flex-end}
+.halo .say{align-self:center}
+.stage .when{margin-top:14px;color:var(--mute);font-size:14px}
+.stage .when b{color:var(--ink);font-weight:600}
 
-/* ---------- device frames ---------- */
-.frame{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.chrome{display:flex;gap:6px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);font-size:12px;color:var(--muted)}
-.chrome i{width:9px;height:9px;border-radius:50%;background:var(--line)}
-.chrome span{margin-left:8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.app{display:grid;grid-template-columns:170px minmax(0,1fr)}
-.side{border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:4px;font-size:14px}
-.side .logo{font-family:var(--display);font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.side div{padding:6px 10px;border-radius:9px;color:var(--muted)}
-.side .on{background:var(--surface-2);color:var(--ink);font-weight:500}
-.main{padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
-.greet{display:flex;gap:12px;align-items:center}
-.greet .bubble{flex:1;min-width:0}
-.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-.pipe div{background:var(--surface-2);border-radius:12px;padding:8px 10px;font-size:12px;color:var(--muted)}
-.pipe b{display:block;font-family:var(--display);font-weight:500;font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
-.tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
-.tabs span{padding-bottom:8px} .tabs .on{color:var(--ink);font-weight:600;border-bottom:2px solid var(--ink)}
-.jobs{display:flex;flex-direction:column;gap:10px}
-.job{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px}
-.job .lg{width:40px;height:40px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;font-family:var(--display);color:var(--muted)}
-.job h3{font-size:15px} .job .co{font-size:13px;color:var(--muted)}
-.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.chip{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
-.chip.good{background:var(--good-bg);color:var(--good)} .chip.warn{background:var(--warn-bg);color:var(--warn)} .chip.risk{background:var(--risk-bg);color:var(--risk)}
-.chip svg{width:11px;height:12px;fill:currentColor}
-.ringbox{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
-.ring text{font-family:var(--display);fill:var(--ink);font-variant-numeric:tabular-nums}
-.ring .track{stroke:var(--line)} .ring .hi{stroke:var(--good)} .ring .mid{stroke:var(--moon)} .ring .lo{stroke:var(--muted)}
-.btn{display:inline-block;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;background:var(--primary);color:var(--primary-ink);text-align:center}
-.btn.ghosty{background:transparent;color:var(--ink);border:1px solid var(--line)}
+/* ---------- desktop app ---------- */
+.top{display:grid;grid-template-columns:1fr minmax(0,280px) 1fr;align-items:center;gap:10px;padding:8px 12px;color:var(--mute)}
+.top .find{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:7px;padding:3px 10px;font-size:13px;background:var(--paper)}
+.top .r{display:flex;justify-content:flex-end;gap:12px}
+.app{display:grid;grid-template-columns:190px minmax(0,1fr);position:relative}
+.side{padding:4px 8px 16px;display:flex;flex-direction:column;gap:1px;font-size:13px}
+.side .it{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:7px}
+.side .it.on{background:var(--wash);font-weight:600}
+.side .it b{margin-left:auto;font-weight:500;color:var(--mute);font-variant-numeric:tabular-nums}
+.side .hd{font-weight:700;font-size:12px;padding:16px 8px 4px}
+.side .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.main{padding:8px 20px 64px 12px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ttl{display:flex;align-items:center;gap:10px}
+.ttl .plus{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--canvas);display:grid;place-items:center}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 8px;border-radius:8px}
+.row:hover{background:var(--wash)}
+.row .nm{min-width:0}
+.row .nm b{font-weight:600} .row .nm span{color:var(--mute);margin-left:6px}
+.row .tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.float{position:absolute;right:14px;bottom:12px}
 
-/* detail */
-.detail{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;padding:18px}
-.dhead{display:flex;gap:14px;align-items:center}
-.dhead>div{min-width:0}
-details{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-details+details{margin-top:8px}
-summary{cursor:pointer;font-weight:600;display:flex;justify-content:space-between;gap:8px;list-style:none}
-summary::-webkit-details-marker{display:none}
-summary span{font-weight:400;color:var(--muted);font-size:13px}
-details ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
-.riskbox{background:var(--risk-bg);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
-.riskbox .top{display:flex;gap:10px;align-items:center}
-.riskbox h3{color:var(--risk)}
-.riskbox ul{margin:0;padding-left:18px;font-size:14px}
-.riskbox small{color:var(--muted);font-size:12px}
-.col{display:flex;flex-direction:column;gap:12px;min-width:0}
-.row{display:flex;gap:8px;flex-wrap:wrap}
+/* ---------- detail as a document ---------- */
+.docwrap{display:grid;grid-template-columns:minmax(0,1fr) 230px;background:var(--wash)}
+.sheet{background:var(--paper);margin:26px auto;width:min(100% - 32px,600px);border-radius:6px;padding:34px 38px;display:flex;flex-direction:column;gap:18px;
+  box-shadow:0 14px 34px -20px rgba(20,20,45,.35)}
+.sheet h3.big{font-size:26px;font-weight:700}
+.sheet .meta{color:var(--mute)}
+.score{display:flex;gap:14px;align-items:center}
+.find-list{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.find-list li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;align-items:start}
+.mk{width:16px;height:16px;border-radius:50%;margin-top:3px;display:grid;place-items:center}
+.mk.yes{background:var(--good);color:var(--paper)} .mk.no{border:2px solid var(--warn)} .mk.info{border:2px solid var(--mute)}
+.mk svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.alert{background:var(--risk-wash);border-radius:12px;padding:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.alert h3{color:var(--risk);font-size:15px}
+.alert ul{margin:6px 0;padding-left:18px}
+.insp{background:var(--canvas);border-left:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:12px}
+.insp .react{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.status{display:flex;flex-direction:column;gap:1px}
+.status button{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:7px;background:none;border:0;text-align:left;cursor:pointer;font-size:13px}
+.status button:hover{background:var(--wash)}
+.status button[aria-pressed="true"]{background:var(--blue-wash);color:var(--blue);font-weight:600}
+.status i{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5;flex:none}
 
-/* extension */
-.ext{display:grid;grid-template-columns:minmax(0,1fr) 270px}
-.fake{padding:18px;display:flex;flex-direction:column;gap:10px}
-.fake i{display:block;height:10px;border-radius:5px;background:var(--surface-2)}
-.panel{border-left:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--surface)}
-.panel .hd{display:flex;gap:10px;align-items:center}
+/* ---------- extension ---------- */
+.site{position:relative;background:var(--wash);min-height:400px;padding:22px}
+.site .fake{background:var(--paper);border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:11px;opacity:.55;max-width:560px}
+.site .fake i{display:block;height:10px;border-radius:5px;background:var(--wash)}
+.pop{position:absolute;right:18px;top:18px;width:290px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px;
+  box-shadow:0 26px 50px -22px rgba(20,20,45,.5)}
+.pop .hd{display:flex;gap:10px;align-items:center}
 
-/* phones */
-.phones{display:flex;flex-wrap:wrap;gap:22px}
-.phone{width:290px;max-width:100%;border:1px solid var(--line);border-radius:30px;background:var(--surface);padding:16px 14px;display:flex;flex-direction:column;gap:12px;position:relative;min-height:520px}
-.phone .center{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
-.pick{display:flex;flex-wrap:wrap;gap:6px}
-.pick .chip.on{background:var(--ink);color:var(--bg)}
-.drop{border:1.5px dashed var(--line);border-radius:12px;padding:14px;text-align:center;font-size:13px;color:var(--muted)}
-.fine{font-size:11px;color:var(--muted)}
-.fab{position:absolute;right:12px;bottom:12px;display:flex;align-items:flex-end;gap:6px}
-.fab .bubble{font-size:12px;padding:6px 10px;max-width:170px}
-.fab .circle{width:56px;height:56px;border-radius:50%;background:var(--stage);display:grid;place-items:center;position:relative}
-.fab .circle::after{content:"";position:absolute;top:2px;right:2px;width:11px;height:11px;border-radius:50%;background:var(--risk);border:2px solid var(--surface)}
-.phone .job{grid-template-columns:minmax(0,1fr) auto;padding:10px}
-.phone .job .lg{display:none}
+/* ---------- phones ---------- */
+.phones{display:flex;flex-wrap:wrap;gap:24px}
+.phone{width:300px;max-width:100%;min-height:540px;border:1px solid var(--line);border-radius:32px;background:var(--canvas);padding:20px 14px;display:flex;flex-direction:column;gap:14px;position:relative;
+  box-shadow:0 30px 60px -36px rgba(20,20,45,.45)}
+.phone .hello{display:flex;flex-direction:column;align-items:center;gap:2px}
+.phone h3.q{font-size:15px}
+.drop{border:1.5px dashed var(--line);border-radius:10px;padding:14px;text-align:center;font-size:13px;color:var(--mute);background:var(--paper)}
+.phone .row{grid-template-columns:30px minmax(0,1fr);padding:8px 4px}
+.phone .row .tags{grid-column:2;justify-content:flex-start}
+.phone .row .nm span{display:block;margin:0}
+.phone .float{right:12px;bottom:14px}
 
-@media (max-width:760px){
-  h1{font-size:27px}
-  .stage,.detail,.ext{grid-template-columns:minmax(0,1fr)}
-  .app{grid-template-columns:minmax(0,1fr)} .side{display:none}
-  .pipe{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .panel{border-left:0;border-top:1px solid var(--line)}
+@media (max-width:780px){
+  h1{font-size:25px}
+  .stage,.docwrap{grid-template-columns:minmax(0,1fr)}
+  .app{grid-template-columns:minmax(0,1fr)} .side{display:none} .main{padding-left:14px;padding-right:14px}
+  .row{grid-template-columns:30px minmax(0,1fr)} .row .tags{grid-column:2;justify-content:flex-start}
+  .row .nm span{display:block;margin:0}
+  .insp{border-left:0;border-top:1px solid var(--line)}
+  .sheet{padding:24px 20px}
+  .site{padding:12px} .pop{position:static;width:auto;margin-top:12px}
+  .top{grid-template-columns:auto minmax(0,1fr) auto}
 }
 </style>
 
 <div class="wrap">
-  <header class="sec">
-    <span class="tag">GREAT JOB · V1 MOCKUP</span>
-    <h1>ผีน้อยช่วยหางาน</h1>
-    <p class="lead">ภาพร่างหน้าจอหลักของเวอร์ชันแรก: ตัวละครผีน้อย หน้าหลักบนคอมและมือถือ หน้ารายละเอียดงาน และแผงของ extension ข้อมูลงานทั้งหมดในหน้านี้เป็นตัวอย่างสมมติ</p>
+  <header class="intro">
+    <h1>Great Job ฉบับร่างที่สอง</h1>
+    <p>หน้าตาใหม่ใช้แนวทางแอปเอกสารที่เงียบและโล่ง: พื้นขาว แถบข้างไม่มีเส้นกั้น รายการเป็นแถวเรียบ สีฟ้าสีเดียวสำหรับสิ่งที่กดได้ และวาดผีน้อยใหม่ทั้งตัว ข้อมูลงานทั้งหมดเป็นตัวอย่างสมมติ</p>
   </header>
 
   <section class="sec">
-    <h2>ผีน้อย 10 อารมณ์</h2>
-    <p>กดเลือกอารมณ์เพื่อดูท่าและดูว่าแอปใช้อารมณ์นั้นตอนไหน ตัวละครเป็น SVG ชิ้นเดียวที่ใช้ซ้ำทุกหน้าด้านล่าง</p>
+    <h2>ผีน้อยตัวใหม่</h2>
+    <p>ตัวกลมขึ้น หน้าอยู่ต่ำ ตาห่าง มีปอยผมบนหัวและชายผ้าที่สะบัดไปด้านหนึ่ง กดเลือกอารมณ์เพื่อดูท่าทั้งสิบแบบ</p>
     <div class="stage">
-      <div class="big">
-        <div class="bubble down" id="say"></div>
-        <div id="bigGhost"></div>
-      </div>
+      <div class="halo"><div class="say" id="say"></div><div id="bigGhost"></div></div>
       <div>
-        <div class="moods" id="moods" role="group" aria-label="อารมณ์ของผีน้อย"></div>
+        <div class="seg" id="moods" role="group" aria-label="อารมณ์ของผีน้อย"></div>
         <p class="when" id="when"></p>
       </div>
     </div>
   </section>
 
   <section class="sec">
-    <h2>หน้าหลักบนคอม</h2>
-    <p>ผีน้อยสรุปสิ่งที่เกิดขึ้นวันนี้ไว้บนสุด ถัดมาเป็นจำนวนงานในแต่ละสถานะ การ์ดงานแสดงคะแนน อายุประกาศ และความเสี่ยง ghost job โดยไม่ต้องกดเข้าไปดู</p>
-    <div class="frame">
-      <div class="chrome"><i></i><i></i><i></i><span>greatjob.app/jobs</span></div>
+    <h2>งานแนะนำบนคอม</h2>
+    <p>แถบข้างนับจำนวนงานตามสถานะเหมือนโฟลเดอร์ รายการงานเป็นแถวเดียวต่อหนึ่งงาน คะแนนอยู่ซ้าย อายุประกาศและความเสี่ยง ghost job อยู่ขวา ผีน้อยอยู่ในปุ่มลอยมุมขวาล่าง</p>
+    <div class="win">
+      <div class="top">
+        <div><svg class="ic" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M6 2.5v11"/></svg></div>
+        <div class="find"><svg class="ic" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>ค้นหางาน</div>
+        <div class="r"><svg class="ic" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.5 1.5h-11zM6.5 14h3"/></svg></div>
+      </div>
       <div class="app">
         <div class="side">
-          <div class="logo"><span id="logoGhost"></span>Great Job</div>
-          <div class="on">งานของฉัน</div><div>งานแนะนำ</div><div>Profile และ resume</div><div>บริษัทที่ติดตาม</div><div>ตั้งค่า</div>
+          <div class="it"><span id="sideGhost"></span><strong>Great Job</strong></div>
+          <div class="it"><svg class="ic" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg>เพิ่มงานจากลิงก์</div>
+          <div class="it on" style="margin-top:8px"><svg class="ic" viewBox="0 0 16 16"><path d="M8 1.5l1.8 4.2 4.7.4-3.6 3 1.1 4.4L8 11.2 3.9 13.5 5 9.1 1.5 6.1l4.7-.4z"/></svg>งานแนะนำ<b>4</b></div>
+          <div class="it"><svg class="ic" viewBox="0 0 16 16"><rect x="2" y="4.5" width="12" height="9" rx="2"/><path d="M6 4.5V3h4v1.5"/></svg>งานของฉัน<b>14</b></div>
+          <div class="it"><svg class="ic" viewBox="0 0 16 16"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5zM6.5 8h3.5M6.5 11h3.5"/></svg>Resume และ profile</div>
+          <div class="hd">สถานะ</div>
+          <div class="it"><i class="dot" style="background:var(--mute)"></i>สนใจ<b>6</b></div>
+          <div class="it"><i class="dot" style="background:var(--sun)"></i>เตรียมสมัคร<b>2</b></div>
+          <div class="it"><i class="dot" style="background:var(--blue)"></i>สมัครแล้ว<b>5</b></div>
+          <div class="it"><i class="dot" style="background:var(--good)"></i>สัมภาษณ์<b>1</b></div>
+          <div class="it"><i class="dot" style="background:var(--blush)"></i>ได้ offer<b>0</b></div>
+          <div class="hd">บริษัทที่ติดตาม</div>
+          <div class="it">Lumen Pay</div><div class="it">Kite Robotics</div>
         </div>
         <div class="main">
-          <div class="greet"><span id="greetGhost"></span><div class="bubble">วันนี้เจองานใหม่ที่เข้ากับคุณ 4 งาน และมี 1 งานที่สมัครไปครบ 7 วันแล้วยังเงียบอยู่</div></div>
-          <div class="pipe">
-            <div><b>6</b>สนใจ</div><div><b>2</b>เตรียมสมัคร</div><div><b>5</b>สมัครแล้ว</div><div><b>1</b>สัมภาษณ์</div><div><b>0</b>ได้ offer</div>
-          </div>
-          <div class="tabs"><span class="on">งานแนะนำ</span><span>กำลังดำเนินการ</span><span>ทั้งหมด</span></div>
-          <div class="jobs" id="deskJobs"></div>
-          <span class="sample">ข้อมูลตัวอย่าง ชื่อบริษัทสมมติ</span>
+          <div class="ttl"><span class="plus"><svg class="ic" viewBox="0 0 16 16"><path d="M8 3.5v9M3.5 8h9"/></svg></span><h2>งานแนะนำ</h2></div>
+          <div class="seg"><span class="on">วันนี้ 4</span><span>Remote</span><span>ในไทย</span><span>คะแนน 80 ขึ้นไป</span></div>
+          <div class="rows" id="deskRows"></div>
+          <span class="note">ข้อมูลตัวอย่าง ชื่อบริษัทสมมติ</span>
         </div>
+        <div class="float"><div class="pill"><span id="pillGhost"></span>ผีน้อย</div></div>
       </div>
     </div>
   </section>
 
   <section class="sec">
-    <h2>หน้ารายละเอียดงาน</h2>
-    <p>คะแนนมาพร้อมเหตุผลสามกลุ่มที่กดขยายได้ ส่วนคำเตือน ghost job แสดงสัญญาณที่เจอทุกข้อและบอกว่าเป็นการคาดเดา</p>
-    <div class="frame">
-      <div class="chrome"><i></i><i></i><i></i><span>greatjob.app/jobs/full-stack-developer</span></div>
-      <div class="detail">
-        <div class="col">
-          <div class="dhead"><span id="bigRing"></span><div><h3>Full-stack Developer</h3><div class="sample">Baan Cloud · กรุงเทพ (Hybrid) · ฿70,000–95,000/เดือน</div></div></div>
+    <h2>หน้างานเป็นเอกสารหนึ่งแผ่น</h2>
+    <p>ผีน้อยเขียนผลการอ่านประกาศเป็นเอกสาร: คะแนน สิ่งที่ตรง สิ่งที่ขาด และคำเตือน ghost job พร้อมสัญญาณทุกข้อ ลองกดเปลี่ยนสถานะทางขวาเพื่อดูปฏิกิริยาของผีน้อย</p>
+    <div class="win">
+      <div class="docwrap">
+        <div class="sheet">
           <div>
-            <details open><summary>ตรงกับคุณ <span>4 ข้อ</span></summary><ul><li>ใช้ TypeScript และ React มา 5 ปี ตรงกับที่ประกาศต้องการ</li><li>เคยดูแลระบบบน AWS</li><li>เงินเดือนอยู่ในช่วงที่คุณตั้งไว้</li><li>ทำงานแบบ hybrid ได้ตามที่คุณเลือก</li></ul></details>
-            <details><summary>ยังขาด <span>2 ข้อ</span></summary><ul><li>ประกาศต้องการ Go ซึ่งไม่มีใน resume ของคุณ</li><li>ต้องการประสบการณ์นำทีม 2 ปี คุณมี 1 ปี</li></ul></details>
-            <details><summary>ควรรู้ <span>1 ข้อ</span></summary><ul><li>ประกาศไม่ระบุทีมหรือผลิตภัณฑ์ที่จะทำ</li></ul></details>
+            <h3 class="big">Full-stack Developer</h3>
+            <div class="meta">Baan Cloud, กรุงเทพ (Hybrid), ฿70,000–95,000 ต่อเดือน</div>
           </div>
-          <div class="row"><span class="btn">เก็บเข้า list</span><span class="btn ghosty">ปรับ resume ให้ตรงงานนี้</span></div>
+          <div class="score"><span id="docRing"></span><div><h3>เข้ากับคุณ 74 จาก 100</h3><div class="meta">ทักษะหลักตรง แต่ประกาศต้องการสองอย่างที่ resume ของคุณยังไม่มี</div></div></div>
+          <div>
+            <h3>ตรงกับคุณ</h3>
+            <ul class="find-list" id="yes"></ul>
+          </div>
+          <div>
+            <h3>ยังขาด</h3>
+            <ul class="find-list" id="no"></ul>
+          </div>
+          <div class="alert">
+            <span id="alertGhost"></span>
+            <div>
+              <h3>เสี่ยงเป็น ghost job สูง</h3>
+              <ul><li>ประกาศนี้ลงมาแล้ว 92 วัน</li><li>ลงซ้ำ 3 รอบในช่วง 4 เดือน</li><li>ไม่พบตำแหน่งนี้ในหน้า careers ของบริษัท</li><li>รายละเอียดงานกว้าง ไม่ระบุทีม</li></ul>
+              <span class="note">ผีน้อยเดาจากสัญญาณเหล่านี้ อาจผิดได้</span>
+            </div>
+          </div>
         </div>
-        <div class="col">
-          <div class="riskbox">
-            <div class="top"><span id="riskGhost"></span><div><h3>เสี่ยงเป็น ghost job สูง</h3><small>ผีน้อยเดาจากสัญญาณด้านล่าง อาจผิดได้</small></div></div>
-            <ul><li>ประกาศนี้ลงมาแล้ว 92 วัน</li><li>ลงซ้ำ 3 รอบในช่วง 4 เดือน</li><li>ไม่พบตำแหน่งนี้ในหน้า careers ของบริษัท</li><li>รายละเอียดงานกว้าง ไม่ระบุทีม</li></ul>
-          </div>
-          <span class="sample">ข้อมูลตัวอย่าง</span>
+        <div class="insp">
+          <div class="react"><div class="say" id="reactSay"></div><span id="reactGhost"></span></div>
+          <h3>สถานะ</h3>
+          <div class="status" id="status" role="group" aria-label="สถานะของงานนี้"></div>
+          <span class="btn">ปรับ resume ให้ตรงงานนี้</span>
+          <span class="btn quiet">เปิดประกาศต้นฉบับ</span>
         </div>
       </div>
     </div>
@@ -247,18 +277,17 @@ details ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
 
   <section class="sec">
     <h2>Extension บนหน้าเว็บงาน</h2>
-    <p>ผู้ใช้เปิดประกาศงานบนเว็บอื่นแล้วกดไอคอนผีน้อย แผงข้างจะบอกคะแนนและความเสี่ยงทันที เก็บงานได้ในคลิกเดียว และกรอกฟอร์มสมัครให้โดยผู้ใช้เป็นคนกดส่ง</p>
-    <div class="frame">
-      <div class="chrome"><i></i><i></i><i></i><span>เว็บหางาน / ประกาศงาน Platform Engineer</span></div>
-      <div class="ext">
-        <div class="fake"><i style="width:55%;height:16px"></i><i style="width:30%"></i><i style="width:90%;margin-top:14px"></i><i style="width:84%"></i><i style="width:88%"></i><i style="width:60%"></i><i style="width:86%;margin-top:14px"></i><i style="width:78%"></i><i style="width:40%"></i></div>
-        <div class="panel">
-          <div class="hd"><span id="extGhost"></span><div class="bubble">งานนี้เข้ากับคุณดีเลย</div></div>
-          <div class="dhead"><span id="extRing"></span><div><h3>Platform Engineer</h3><div class="sample">Kite Robotics · Remote</div></div></div>
-          <div class="meta"><span class="chip warn" id="extRisk"></span><span class="chip">ลงมา 38 วัน</span></div>
+    <p>กดไอคอนผีน้อยตอนเปิดประกาศงานบนเว็บอื่น หน้าต่างเล็กจะลอยขึ้นมาบอกคะแนนและความเสี่ยง เก็บงานได้ในคลิกเดียว และกรอกฟอร์มสมัครให้โดยคุณเป็นคนกดส่ง</p>
+    <div class="win">
+      <div class="site">
+        <div class="fake"><i style="width:55%;height:16px"></i><i style="width:30%"></i><i style="width:90%;margin-top:14px"></i><i style="width:84%"></i><i style="width:88%"></i><i style="width:60%"></i><i style="width:86%;margin-top:14px"></i><i style="width:78%"></i><i style="width:82%"></i><i style="width:40%"></i></div>
+        <div class="pop">
+          <div class="hd"><span id="popGhost"></span><div><h3>Platform Engineer</h3><div class="note">Kite Robotics, Remote</div></div><span style="margin-left:auto" id="popRing"></span></div>
+          <div class="seg"><span class="chip warn" id="popRisk"></span><span class="chip">ลงมา 38 วัน</span></div>
+          <div class="note" style="color:var(--ink);font-size:13px">ตรงกับคุณ 5 ข้อ ขาด 1 ข้อคือ Kubernetes ระดับ production</div>
           <span class="btn">เก็บเข้า list</span>
-          <span class="btn ghosty">ให้ผีน้อยกรอกฟอร์มสมัคร</span>
-          <span class="fine">ผีน้อยอ่านหน้านี้เมื่อคุณเปิดแผงเท่านั้น และไม่กดส่งใบสมัครแทนคุณ</span>
+          <span class="btn quiet">ให้ผีน้อยกรอกฟอร์มสมัคร</span>
+          <span class="note">ผีน้อยอ่านหน้านี้เมื่อคุณเปิดหน้าต่างนี้เท่านั้น และไม่กดส่งใบสมัครแทนคุณ</span>
         </div>
       </div>
     </div>
@@ -266,131 +295,159 @@ details ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
 
   <section class="sec">
     <h2>บนมือถือ</h2>
-    <p>ซ้ายคือหน้าต้อนรับครั้งแรก ถามความต้องการก่อนแล้วค่อยขอ resume ขวาคือรายการงาน ผีน้อยย่อเป็นปุ่มมุมขวาล่างพร้อมจุดแจ้งเตือน</p>
+    <p>ซ้ายคือครั้งแรกที่เปิดแอป ผีน้อยถามความต้องการก่อนแล้วค่อยขอ resume ขวาคือรายการงานประจำวัน</p>
     <div class="phones">
       <div class="phone">
-        <div class="center"><div class="bubble down">สวัสดี เราชื่อผีน้อย จะช่วยคุณหางานเอง ขอถามสองสามข้อก่อนนะ</div><span id="helloGhost"></span></div>
-        <h3>อยากทำงานแบบไหน</h3>
-        <div class="pick"><span class="chip on">Remote ต่างประเทศ</span><span class="chip on">ในไทย</span><span class="chip">Hybrid</span></div>
-        <h3>สายงาน</h3>
-        <div class="pick"><span class="chip on">Backend</span><span class="chip">Frontend</span><span class="chip on">Full-stack</span><span class="chip">Data</span><span class="chip">DevOps</span><span class="chip">Mobile</span></div>
-        <div class="drop">แตะเพื่ออัปโหลด resume (PDF หรือ DOCX)</div>
-        <span class="fine">Resume ของคุณจะถูกส่งให้ AI วิเคราะห์เพื่อสร้าง profile อ่านนโยบายความเป็นส่วนตัว</span>
+        <div class="hello"><div class="say">สวัสดี เราชื่อผีน้อย ขอถามสองข้อก่อนเริ่มหางานให้นะ</div><span id="helloGhost"></span></div>
+        <h3 class="q">อยากทำงานแบบไหน</h3>
+        <div class="seg"><span class="on">Remote ต่างประเทศ</span><span class="on">ในไทย</span><span>Hybrid</span></div>
+        <h3 class="q">สายงาน</h3>
+        <div class="seg"><span class="on">Backend</span><span>Frontend</span><span class="on">Full-stack</span><span>Data</span><span>DevOps</span><span>Mobile</span></div>
+        <div class="drop">แตะเพื่ออัปโหลด resume เป็น PDF หรือ DOCX</div>
+        <span class="note">Resume ของคุณจะถูกส่งให้ AI วิเคราะห์เพื่อสร้าง profile อ่านนโยบายความเป็นส่วนตัว</span>
         <span class="btn">ไปต่อ</span>
       </div>
       <div class="phone">
-        <h3>งานแนะนำวันนี้</h3>
-        <div class="pick"><span class="chip on">ทั้งหมด</span><span class="chip">Remote</span><span class="chip">ในไทย</span><span class="chip">คะแนน 80+</span></div>
-        <div class="jobs" id="phoneJobs"></div>
-        <div class="fab"><div class="bubble">มี 1 งานควรตามผล</div><div class="circle" id="fabGhost"></div></div>
+        <div class="ttl"><span class="plus"><svg class="ic" viewBox="0 0 16 16"><path d="M8 3.5v9M3.5 8h9"/></svg></span><h2>งานแนะนำ</h2></div>
+        <div class="seg"><span class="on">วันนี้ 4</span><span>Remote</span><span>ในไทย</span></div>
+        <div class="rows" id="phoneRows"></div>
+        <div class="float"><div class="pill"><span id="phoneGhost"></span>มี 1 งานควรตามผล</div></div>
       </div>
     </div>
   </section>
 </div>
 
 <script>
-// ---- ghost: one function, used everywhere ----
-const EYES = {
-  open:'<ellipse class="ink eye" cx="46" cy="56" rx="5" ry="7"/><ellipse class="ink eye" cx="74" cy="56" rx="5" ry="7"/><circle cx="47.5" cy="53" r="1.6" fill="#fff"/><circle cx="75.5" cy="53" r="1.6" fill="#fff"/>',
-  big:'<ellipse class="ink" cx="45" cy="55" rx="7" ry="9"/><ellipse class="ink" cx="75" cy="55" rx="7" ry="9"/><circle cx="47" cy="51" r="2.2" fill="#fff"/><circle cx="77" cy="51" r="2.2" fill="#fff"/>',
-  arc:'<path class="inkline" d="M40 58 Q46 50 52 58"/><path class="inkline" d="M68 58 Q74 50 80 58"/>',
-  closed:'<path class="inkline" d="M40 57 Q46 61 52 57"/><path class="inkline" d="M68 57 Q74 61 80 57"/>',
-  sad:'<ellipse class="ink" cx="46" cy="58" rx="4.5" ry="6"/><ellipse class="ink" cx="74" cy="58" rx="4.5" ry="6"/><path class="inkline" d="M39 49 L51 46"/><path class="inkline" d="M81 49 L69 46"/>'
+// ---------- ghost: one function, used on every screen ----------
+let gid=0;
+const EYES={
+  open:'<g class="eye"><circle class="ink" cx="74" cy="104" r="9.5"/><circle cx="71" cy="100" r="3.4" fill="#fff"/><circle cx="77.5" cy="108" r="1.6" fill="#fff"/></g><g class="eye"><circle class="ink" cx="126" cy="104" r="9.5"/><circle cx="123" cy="100" r="3.4" fill="#fff"/><circle cx="129.5" cy="108" r="1.6" fill="#fff"/></g>',
+  arc:'<path class="line" d="M64 107 Q74 94 84 107"/><path class="line" d="M116 107 Q126 94 136 107"/>',
+  closed:'<path class="line" d="M64 103 Q74 111 84 103"/><path class="line" d="M116 103 Q126 111 136 103"/>',
+  big:'<circle cx="74" cy="102" r="13" fill="#fff" stroke="#2B2E5A" stroke-width="3.5"/><circle class="ink" cx="74" cy="102" r="4.5"/><circle cx="126" cy="102" r="13" fill="#fff" stroke="#2B2E5A" stroke-width="3.5"/><circle class="ink" cx="126" cy="102" r="4.5"/>',
+  sad:'<circle class="ink" cx="74" cy="108" r="8.5"/><circle cx="71" cy="104.500" r="3.6" fill="#fff"/><circle cx="77" cy="111" r="2" fill="#fff"/><circle class="ink" cx="126" cy="108" r="8.5"/><circle cx="123" cy="104.500" r="3.6" fill="#fff"/><circle cx="129" cy="111" r="2" fill="#fff"/><path class="line" d="M62 93 L82 88"/><path class="line" d="M138 93 L118 88"/>'
 };
-const MOUTH = {
-  smile:'<path class="inkline" d="M54 68 Q60 74 66 68"/>',
-  open:'<path class="ink" d="M53 67 Q60 80 67 67 Z"/>',
-  o:'<ellipse class="ink" cx="60" cy="72" rx="4.5" ry="6"/>',
-  frown:'<path class="inkline" d="M54 73 Q60 67 66 73"/>',
-  flat:'<path class="inkline" d="M55 70 L65 70"/>'
+const MOUTH={
+  w:'<path class="line" d="M90 116 Q95 123 100 116 Q105 123 110 116" style="stroke-width:3.4"/>',
+  open:'<path class="ink" d="M89 114 Q100 135 111 114 Z"/><ellipse cx="100" cy="123.500" rx="5" ry="3" fill="var(--blush)"/>',
+  o:'<ellipse class="ink" cx="100" cy="124" rx="6" ry="8"/>',
+  frown:'<path class="line" d="M91 125 Q100 117 109 125" style="stroke-width:3.4"/>',
+  flat:'<path class="line" d="M94 119 L106 119" style="stroke-width:3.4"/>'
 };
-const ARMS = { // [left cx,cy, right cx,cy]
-  down:[19,76,101,76], wave:[19,76,104,54], up:[22,22,98,22], hold:[19,76,100,72], cheeks:[30,74,90,74]
+// arm = [x, y, rotation]; "front" draws the arms over the body
+const POSE={
+  down:{l:[35,134,-42],r:[165,134,42]},
+  wave:{l:[35,134,-42],r:[168,94,-58]},
+  up:{l:[40,62,58],r:[160,62,-58]},
+  hold:{l:[35,134,-42],r:[170,118,-12]},
+  cheeks:{l:[72,136,24],r:[128,136,-24],front:true}
 };
-const PROPS = {
-  searching:'<circle class="prop" cx="108" cy="56" r="10" fill="var(--surface-2)"/><path class="prop" d="M115 64 L123 76"/>',
-  thinking:'<g><circle class="ink dot" cx="92" cy="14" r="3.2" style="fill:var(--ink)"/><circle class="ink dot" cx="103" cy="8" r="3.2" style="fill:var(--ink)"/><circle class="ink dot" cx="114" cy="2" r="3.2" style="fill:var(--ink)"/></g>',
-  happy:'<path class="moonfill" d="M8 28 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z"/><path class="moonfill" d="M110 14 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>',
-  celebrate:'<g><rect class="conf anim" x="6" y="-6" width="6" height="6" fill="var(--moon)"/><rect class="conf anim" x="30" y="-14" width="5" height="5" fill="var(--cheek)"/><rect class="conf anim" x="58" y="-18" width="6" height="6" fill="var(--primary)"/><rect class="conf anim" x="86" y="-12" width="5" height="5" fill="var(--good)"/><rect class="conf anim" x="110" y="-4" width="6" height="6" fill="var(--moon)"/><rect class="conf anim" x="18" y="6" width="5" height="5" fill="var(--primary)"/><rect class="conf anim" x="100" y="8" width="5" height="5" fill="var(--cheek)"/></g>',
-  spooked:'<text class="txt" x="104" y="26" font-size="26" style="fill:var(--risk)">!</text><path class="prop" d="M6 46 L0 42 M6 58 L-2 58 M6 70 L0 74"/>',
-  sad:'<ellipse class="tear anim" cx="40" cy="68" rx="2.6" ry="4" fill="var(--primary)"/>',
-  cheer:'<rect x="20" y="-18" width="80" height="26" rx="7" class="moonfill"/><text class="txt" x="60" y="1" font-size="15" text-anchor="middle" style="fill:var(--moon-ink)">สู้ ๆ นะ</text><path class="prop" d="M24 8 L23 18 M96 8 L97 18"/>',
-  sleepy:'<text class="txt z anim" x="92" y="24" font-size="14">z</text><text class="txt z z2 anim" x="102" y="12" font-size="19">Z</text>'
+const star=(x,y,s,c)=>`<path fill="${c}" d="M${x} ${y-s} l${s*.3} ${s*.7} ${s*.7} ${s*.3} -${s*.7} ${s*.3} -${s*.3} ${s*.7} -${s*.3} -${s*.7} -${s*.7} -${s*.3} ${s*.7} -${s*.3}z"/>`;
+const PROPS={
+  searching:'<circle class="prop" cx="192" cy="84" r="15" fill="var(--blue-wash)"/><path class="prop" d="M183 97 L174 112" style="stroke-width:5"/>',
+  thinking:'<g><circle class="dot" cx="158" cy="32" r="4" fill="var(--ink)"/><circle class="dot" cx="174" cy="19" r="5.5" fill="var(--ink)"/><circle class="dot" cx="194" cy="3" r="7" fill="var(--ink)"/></g>',
+  happy:star(18,60,11,'var(--sun)')+star(186,42,8,'var(--sun)')+star(182,156,6,'var(--blush)'),
+  celebrate:'<path d="M82 34 L112 -10 L122 38 Z" fill="var(--blue)" stroke="var(--ghost-edge)" stroke-width="2.5" stroke-linejoin="round"/><path d="M91 21 L118 22 M99 8 L115 9" stroke="var(--sun)" stroke-width="4" stroke-linecap="round"/><circle cx="112" cy="-12" r="7" fill="var(--blush)"/><g><rect class="conf a" x="6" y="-20" width="9" height="9" fill="var(--sun)"/><rect class="conf a" x="40" y="-34" width="8" height="8" fill="var(--blush)"/><rect class="conf a" x="150" y="-30" width="9" height="9" fill="var(--good)"/><rect class="conf a" x="186" y="-14" width="9" height="9" fill="var(--sun)"/><rect class="conf a" x="24" y="10" width="8" height="8" fill="var(--blue)"/><rect class="conf a" x="172" y="12" width="8" height="8" fill="var(--blush)"/><rect class="conf a" x="-6" y="40" width="8" height="8" fill="var(--good)"/></g>',
+  spooked:'<text class="t" x="174" y="46" font-size="44" fill="var(--risk)">!</text><path class="prop" d="M18 84 L4 78 M16 102 L0 102 M18 120 L4 126"/><path d="M150 50 q6 10 0 14 q-6 -4 0 -14z" fill="var(--blue)" opacity=".7"/>',
+  sad:'<path class="tear a" d="M62 118 q7 12 0 17 q-7 -5 0 -17z" fill="var(--blue)"/>',
+  cheer:'<rect x="34" y="-36" width="132" height="42" rx="12" fill="var(--sun)" stroke="var(--ghost-edge)" stroke-width="2.5"/><text class="t" x="100" y="-7" font-size="24" text-anchor="middle" fill="var(--sun-ink)">สู้ ๆ นะ</text>',
+  sleepy:'<text class="t z a" x="150" y="36" font-size="22" fill="var(--ink)">z</text><text class="t z z2 a" x="168" y="14" font-size="32" fill="var(--ink)">Z</text><circle class="snot a" cx="114" cy="124" r="5" fill="var(--blue-wash)" stroke="var(--blue)" stroke-width="1.5"/>'
 };
-const MOODS = {
-  idle:     {th:'ปกติ',     e:'open',  m:'smile', a:'down',  say:'ผีน้อยอยู่ตรงนี้นะ',                 when:'สถานะปกติ ลอยขึ้นลงช้า ๆ และกะพริบตา'},
-  wave:     {th:'ทักทาย',   e:'arc',   m:'open',  a:'wave',  say:'สวัสดี! วันนี้หางานกัน',             when:'เปิดแอปครั้งแรกของวัน และหน้าต้อนรับผู้ใช้ใหม่'},
-  searching:{th:'กำลังหา',   e:'open',  m:'smile', a:'hold',  say:'ขอส่องดูงานใหม่แป๊บนะ',              when:'กำลังดึงงานใหม่หรืออ่านประกาศที่เพิ่งเก็บ'},
-  thinking: {th:'กำลังคิด',  e:'open',  m:'flat',  a:'down',  say:'อืม งานนี้เข้ากับคุณแค่ไหนนะ',        when:'AI กำลังให้คะแนนหรือปรับ resume'},
-  happy:    {th:'ดีใจ',     e:'arc',   m:'open',  a:'down',  say:'เจองานที่ใช่แล้ว คะแนน 88!',          when:'เจองานคะแนนสูง หรือเก็บงานเข้า list สำเร็จ'},
-  celebrate:{th:'ฉลอง',     e:'arc',   m:'open',  a:'up',    say:'ได้นัดสัมภาษณ์แล้ว เก่งมาก!',         when:'สถานะเปลี่ยนเป็นสัมภาษณ์ หรือได้ offer'},
-  spooked:  {th:'ตกใจ',     e:'big',   m:'o',     a:'cheeks',say:'งานนี้ดูแปลก ๆ อาจเป็น ghost job',    when:'งานมีความเสี่ยง ghost job ระดับสูง'},
-  sad:      {th:'เศร้า',    e:'sad',   m:'frown', a:'down',  say:'เสียดายจัง งานนี้ไม่ผ่าน',            when:'สถานะเปลี่ยนเป็นไม่ผ่าน'},
-  cheer:    {th:'ให้กำลังใจ',e:'arc',   m:'open',  a:'up',    say:'ยังมีอีก 4 งานที่เข้ากับคุณนะ',       when:'หลังงานไม่ผ่าน และตอนเตือนให้ตามผลการสมัคร'},
-  sleepy:   {th:'ง่วง',     e:'closed',m:'flat',  a:'down',  say:'วันนี้ยังไม่มีงานใหม่ พรุ่งนี้มาดูกัน', when:'ไม่มีงานใหม่ หรือใช้ AI ครบโควตาของวันแล้ว'}
+const MOODS={
+  idle:     {th:'ปกติ',      e:'open',  m:'w',    p:'down',  say:'ผีน้อยอยู่ตรงนี้นะ',                   when:'สถานะปกติ ลอยขึ้นลงช้า ๆ และกะพริบตา'},
+  wave:     {th:'ทักทาย',    e:'arc',   m:'open', p:'wave',  say:'สวัสดี วันนี้หางานกัน',                when:'เปิดแอปครั้งแรกของวัน และหน้าต้อนรับผู้ใช้ใหม่'},
+  searching:{th:'กำลังหา',    e:'open',  m:'w',    p:'hold',  say:'ขอส่องดูงานใหม่แป๊บนะ',                when:'กำลังดึงงานใหม่หรืออ่านประกาศที่เพิ่งเก็บ'},
+  thinking: {th:'กำลังคิด',   e:'open',  m:'flat', p:'down',  say:'งานนี้เข้ากับคุณแค่ไหนนะ',              when:'AI กำลังให้คะแนนหรือปรับ resume'},
+  happy:    {th:'ดีใจ',      e:'arc',   m:'open', p:'down',  say:'เจองานที่ใช่แล้ว คะแนน 88',             when:'เจองานคะแนนสูง หรือเก็บงานเข้า list สำเร็จ'},
+  celebrate:{th:'ฉลอง',      e:'arc',   m:'open', p:'up',    say:'ได้นัดสัมภาษณ์แล้ว เก่งมาก',            when:'สถานะเปลี่ยนเป็นสัมภาษณ์ หรือได้ offer'},
+  spooked:  {th:'ตกใจ',      e:'big',   m:'o',    p:'cheeks',say:'งานนี้ดูแปลก ๆ อาจเป็น ghost job',      when:'งานมีความเสี่ยง ghost job ระดับสูง'},
+  sad:      {th:'เศร้า',     e:'sad',   m:'frown',p:'down',  say:'เสียดายจัง งานนี้ไม่ผ่าน',              when:'สถานะเปลี่ยนเป็นไม่ผ่าน'},
+  cheer:    {th:'ให้กำลังใจ', e:'arc',   m:'open', p:'up',    say:'ยังมีอีก 4 งานที่เข้ากับคุณนะ',         when:'หลังงานไม่ผ่าน และตอนเตือนให้ตามผลการสมัคร'},
+  sleepy:   {th:'ง่วง',      e:'closed',m:'flat', p:'down',  say:'วันนี้ยังไม่มีงานใหม่ พรุ่งนี้มาดูกัน',   when:'ไม่มีงานใหม่ หรือใช้ AI ครบโควตาของวันแล้ว'}
 };
-const BODY='M20 60 C20 30 40 12 60 12 C80 12 100 30 100 60 L100 108 Q93 118 86 108 Q80 98 73 108 Q66 118 60 108 Q54 98 47 108 Q40 118 34 108 Q27 98 20 108 Z';
-function ghost(mood, size){
-  const d=MOODS[mood], a=ARMS[d.a];
-  return `<svg class="ghost g-${mood}" width="${size}" height="${Math.round(size*1.13)}" viewBox="-12 -22 144 162" role="img" aria-label="ผีน้อย: ${d.th}">
-    <ellipse class="shadow" cx="60" cy="130" rx="26" ry="4"/>
+const BODY='M100 22 C142 22 168 56 168 102 C168 126 170 144 180 160 C188 173 180 186 166 182 C154 178 148 170 138 176 C128 182 122 192 108 190 C96 188 92 176 80 176 C68 176 62 190 48 190 C34 190 24 178 28 162 C32 146 32 126 32 102 C32 56 58 22 100 22 Z';
+function ghost(mood,size){
+  const d=MOODS[mood], p=POSE[d.p], id='gg'+(gid++);
+  const arm=(a,side)=>`<g transform="translate(${a[0]} ${a[1]}) rotate(${a[2]})"><ellipse class="arm ${side} edge" rx="15" ry="10.5" fill="#fff"/></g>`;
+  const arms=arm(p.l,'l')+arm(p.r,'r');
+  return `<svg class="ghost g-${mood}" width="${size}" height="${Math.round(size*1.15)}" viewBox="-24 -44 248 286" role="img" aria-label="ผีน้อย ${d.th}">
+    <defs><radialGradient id="${id}" cx="38%" cy="26%" r="85%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#F7F7FF"/><stop offset="1" stop-color="#D8DBFA"/></radialGradient></defs>
+    <ellipse class="shadow" cx="102" cy="216" rx="46" ry="6"/>
     <g class="gb">
-      <ellipse class="arm l" cx="${a[0]}" cy="${a[1]}" rx="8" ry="6"/>
-      <path class="body" d="${BODY}"/>
-      <ellipse class="cheek" cx="35" cy="68" rx="6" ry="3.5"/><ellipse class="cheek" cx="85" cy="68" rx="6" ry="3.5"/>
+      ${p.front?'':arms}
+      <path class="edge" d="M98 26 C94 10 106 0 118 8 C109 9 106 17 108 26 Z" fill="#fff"/>
+      <path class="edge" d="${BODY}" fill="url(#${id})"/>
+      <ellipse class="blush" cx="56" cy="120" rx="11" ry="6.500"/><ellipse class="blush" cx="144" cy="120" rx="11" ry="6.500"/>
       ${EYES[d.e]}${MOUTH[d.m]}
       ${PROPS[mood]||''}
-      <ellipse class="arm r" cx="${a[2]}" cy="${a[3]}" rx="8" ry="6"/>
+      ${p.front?arms:''}
     </g></svg>`;
 }
-const GLYPH=`<svg viewBox="0 0 22 24" aria-hidden="true"><path d="M2 11 C2 5 6 1 11 1 C16 1 20 5 20 11 L20 22 Q17.7 24 15.5 22 Q13.3 20 11 22 Q8.7 24 6.5 22 Q4.3 20 2 22 Z"/></svg>`;
+const GLYPH='<svg viewBox="0 0 22 24" aria-hidden="true"><path d="M2 11 C2 5 6 1 11 1 C16 1 20 5 20 11 L20 22 Q17.7 24 15.5 22 Q13.3 20 11 22 Q8.7 24 6.500 22 Q4.300 20 2 22 Z"/></svg>';
 
-// ---- score ring ----
+// ---------- score ring ----------
 function ring(score,size){
-  const r=size/2-4, c=2*Math.PI*r, cls=score>=80?'hi':score>=65?'mid':'lo';
+  const r=size/2-3, c=2*Math.PI*r, cls=score>=80?'hi':score>=65?'mid':'lo';
   return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="คะแนน ${score} จาก 100">
-    <circle class="track" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="5"/>
-    <circle class="${cls}" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="5" stroke-linecap="round"
-      stroke-dasharray="${c*score/100} ${c}" transform="rotate(-90 ${size/2} ${size/2})"/>
-    <text x="50%" y="50%" dy=".35em" text-anchor="middle" font-size="${size*.34}">${score}</text></svg>`;
+    <circle class="track" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="3.5"/>
+    <circle class="${cls}" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="${c*score/100} ${c}" transform="rotate(-90 ${size/2} ${size/2})"/>
+    <text x="50%" y="50%" dy=".36em" text-anchor="middle" font-size="${Math.max(10,size*.36)}">${score}</text></svg>`;
 }
 const RISK={low:['good','ต่ำ'],mid:['warn','กลาง'],high:['risk','สูง']};
 const riskChip=k=>`${GLYPH}ghost ${RISK[k][1]}`;
 
-// ---- example jobs (fictional) ----
+// ---------- example jobs (fictional) ----------
 const JOBS=[
-  {t:'Senior Backend Engineer',c:'Lumen Pay',l:'Remote (APAC)',pay:'$4,500–6,000/เดือน',age:'ลงมา 4 วัน',src:'หน้า careers ของบริษัท',s:88,r:'low'},
-  {t:'Platform Engineer',c:'Kite Robotics',l:'Remote',pay:'$4,000–5,200/เดือน',age:'ลงมา 38 วัน',src:'RemoteOK',s:81,r:'mid'},
-  {t:'Full-stack Developer',c:'Baan Cloud',l:'กรุงเทพ (Hybrid)',pay:'฿70,000–95,000/เดือน',age:'ลงมา 92 วัน · ลงซ้ำ 3 รอบ',src:'เก็บผ่าน extension',s:74,r:'high'},
-  {t:'Frontend Engineer (React)',c:'Sukhumvit Digital',l:'กรุงเทพ',pay:'฿60,000–80,000/เดือน',age:'ลงมา 2 วัน',src:'หน้า careers ของบริษัท',s:69,r:'low'}
+  {t:'Senior Backend Engineer',c:'Lumen Pay, Remote (APAC)',pay:'$4,500–6,000',age:'4 วัน',s:88,r:'low'},
+  {t:'Platform Engineer',c:'Kite Robotics, Remote',pay:'$4,000–5,200',age:'38 วัน',s:81,r:'mid'},
+  {t:'Full-stack Developer',c:'Baan Cloud, กรุงเทพ',pay:'฿70,000–95,000',age:'92 วัน ลงซ้ำ 3 รอบ',s:74,r:'high'},
+  {t:'Frontend Engineer (React)',c:'Sukhumvit Digital, กรุงเทพ',pay:'฿60,000–80,000',age:'2 วัน',s:69,r:'low'}
 ];
-const jobCard=(j,compact)=>`<div class="job">
-  <div class="lg">${j.c[0]}</div>
-  <div><h3>${j.t}</h3><div class="co">${j.c} · ${j.l}</div>
-    <div class="meta"><span class="chip">${j.pay}</span><span class="chip">${j.age}</span>${compact?'':`<span class="chip">${j.src}</span>`}<span class="chip ${RISK[j.r][0]}">${riskChip(j.r)}</span></div></div>
-  <div class="ringbox">${ring(j.s,compact?44:50)}<span>เข้ากับคุณ</span></div></div>`;
-
+const row=j=>`<div class="row">${ring(j.s,30)}<div class="nm"><b>${j.t}</b><span>${j.c}</span></div>
+  <div class="tags"><span class="chip">${j.pay}</span><span class="chip">ลงมา ${j.age}</span><span class="chip ${RISK[j.r][0]}">${riskChip(j.r)}</span></div></div>`;
+const CHECK='<svg viewBox="0 0 10 10"><path d="M2 5.200 4.200 7.400 8 3"/></svg>';
 const $=id=>document.getElementById(id);
-$('deskJobs').innerHTML=JOBS.map(j=>jobCard(j,false)).join('');
-$('phoneJobs').innerHTML=JOBS.slice(0,3).map(j=>jobCard(j,true)).join('');
-$('logoGhost').innerHTML=ghost('idle',26);
-$('greetGhost').innerHTML=ghost('happy',64);
-$('riskGhost').innerHTML=ghost('spooked',58);
-$('extGhost').innerHTML=ghost('happy',46);
-$('helloGhost').innerHTML=ghost('wave',120);
-$('fabGhost').innerHTML=ghost('cheer',40);
-$('bigRing').innerHTML=ring(74,76);
-$('extRing').innerHTML=ring(81,52);
-$('extRisk').innerHTML=riskChip('mid');
+$('deskRows').innerHTML=JOBS.map(row).join('');
+$('phoneRows').innerHTML=JOBS.slice(0,3).map(row).join('');
+$('yes').innerHTML=['ใช้ TypeScript และ React มา 5 ปี ตรงกับที่ประกาศต้องการ','เคยดูแลระบบบน AWS','เงินเดือนอยู่ในช่วงที่คุณตั้งไว้','ทำงานแบบ hybrid ได้ตามที่คุณเลือก'].map(t=>`<li><span class="mk yes">${CHECK}</span>${t}</li>`).join('');
+$('no').innerHTML=['ประกาศต้องการ Go ซึ่งไม่มีใน resume ของคุณ','ต้องการประสบการณ์นำทีม 2 ปี คุณมี 1 ปี'].map(t=>`<li><span class="mk no"></span>${t}</li>`).join('');
+$('sideGhost').innerHTML=ghost('idle',24);
+$('pillGhost').innerHTML=ghost('happy',30);
+$('phoneGhost').innerHTML=ghost('cheer',30);
+$('alertGhost').innerHTML=ghost('spooked',84);
+$('popGhost').innerHTML=ghost('happy',46);
+$('helloGhost').innerHTML=ghost('wave',150);
+$('docRing').innerHTML=ring(74,60);
+$('popRing').innerHTML=ring(81,40);
+$('popRisk').innerHTML=riskChip('mid');
 
-// ---- mood switcher ----
+// ---------- mood switcher ----------
 function setMood(m){
-  $('bigGhost').innerHTML=ghost(m,190);
+  $('bigGhost').innerHTML=ghost(m,230);
   $('say').textContent=MOODS[m].say;
-  $('when').innerHTML=`<b>ใช้เมื่อ:</b> ${MOODS[m].when}`;
+  $('when').innerHTML=`<b>ใช้เมื่อ</b> ${MOODS[m].when}`;
   document.querySelectorAll('#moods button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
 }
 $('moods').innerHTML=Object.entries(MOODS).map(([k,v])=>`<button type="button" id="mood-${k}" data-m="${k}" aria-pressed="false">${v.th}</button>`).join('');
 $('moods').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) setMood(b.dataset.m);});
 setMood('happy');
+
+// ---------- status change makes the ghost react ----------
+const STATUS=[
+  ['เจอแล้ว','spooked','งานนี้ดูแปลก ๆ ดูสัญญาณในเอกสารก่อนนะ'],
+  ['สนใจ','happy','เก็บไว้ให้แล้ว เดี๋ยวช่วยเตรียม resume'],
+  ['เตรียมสมัคร','thinking','กำลังปรับ resume ให้ตรงกับงานนี้'],
+  ['สมัครแล้ว','wave','ส่งแล้ว อีก 7 วันจะเตือนให้ตามผล'],
+  ['สัมภาษณ์','celebrate','ได้นัดสัมภาษณ์แล้ว เก่งมาก'],
+  ['ได้ offer','celebrate','ยินดีด้วย ได้ offer แล้ว'],
+  ['ไม่ผ่าน','cheer','ไม่เป็นไรนะ ยังมีอีก 4 งานที่เข้ากับคุณ']
+];
+function setStatus(i){
+  $('reactGhost').innerHTML=ghost(STATUS[i][1],110);
+  $('reactSay').textContent=STATUS[i][2];
+  document.querySelectorAll('#status button').forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+}
+$('status').innerHTML=STATUS.map((s,i)=>`<button type="button" id="status-${i}" data-i="${i}" aria-pressed="false"><i></i>${s[0]}</button>`).join('');
+$('status').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) setStatus(+b.dataset.i);});
+setStatus(0);
 </script>
