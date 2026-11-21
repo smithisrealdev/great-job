@@ -1,4 +1,5 @@
 'use server';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { AiError } from '@/lib/ai/client';
 import { parseJobPosting } from '@/lib/ai/parseJob';
@@ -8,6 +9,8 @@ import { consumeQuota } from '@/lib/db/quota';
 import { evaluateForUser, reuseSharedJob, upsertJob } from '@/lib/db/ingest';
 import { createServerSupabase } from '@/lib/db/server';
 import { fetchOne, postingId } from '@/lib/sources';
+import { STATUSES } from '@/lib/statuses';
+import type { Status } from '@/lib/types';
 
 const MAX_CHARS = 30_000;
 export type AddJobResult = { ok: true; jobId: string } | { ok: false; reason: 'empty' | 'not_a_job' | 'unsupported_url' | 'fetch_failed' | 'ai_failed' | 'quota' | 'db_failed' };
@@ -62,4 +65,26 @@ export async function addJobFromUrl(url: string): Promise<AddJobResult> {
   try { raw = await fetchOne(found.ats, found.token, url); } catch { raw = null; }
   if (!raw) return { ok: false, reason: 'fetch_failed' };
   try { return await track(uid, (await upsertJob(raw, null, null)).id); } catch { return { ok: false, reason: 'db_failed' }; }
+}
+
+export type SetStatusResult = { ok: true } | { ok: false; reason: 'invalid' | 'not_found' | 'db_failed' };
+
+export async function setStatus(jobId: string, status: Status): Promise<SetStatusResult> {
+  const uid = await userId();
+  const parsed = z.object({ jobId: z.string().min(1).max(64), status: z.enum(STATUSES as [Status, ...Status[]]) }).safeParse({ jobId, status });
+  if (!parsed.success) return { ok: false, reason: 'invalid' };
+  const db = await createServerSupabase();
+  const { data: job } = await db.from('jobs').select('id').eq('id', jobId).maybeSingle(); // RLS hides jobs the user cannot see
+  if (!job) return { ok: false, reason: 'not_found' };
+  const { error } = await db.from('applications')
+    .upsert({ user_id: uid, job_id: jobId, status, status_changed_at: new Date().toISOString() }, { onConflict: 'user_id,job_id' });
+  if (error) return { ok: false, reason: 'db_failed' };
+  revalidatePath('/[locale]/jobs', 'layout');
+  return { ok: true };
+}
+
+export async function retryEvaluation(jobId: string): Promise<'done' | 'quota' | 'failed'> {
+  const result = await evaluateForUser(z.string().min(1).max(64).parse(jobId), 'evaluate_manual');
+  revalidatePath('/[locale]/jobs', 'layout');
+  return result;
 }

@@ -36,6 +36,10 @@ test('RemoteOK row carries a followed link to the source and its name', () => {
   expect(a.getAttribute('href')).toBe('https://remoteok.com/remote-jobs/1');
   expect(a.getAttribute('rel') ?? '').not.toContain('nofollow');
 });
+test('a non-https source url is not rendered as a link', () => {
+  const { queryByRole } = draw(<JobRow job={{ ...jobPosted(2), source: 'remoteok', url: 'javascript:alert(1)' }} evaluation={null} status="found" />);
+  expect(queryByRole('link', { name: /Remote OK/ })).toBeNull();
+});
 test('job with unknown posted date shows no age chip', () => {
   const { queryByText } = draw(<JobRow job={{ ...jobPosted(2), posted_at: null }} evaluation={null} status="found" />);
   expect(queryByText(/ลงมา|posted/i)).toBeNull();

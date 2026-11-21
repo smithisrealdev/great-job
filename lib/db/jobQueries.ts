@@ -1,11 +1,12 @@
 import { createServerSupabase } from '@/lib/db/server';
 import type { JobRowEvaluation, JobRowJob } from '@/components/JobRow';
-import type { Status } from '@/lib/types';
+import { STATUSES } from '@/lib/statuses';
+import type { GhostSignal, Status } from '@/lib/types';
 
 export type Tab = 'recommended' | 'active' | 'all';
 export interface Row { job: JobRowJob; evaluation: (JobRowEvaluation & { score: number | null }) | null; status: Status }
 
-export const STATUSES: Status[] = ['found', 'interested', 'preparing', 'applied', 'interview', 'offer', 'rejected', 'withdrawn'];
+export { STATUSES };
 const ACTIVE: Status[] = ['interested', 'preparing', 'applied', 'interview'];
 const STALE_DAYS = 7;
 const JOB_COLS = 'id, title, company_name, location, remote, salary_text, posted_at, source, url';
@@ -66,4 +67,31 @@ export async function getNavCounts() {
 
 export async function getStatusCounts(): Promise<Record<Status, number>> {
   return (await getNavCounts()).status;
+}
+
+export interface JobDetail {
+  job: JobRowJob & { description: string | null };
+  evaluation: { score: number | null; matches: string[]; gaps: string[]; notes: string[]; ghost_level: JobRowEvaluation['ghost_level']; ghost_signals: GhostSignal[]; error: string | null } | null;
+  status: Status;
+}
+
+const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : []);
+
+// null when the job is not visible to the signed-in user (RLS) or nobody is signed in.
+export async function getJobDetail(jobId: string): Promise<JobDetail | null> {
+  const db = await createServerSupabase();
+  const { data: { user } } = await db.auth.getUser();
+  if (!user) return null;
+  const { data: job } = await db.from('jobs').select(`${JOB_COLS}, description`).eq('id', jobId).maybeSingle();
+  if (!job) return null;
+  const [app, evl] = await Promise.all([
+    db.from('applications').select('status').eq('user_id', user.id).eq('job_id', jobId).maybeSingle(),
+    db.from('evaluations').select('score, matches, gaps, notes, ghost_level, ghost_signals, error').eq('user_id', user.id).eq('job_id', jobId).maybeSingle(),
+  ]);
+  const e = evl.data;
+  return {
+    job: job as JobDetail['job'],
+    status: (app.data?.status as Status | undefined) ?? 'found',
+    evaluation: e && { score: e.score, matches: strings(e.matches), gaps: strings(e.gaps), notes: strings(e.notes), ghost_level: e.ghost_level, ghost_signals: strings(e.ghost_signals) as GhostSignal[], error: e.error },
+  };
 }

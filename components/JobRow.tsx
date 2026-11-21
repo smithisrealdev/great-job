@@ -6,6 +6,7 @@ import { Ghost } from '@/components/ghost/Ghost';
 import { RiskChip } from '@/components/RiskChip';
 import { ScoreRing } from '@/components/ScoreRing';
 import { moodForJob } from '@/lib/core/mood';
+import { safeHttps } from '@/lib/safeUrl';
 import type { GhostLevel, Source, Status } from '@/lib/types';
 
 export interface JobRowJob {
@@ -44,8 +45,8 @@ export function JobRow({ job, evaluation, onRetry = () => {} }: {
         {score === null && evaluation && (
           <button type="button" className="chip" onClick={(e) => { e.stopPropagation(); onRetry(job.id); }}>{t('retry')}</button>
         )}
-        {job.source === 'remoteok' && job.url && (
-          <a className="chip" href={job.url} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>{t('source.remoteok')}</a>
+        {job.source === 'remoteok' && safeHttps(job.url) && (
+          <a className="chip" href={safeHttps(job.url)!} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>{t('source.remoteok')}</a>
         )}
       </div>
     </div>

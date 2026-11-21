@@ -24,7 +24,15 @@
       "cheer": "There are 4 more jobs that fit you",
       "sleepy": "No new jobs today, see you tomorrow"
     },
-    "cheerBanner": "You got this"
+    "cheerBanner": "You got this",
+    "signal": {
+      "age_30": "This posting has been up for {days} days",
+      "age_60": "This posting has been up for {days} days",
+      "reposted": "This posting was reposted several times",
+      "missing_from_careers": "This role is not on the company's careers page",
+      "vague_description": "The description is vague and names no team",
+      "evergreen": "This looks like an always-open posting, not a real vacancy"
+    }
   },
   "home": {
     "login": "Go to login"
@@ -150,7 +158,17 @@
     "interview": "Interview",
     "offer": "Offer",
     "rejected": "Rejected",
-    "withdrawn": "Withdrawn"
+    "withdrawn": "Withdrawn",
+    "say": {
+      "found": "Not decided yet, have a look at the document first",
+      "interested": "Saved it for you, I can help prepare your résumé next",
+      "preparing": "Tailoring your résumé to this job",
+      "applied": "Sent. I will remind you to follow up in 7 days",
+      "interview": "An interview is booked, nice work",
+      "offer": "Congratulations, you got an offer",
+      "rejected": "That's okay, there are more jobs that fit you",
+      "withdrawn": "That's fine, pick what suits you best"
+    }
   },
   "jobs": {
     "title": {
@@ -179,5 +197,24 @@
     "pillFollowUp": "{count} jobs to follow up",
     "pillIdle": "Little Ghost",
     "unscored": "No score yet"
+  },
+  "detail": {
+    "yes": "Matches you",
+    "no": "Still missing",
+    "info": "Good to know",
+    "match": "Fits you {score} out of 100",
+    "ghostTitle": {
+      "mid": "Medium ghost job risk",
+      "high": "High ghost job risk"
+    },
+    "ghostNote": "Little Ghost is guessing from these signals and may be wrong",
+    "open": "Open original posting",
+    "openSource": "Open posting on Remote OK",
+    "noResume": "There is no résumé for Little Ghost to score against yet",
+    "uploadResume": "Upload your résumé",
+    "scoreFailed": "Little Ghost could not score this job",
+    "quota": "You have used all of today's scoring, try again tomorrow",
+    "retryFailed": "Still could not score it, you can try again",
+    "statusFailed": "Could not change the status, please try again"
   }
 }

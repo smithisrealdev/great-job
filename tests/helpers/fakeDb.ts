@@ -9,6 +9,7 @@ const state = {
   signedIn: true,
   rpcResult: true as unknown,
   nextId: 0,
+  hidden: new Set<string>(),
   failures: [] as { table: string; error: { code?: string; message: string }; onFail?: () => void }[],
 };
 
@@ -22,7 +23,7 @@ function builder(table: string) {
   let op: 'select' | 'insert' | 'update' | 'upsert' | 'delete' = 'select';
   let values: Row = {};
   const filters: ((r: Row) => boolean)[] = [];
-  const match = () => rows(table).filter((r) => filters.every((f) => f(r)));
+  const match = () => rows(table).filter((r) => filters.every((f) => f(r)) && !(table === 'jobs' && state.hidden.has(r.id as string)));
   const run = (): Row[] | { error: { code?: string; message: string } } => {
     if (op !== 'select') {
       const i = state.failures.findIndex((f) => f.table === table);
@@ -67,6 +68,8 @@ export const db = {
   /** The next write (insert/update/upsert/delete) on `table` fails with `error`; `onFail` simulates a concurrent writer. */
   failNext: (table: string, error: { code?: string; message: string }, onFail?: () => void) => { state.failures.push({ table, error, onFail }); },
   seedJob: (row: Row) => { rows('jobs').push({ owner_id: null, title: 'Job', company_name: 'Co', ...row }); },
+  /** Simulates RLS hiding a job from the signed-in user. */
+  hideJob: (id: string) => { state.hidden.add(id); },
   seed: (table: string, r: Row[]) => { state.tables[table] = r.map((x) => ({ ...x })); },
   signOut: () => { state.signedIn = false; },
   inserts: (t: string) => logged('insert', t),
@@ -75,5 +78,5 @@ export const db = {
   deletes: (t: string) => logged('delete', t),
   uploads: () => state.files,
   count: (t: string) => rows(t).length,
-  reset: () => { state.tables = {}; state.log = []; state.files = []; state.signedIn = true; state.rpcResult = true; state.nextId = 0; state.failures = []; },
+  reset: () => { state.tables = {}; state.log = []; state.files = []; state.signedIn = true; state.rpcResult = true; state.nextId = 0; state.failures = []; state.hidden = new Set(); },
 };
