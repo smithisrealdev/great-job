@@ -123,7 +123,9 @@
       "unsupported_url": "We can only read links from Greenhouse, Lever and Ashby. For other sites, copy the posting text and paste it in the box below.",
       "fetch_failed": "We could not fetch that posting. It may be closed, or the site is not answering. Paste the text instead.",
       "ai_failed": "The AI could not read that posting. Please try again.",
-      "failed": "Adding the job did not work. Please try again."
+      "failed": "Adding the job did not work. Please try again.",
+      "quota": "You have used today's job readings. Try again tomorrow.",
+      "db_failed": "Saving the job did not work. Please try again."
     }
   }
 }

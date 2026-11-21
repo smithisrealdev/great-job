@@ -184,3 +184,30 @@ test('fetchJson refuses hosts outside the allowlist without a request', async ()
   await expect(fetchJson('http://api.lever.co/v0/postings/a')).rejects.toThrow();
   expect(fetch).not.toHaveBeenCalled();
 });
+
+test('losing the insert race (23505) returns the existing row instead of throwing', async () => {
+  fetchOne.mockResolvedValue(rawGh);
+  db.failNext('jobs', { code: '23505', message: 'duplicate key' }, () => db.seedJob({ id: 'w1', source: 'greenhouse', external_id: '123' }));
+  expect(await addJobFromUrl('https://boards.greenhouse.io/acme/jobs/123')).toEqual({ ok: true, jobId: 'w1' });
+});
+test('a non-duplicate insert error returns db_failed', async () => {
+  fetchOne.mockResolvedValue(rawGh);
+  db.failNext('jobs', { code: '23502', message: 'null value in column title' });
+  expect(await addJobFromUrl('https://boards.greenhouse.io/acme/jobs/123')).toEqual({ ok: false, reason: 'db_failed' });
+  db.failNext('jobs', { message: 'boom' });
+  expect(await addJobFromText('Senior Backend Engineer at Lumen Pay ...')).toEqual({ ok: false, reason: 'db_failed' });
+});
+test('a failed applications write returns db_failed', async () => {
+  db.failNext('applications', { message: 'boom' });
+  expect(await addJobFromText('Senior Backend Engineer at Lumen Pay ...')).toEqual({ ok: false, reason: 'db_failed' });
+});
+test('a failed evaluations write is reported as failed, not done', async () => {
+  db.failNext('evaluations', { message: 'boom' });
+  expect(await evaluateForUser('j1', 'evaluate_manual')).toBe('failed');
+});
+test('parse quota exhausted returns quota without calling AI', async () => {
+  consumeQuota.mockImplementation(async (k: string) => k !== 'parse_job');
+  expect(await addJobFromText('Senior Backend Engineer at Lumen Pay ...')).toEqual({ ok: false, reason: 'quota' });
+  expect(consumeQuota).toHaveBeenCalledWith('parse_job');
+  expect(parseJobPosting).not.toHaveBeenCalled();
+});

@@ -16,6 +16,7 @@ const validDate = (s: string | null) => (s && !Number.isNaN(Date.parse(s)) ? s :
 
 const findJob = async (c: Client, source: string, externalId: string) =>
   (await c.from('jobs').select('id').eq('source', source).eq('external_id', externalId).maybeSingle()).data as { id: string } | null;
+// Refreshing last_seen_at is best effort: a failed refresh must not fail the add, so the result is deliberately ignored.
 const touch = (c: Client, id: string) => c.from('jobs').update({ last_seen_at: new Date().toISOString() }).eq('id', id);
 
 /** Reuse a shared (cron-ingested) row, refreshing last_seen_at; null when there is none. Admin client: shared rows are service-role only. */
@@ -46,10 +47,17 @@ export async function upsertJob(
       posted_at: validDate(raw.postedAt), fingerprint: fp, skills: parsed?.skills ?? [],
       vague_description: parsed?.vagueDescription ?? false, evergreen: parsed?.evergreen ?? false,
     }).select('id').single();
-    if (error || !data) throw new Error(error?.message ?? 'insert failed');
-    id = data.id; created = true;
+    if (error?.code === '23505') {
+      // Lost a race with a concurrent insert of the same (source, external_id): use the winner's row.
+      const winner = await findJob(c, raw.source, raw.externalId);
+      if (!winner) throw new Error(error.message);
+      id = winner.id;
+    } else if (error || !data) {
+      throw new Error(error?.message ?? 'insert failed');
+    } else { id = data.id; created = true; }
   }
   const source_domain = raw.url ? new URL(raw.url).hostname : 'paste';
+  // Sightings only feed the ghost heuristic, so a failed write is deliberately ignored.
   await admin.from('job_sightings').upsert({ fingerprint: fp, source_domain, seen_on: today() }, { onConflict: 'fingerprint,source_domain,seen_on', ignoreDuplicates: true });
   return { id, created };
 }
@@ -99,7 +107,7 @@ export async function evaluateForUser(jobId: string, kind: 'evaluate_manual' | '
   });
   const row = { user_id: user.id, job_id: jobId, ghost_level: ghostLevel(signals), ghost_signals: signals, profile_version: profile?.profile_version ?? null };
   const fail = async (error: string) => {
-    await c.from('evaluations').upsert({ ...row, score: null, error });
+    await c.from('evaluations').upsert({ ...row, score: null, error }); // already failing: nothing more to report if this write fails too
     return 'failed' as const;
   };
 
@@ -111,8 +119,8 @@ export async function evaluateForUser(jobId: string, kind: 'evaluate_manual' | '
   };
   try {
     const e = await evaluateJob(profile.resume as ResumeProfile, { ...EMPTY_PREFS, ...profile.prefs }, posting, locale);
-    await c.from('evaluations').upsert({ ...row, score: e.score, matches: e.matches, gaps: e.gaps, notes: e.notes, error: null });
-    return 'done';
+    const { error } = await c.from('evaluations').upsert({ ...row, score: e.score, matches: e.matches, gaps: e.gaps, notes: e.notes, error: null });
+    return error ? 'failed' : 'done';
   } catch (e) {
     if (e instanceof AiError) return fail(e.kind);
     throw e;
