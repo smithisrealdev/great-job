@@ -230,6 +230,9 @@
   "recommend": {
     "working": "Scoring new jobs, {count} done",
     "found": "{count} new jobs scored for you",
-    "nothing": "No new jobs for you right now, check back tomorrow"
+    "nothing": "No new jobs for you right now, check back tomorrow",
+    "error": "Couldn't score jobs this time, try reopening this page",
+    "needProfile": "Add your profile and résumé first so we can recommend jobs that fit you",
+    "needProfileAction": "Go to profile"
   }
 }

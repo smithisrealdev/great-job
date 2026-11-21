@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Ghost } from '@/components/ghost/Ghost';
 import { RecommendedLoader } from '@/components/RecommendedLoader';
 import { JobList } from '@/components/JobList';
+import { createServerSupabase } from '@/lib/db/server';
 import { getJobList, STATUSES, type Tab } from '@/lib/db/jobQueries';
 import type { Status } from '@/lib/types';
 
@@ -17,6 +18,13 @@ export default async function Jobs({ params, searchParams }: { params: Promise<{
   const status = STATUSES.find((s): s is Status => s === sp.status);
   const tab = status ? 'all' : (TABS.find((x) => x === sp.tab) ?? 'recommended');
   const [t, rows] = await Promise.all([getTranslations(), getJobList(tab, status)]);
+  let needProfile = false;
+  if (!rows.length && tab === 'recommended') {
+    const db = await createServerSupabase();
+    const { data: { user } } = await db.auth.getUser();
+    const { data: p } = user ? await db.from('profiles').select('prefs, resume').eq('user_id', user.id).maybeSingle() : { data: null };
+    needProfile = !p?.resume || !p.prefs;
+  }
   return (
     <>
       <div className="ttl">
@@ -32,8 +40,10 @@ export default async function Jobs({ params, searchParams }: { params: Promise<{
       {rows.length ? <JobList rows={rows} /> : (
         <div className="hello">
           <Ghost mood="sleepy" size={90} label={t('ghost.name.sleepy')} />
-          <p>{t('jobs.empty')}</p>
-          <Link className="btn" href={`/${locale}/jobs/new`}>{t('jobs.emptyAction')}</Link>
+          <p>{needProfile ? t('recommend.needProfile') : t('jobs.empty')}</p>
+          {needProfile
+            ? <Link className="btn" href={`/${locale}/profile`}>{t('recommend.needProfileAction')}</Link>
+            : <Link className="btn" href={`/${locale}/jobs/new`}>{t('jobs.emptyAction')}</Link>}
         </div>
       )}
     </>
