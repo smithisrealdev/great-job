@@ -127,5 +127,57 @@
       "quota": "You have used today's job readings. Try again tomorrow.",
       "db_failed": "Saving the job did not work. Please try again."
     }
+  },
+  "nav": {
+    "search": "Search jobs",
+    "addJob": "Add job from link",
+    "recommended": "Recommended",
+    "myJobs": "My jobs",
+    "profile": "Résumé and profile",
+    "statusHeading": "Status",
+    "switchLang": "Change language",
+    "brand": "Great Job"
+  },
+  "lang": {
+    "th": "ไทย",
+    "en": "EN"
+  },
+  "status": {
+    "found": "Found",
+    "interested": "Interested",
+    "preparing": "Preparing",
+    "applied": "Applied",
+    "interview": "Interview",
+    "offer": "Offer",
+    "rejected": "Rejected",
+    "withdrawn": "Withdrawn"
+  },
+  "jobs": {
+    "title": {
+      "recommended": "Recommended",
+      "active": "In progress",
+      "all": "My jobs"
+    },
+    "tabs": {
+      "recommended": "Recommended",
+      "active": "In progress",
+      "all": "All"
+    },
+    "age": "Posted {days} days ago",
+    "score": "Score {score} out of 100",
+    "retry": "Retry",
+    "risk": {
+      "low": "ghost low",
+      "mid": "ghost medium",
+      "high": "ghost high"
+    },
+    "source": {
+      "remoteok": "Remote OK"
+    },
+    "empty": "No jobs here yet. Let's add the first one.",
+    "emptyAction": "Add a job",
+    "pillFollowUp": "{count} jobs to follow up",
+    "pillIdle": "Little Ghost",
+    "unscored": "No score yet"
   }
 }

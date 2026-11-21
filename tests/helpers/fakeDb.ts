@@ -45,6 +45,7 @@ function builder(table: string) {
     upsert: (v: Row) => { op = 'upsert'; values = v; return b; },
     delete: () => { op = 'delete'; return b; },
     eq: (k: string, v: unknown) => { filters.push((r) => r[k] === v); return b; },
+    in: (k: string, vs: unknown[]) => { filters.push((r) => vs.includes(r[k])); return b; },
     is: (k: string, v: unknown) => { filters.push((r) => (r[k] ?? null) === v); return b; },
     single: async () => out(run(), (d) => d[0] ?? null),
     maybeSingle: async () => out(run(), (d) => d[0] ?? null),

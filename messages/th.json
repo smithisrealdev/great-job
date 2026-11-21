@@ -127,5 +127,57 @@
       "quota": "วันนี้ใช้สิทธิ์อ่านประกาศงานครบแล้ว ลองใหม่พรุ่งนี้นะ",
       "db_failed": "บันทึกงานไม่สำเร็จ ลองอีกครั้งนะ"
     }
+  },
+  "nav": {
+    "search": "ค้นหางาน",
+    "addJob": "เพิ่มงานจากลิงก์",
+    "recommended": "งานแนะนำ",
+    "myJobs": "งานของฉัน",
+    "profile": "Resume และ profile",
+    "statusHeading": "สถานะ",
+    "switchLang": "เปลี่ยนภาษา",
+    "brand": "Great Job"
+  },
+  "lang": {
+    "th": "ไทย",
+    "en": "EN"
+  },
+  "status": {
+    "found": "พบแล้ว",
+    "interested": "สนใจ",
+    "preparing": "เตรียมสมัคร",
+    "applied": "สมัครแล้ว",
+    "interview": "สัมภาษณ์",
+    "offer": "ได้ offer",
+    "rejected": "ไม่ผ่าน",
+    "withdrawn": "ถอนตัว"
+  },
+  "jobs": {
+    "title": {
+      "recommended": "งานแนะนำ",
+      "active": "งานที่กำลังทำ",
+      "all": "งานของฉัน"
+    },
+    "tabs": {
+      "recommended": "แนะนำ",
+      "active": "กำลังทำ",
+      "all": "ทั้งหมด"
+    },
+    "age": "ลงมา {days} วัน",
+    "score": "คะแนน {score} จาก 100",
+    "retry": "ลองใหม่",
+    "risk": {
+      "low": "ghost ต่ำ",
+      "mid": "ghost กลาง",
+      "high": "ghost สูง"
+    },
+    "source": {
+      "remoteok": "Remote OK"
+    },
+    "empty": "ยังไม่มีงานในรายการนี้ เพิ่มงานแรกกัน",
+    "emptyAction": "เพิ่มงาน",
+    "pillFollowUp": "มี {count} งานควรตามผล",
+    "pillIdle": "ผีน้อย",
+    "unscored": "ยังไม่มีคะแนน"
   }
 }
