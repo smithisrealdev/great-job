@@ -1,12 +1,11 @@
 'use server';
 import { z } from 'zod';
 import { AiError } from '@/lib/ai/client';
+import { RESUME_LIMITS as L, RESUME_MAX_BYTES } from '@/lib/config';
 import { parseResume } from '@/lib/ai/parseResume';
 import { consumeQuota } from '@/lib/db/quota';
 import { createServerSupabase } from '@/lib/db/server';
 import type { Prefs, ResumeProfile } from '@/lib/types';
-
-const MAX_BYTES = 5 * 1024 * 1024;
 
 const PrefsSchema = z.object({
   roles: z.array(z.string().max(60)).max(20),
@@ -14,11 +13,25 @@ const PrefsSchema = z.object({
   minSalaryThb: z.number().nonnegative().nullable(),
   seniority: z.enum(['junior', 'mid', 'senior', 'lead']).nullable(),
 });
+const text = (n: number) => z.string().max(n);
 const ResumeSchema = z.object({
-  skills: z.array(z.string().max(100)).max(200),
-  experience: z.array(z.object({ title: z.string(), company: z.string(), start: z.string(), end: z.string().nullable(), summary: z.string() })).max(50),
-  education: z.array(z.object({ school: z.string(), degree: z.string() })).max(20),
+  skills: z.array(text(L.skill)).max(L.skills),
+  experience: z.array(z.object({
+    title: text(L.text), company: text(L.text), start: text(L.date), end: text(L.date).nullable(), summary: text(L.summary),
+  })).max(L.experience),
+  education: z.array(z.object({ school: text(L.text), degree: text(L.text) })).max(L.education),
   yearsTotal: z.number().nonnegative(),
+});
+
+/** AI output is trimmed to the same bounds the user's own edits must meet. */
+const clampResume = (r: ResumeProfile): ResumeProfile => ({
+  skills: r.skills.slice(0, L.skills).map((s) => s.slice(0, L.skill)),
+  experience: r.experience.slice(0, L.experience).map((e) => ({
+    title: e.title.slice(0, L.text), company: e.company.slice(0, L.text), start: e.start.slice(0, L.date),
+    end: e.end?.slice(0, L.date) ?? null, summary: e.summary.slice(0, L.summary),
+  })),
+  education: r.education.slice(0, L.education).map((e) => ({ school: e.school.slice(0, L.text), degree: e.degree.slice(0, L.text) })),
+  yearsTotal: r.yearsTotal,
 });
 
 async function current() {
@@ -52,14 +65,14 @@ export async function uploadResume(form: FormData): Promise<UploadResult> {
   const { supabase, userId } = await current();
   const file = form.get('resume');
   if (!(file instanceof File)) return { ok: false, reason: 'not_pdf' };
-  if (file.size > MAX_BYTES) return { ok: false, reason: 'too_large' };
+  if (file.size > RESUME_MAX_BYTES) return { ok: false, reason: 'too_large' };
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (new TextDecoder().decode(bytes.slice(0, 5)) !== '%PDF-') return { ok: false, reason: 'not_pdf' };
   if (!(await consumeQuota('parse_resume'))) return { ok: false, reason: 'quota' };
 
   let resume: ResumeProfile;
   try {
-    resume = await parseResume(bytes);
+    resume = clampResume(await parseResume(bytes));
   } catch (e) {
     if (e instanceof AiError && e.kind === 'unreadable') return { ok: false, reason: 'unreadable' };
     return { ok: false, reason: 'ai_failed' };

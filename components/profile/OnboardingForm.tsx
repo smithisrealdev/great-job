@@ -6,6 +6,7 @@ import { Ghost } from '@/components/ghost/Ghost';
 import { savePrefs, uploadResume } from '@/lib/actions/profile';
 import type { Prefs } from '@/lib/types';
 import { PrefsFields } from './PrefsFields';
+import { resumeFileError } from './resumeFile';
 
 export function OnboardingForm() {
   const t = useTranslations();
@@ -18,7 +19,9 @@ export function OnboardingForm() {
   const ready = prefs.roles.length > 0 && prefs.modes.length > 0;
 
   const submit = () => start(async () => {
-    setError(null);
+    const bad = file && resumeFileError(file);
+    setError(bad || null);
+    if (bad) return;
     try {
       await savePrefs(prefs);
       if (file) {

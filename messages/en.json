@@ -71,11 +71,11 @@
     }
   },
   "resume": {
-    "label": "Résumé file (PDF, up to 5 MB)",
+    "label": "Résumé file (PDF, up to 4 MB)",
     "privacy": "Your résumé is sent to an AI to read it.",
     "errors": {
       "not_pdf": "That file is not a PDF. Please send a PDF.",
-      "too_large": "The file is over 5 MB. Compress it and try again.",
+      "too_large": "The file is over 4 MB. Compress it and try again.",
       "unreadable": "We could not read that file. Try a text-based PDF, not a scan.",
       "quota": "You have used today's résumé reads. Try again tomorrow.",
       "ai_failed": "The AI could not read your résumé. Please try again.",

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { savePrefs, updateResume, uploadResume } from '@/lib/actions/profile';
 import type { Prefs, ResumeProfile } from '@/lib/types';
 import { PrefsFields } from './PrefsFields';
+import { resumeFileError } from './resumeFile';
 
 type Exp = ResumeProfile['experience'][number];
 const blankExp: Exp = { title: '', company: '', start: '', end: null, summary: '' };
@@ -89,6 +90,8 @@ export function ProfileForm({ initialPrefs, initialResume }: { initialPrefs: Pre
         <p className="note">{t('resume.privacy')}</p>
         <button className="btn" type="button" disabled={!file || pending} aria-busy={pending}
           onClick={() => run(async () => {
+            const bad = resumeFileError(file!);
+            if (bad) return bad;
             const form = new FormData();
             form.set('resume', file!);
             const res = await uploadResume(form);

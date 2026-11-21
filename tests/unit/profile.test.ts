@@ -37,8 +37,8 @@ test('rejects a non-PDF without calling AI', async () => {
 test('does not trust the client MIME type: PDF label on non-PDF bytes is rejected', async () => {
   expect(await uploadResume(formWith('cv.pdf', 'application/pdf', 100, 'MZ'))).toEqual({ ok: false, reason: 'not_pdf' });
 });
-test('rejects a file over 5 MB', async () => {
-  expect(await uploadResume(formWith('cv.pdf', 'application/pdf', 5 * 1024 * 1024 + 1))).toEqual({ ok: false, reason: 'too_large' });
+test('rejects a file over 4 MB', async () => {
+  expect(await uploadResume(formWith('cv.pdf', 'application/pdf', 4 * 1024 * 1024 + 1))).toEqual({ ok: false, reason: 'too_large' });
 });
 test('unreadable PDF leaves the existing profile untouched', async () => {
   parseResume.mockRejectedValue(new AiError('unreadable'));
@@ -80,4 +80,35 @@ test('rejects malformed input and signed-out callers', async () => {
   db.signOut();
   await expect(savePrefs(prefs)).rejects.toThrow();
   expect(db.updates('profiles')).toEqual([]);
+});
+
+const job = { title: 'Dev', company: 'Acme', start: '2020', end: null, summary: 'Built things' };
+test.each([
+  ['a skill over 80 characters', { ...sampleResume, skills: ['x'.repeat(81)] }],
+  ['more than 80 skills', { ...sampleResume, skills: Array(81).fill('ts') }],
+  ['a summary over 2000 characters', { ...sampleResume, experience: [{ ...job, summary: 'x'.repeat(2001) }] }],
+  ['a title over 200 characters', { ...sampleResume, experience: [{ ...job, title: 'x'.repeat(201) }] }],
+  ['more than 30 jobs', { ...sampleResume, experience: Array(31).fill(job) }],
+  ['more than 10 schools', { ...sampleResume, education: Array(11).fill({ school: 'U', degree: 'BSc' }) }],
+  ['a school over 200 characters', { ...sampleResume, education: [{ school: 'x'.repeat(201), degree: 'BSc' }] }],
+])('updateResume rejects %s', async (_, resume) => {
+  await expect(updateResume(resume as never)).rejects.toThrow();
+  expect(db.updates('profiles')).toEqual([]);
+});
+test('uploadResume truncates oversize AI output instead of rejecting it', async () => {
+  parseResume.mockResolvedValue({
+    skills: Array(100).fill('y'.repeat(100)),
+    experience: Array(40).fill({ ...job, company: 'c'.repeat(300), summary: 's'.repeat(3000) }),
+    education: Array(12).fill({ school: 'u'.repeat(300), degree: 'd'.repeat(300) }),
+    yearsTotal: 5,
+  });
+  expect(await uploadResume(validPdfForm())).toEqual({ ok: true });
+  const saved = db.updates('profiles')[0].resume as { skills: string[]; experience: { company: string; summary: string }[]; education: { school: string; degree: string }[] };
+  expect(saved.skills).toHaveLength(80);
+  expect(saved.skills[0]).toHaveLength(80);
+  expect(saved.experience).toHaveLength(30);
+  expect(saved.experience[0].company).toHaveLength(200);
+  expect(saved.experience[0].summary).toHaveLength(2000);
+  expect(saved.education).toHaveLength(10);
+  expect(saved.education[0]).toEqual({ school: 'u'.repeat(200), degree: 'd'.repeat(200) });
 });
