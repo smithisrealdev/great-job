@@ -40,7 +40,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 /* ---------- ghost ---------- */
 .ghost{display:block;overflow:visible;flex:none}
-.ghost .ink{fill:#1E1B4B} .ghost .line{fill:none;stroke:#1E1B4B;stroke-width:5;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white visor */
+.ghost .ink{fill:#2A2382} .ghost .line{fill:none;stroke:#2A2382;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white visor */
 .ghost .blush{fill:var(--blush);opacity:.6}
 .ghost .shadow{fill:var(--ink);opacity:.1}
 .ghost .prop{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round}
@@ -183,13 +183,13 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 <div class="wrap">
   <header class="intro">
-    <h1>Great Job ฉบับร่างที่สาม</h1>
-    <p>หน้าตาใหม่ใช้แนวทางแอปเอกสารที่เงียบและโล่ง: พื้นขาว แถบข้างไม่มีเส้นกั้น รายการเป็นแถวเรียบ สีฟ้าสีเดียวสำหรับสิ่งที่กดได้ และผีน้อยเป็นตัวละครสีเดียวที่เรียบและเงา ข้อมูลงานทั้งหมดเป็นตัวอย่างสมมติ</p>
+    <h1>Great Job ฉบับร่างที่สี่</h1>
+    <p>หน้าตาใหม่ใช้แนวทางแอปเอกสารที่เงียบและโล่ง: พื้นขาว แถบข้างไม่มีเส้นกั้น รายการเป็นแถวเรียบ สีฟ้าสีเดียวสำหรับสิ่งที่กดได้ และผีน้อยเป็นตัวละครสีเดียวแบบเรียบ ข้อมูลงานทั้งหมดเป็นตัวอย่างสมมติ</p>
   </header>
 
   <section class="sec">
     <h2>ผีน้อยตัวใหม่</h2>
-    <p>ตัวสีม่วงไล่เฉดแบบมีมิติ หน้าเป็นแถบขาวกับตาสองจุด ไม่มีเส้นขอบ บอกอารมณ์ด้วยรูปตาและท่าทาง กดเลือกเพื่อดูทั้งสิบแบบ</p>
+    <p>ตัวสีม่วงเรียบ ไม่มีแสงเงาและไม่มีเส้นขอบ หน้าเป็นแถบขาวเล็กกับตาวงรีสองจุด บอกอารมณ์ด้วยรูปตาและท่าทาง กดเลือกเพื่อดูทั้งสิบแบบ</p>
     <div class="stage">
       <div class="halo"><div class="say" id="say"></div><div id="bigGhost"></div></div>
       <div>
@@ -320,17 +320,17 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 // ---------- ghost: one function, used on every screen ----------
 let gid=0;
 const EYES={
-  open:'<ellipse class="ink eye" cx="78" cy="100" rx="7" ry="10.5"/><ellipse class="ink eye" cx="122" cy="100" rx="7" ry="10.5"/>',
-  arc:'<path class="line" d="M68 105 Q78 91 88 105"/><path class="line" d="M112 105 Q122 91 132 105"/>',
-  closed:'<path class="line" d="M68 100 Q78 108 88 100"/><path class="line" d="M112 100 Q122 108 132 100"/>',
-  big:'<circle class="ink" cx="78" cy="98" r="11"/><circle cx="74.5" cy="94" r="3.6" fill="#fff"/><circle class="ink" cx="122" cy="98" r="11"/><circle cx="118.5" cy="94" r="3.6" fill="#fff"/>',
-  sad:'<ellipse class="ink" cx="78" cy="102" rx="6.5" ry="9.5" transform="rotate(18 78 102)"/><ellipse class="ink" cx="122" cy="102" rx="6.5" ry="9.5" transform="rotate(-18 122 102)"/>'
+  open:'<ellipse class="ink eye" cx="88" cy="98" rx="4.6" ry="7.6"/><ellipse class="ink eye" cx="112" cy="98" rx="4.6" ry="7.6"/>',
+  arc:'<path class="line" d="M81 102 Q88 91 95 102"/><path class="line" d="M105 102 Q112 91 119 102"/>',
+  closed:'<path class="line" d="M81 98 Q88 104 95 98"/><path class="line" d="M105 98 Q112 104 119 98"/>',
+  big:'<circle class="ink" cx="86" cy="97" r="8.5"/><circle class="ink" cx="114" cy="97" r="8.5"/>',
+  sad:'<ellipse class="ink" cx="88" cy="99" rx="4.4" ry="7" transform="rotate(20 88 99)"/><ellipse class="ink" cx="112" cy="99" rx="4.4" ry="7" transform="rotate(-20 112 99)"/>'
 };
 const MOUTH={
   w:'', flat:'',
-  open:'<path class="ink" d="M93 108 Q100 121 107 108 Z"/>',
-  o:'<ellipse class="ink" cx="100" cy="115" rx="4" ry="5.5"/>',
-  frown:'<path class="line" d="M94 118 Q100 113 106 118" style="stroke-width:3.4"/>'
+  open:'<path class="ink" d="M95.5 105 Q100 114 104.5 105 Z"/>',
+  o:'<ellipse class="ink" cx="100" cy="110" rx="3" ry="4"/>',
+  frown:'<path class="line" d="M96 112 Q100 108 104 112" style="stroke-width:2.8"/>'
 };
 // arm = [x, y, rotation]; "front" draws the arms over the body
 const POSE={
@@ -347,7 +347,7 @@ const PROPS={
   happy:star(18,60,11,'var(--sun)')+star(186,42,8,'var(--sun)')+star(182,156,6,'var(--blush)'),
   celebrate:'<path d="M82 34 L112 -10 L122 38 Z" fill="var(--blue)" stroke="var(--ghost-edge)" stroke-width="2.5" stroke-linejoin="round"/><path d="M91 21 L118 22 M99 8 L115 9" stroke="var(--sun)" stroke-width="4" stroke-linecap="round"/><circle cx="112" cy="-12" r="7" fill="var(--blush)"/><g><rect class="conf a" x="6" y="-20" width="9" height="9" fill="var(--sun)"/><rect class="conf a" x="40" y="-34" width="8" height="8" fill="var(--blush)"/><rect class="conf a" x="150" y="-30" width="9" height="9" fill="var(--good)"/><rect class="conf a" x="186" y="-14" width="9" height="9" fill="var(--sun)"/><rect class="conf a" x="24" y="10" width="8" height="8" fill="var(--blue)"/><rect class="conf a" x="172" y="12" width="8" height="8" fill="var(--blush)"/><rect class="conf a" x="-6" y="40" width="8" height="8" fill="var(--good)"/></g>',
   spooked:'<text class="t" x="174" y="46" font-size="44" fill="var(--risk)">!</text><path class="prop" d="M18 84 L4 78 M16 102 L0 102 M18 120 L4 126"/><path d="M150 50 q6 10 0 14 q-6 -4 0 -14z" fill="var(--blue)" opacity=".7"/>',
-  sad:'<path class="tear a" d="M70 114 q6 10 0 14 q-6 -4 0 -14z" fill="#6CB6FF"/>',
+  sad:'<path class="tear a" d="M82 106 q5 8 0 11 q-5 -3 0 -11z" fill="#6CB6FF"/>',
   cheer:'<rect x="34" y="-36" width="132" height="42" rx="12" fill="var(--sun)" stroke="var(--ghost-edge)" stroke-width="2.5"/><text class="t" x="100" y="-7" font-size="24" text-anchor="middle" fill="var(--sun-ink)">สู้ ๆ นะ</text>',
   sleepy:'<text class="t z a" x="150" y="36" font-size="22" fill="var(--ink)">z</text><text class="t z z2 a" x="168" y="14" font-size="32" fill="var(--ink)">Z</text>'
 };
@@ -366,18 +366,16 @@ const MOODS={
 const BODY='M100 22 C142 22 168 56 168 102 C168 126 170 144 180 160 C188 173 180 186 166 182 C154 178 148 170 138 176 C128 182 122 192 108 190 C96 188 92 176 80 176 C68 176 62 190 48 190 C34 190 24 178 28 162 C32 146 32 126 32 102 C32 56 58 22 100 22 Z';
 function ghost(mood,size){
   const d=MOODS[mood], p=POSE[d.p], id='gg'+(gid++);
-  const arm=(a,side)=>`<g transform="translate(${a[0]} ${a[1]}) rotate(${a[2]})"><ellipse class="arm ${side}" rx="15" ry="10.5" fill="#7A68F0"/></g>`;
+  const arm=(a,side)=>`<g transform="translate(${a[0]} ${a[1]}) rotate(${a[2]})"><ellipse class="arm ${side}" rx="15" ry="10.5" fill="#7767EF"/></g>`;
   const arms=arm(p.l,'l')+arm(p.r,'r');
   return `<svg class="ghost g-${mood}" width="${size}" height="${Math.round(size*1.15)}" viewBox="-24 -44 248 286" role="img" aria-label="ผีน้อย ${d.th}">
-    <defs><linearGradient id="${id}" x1="15%" y1="5%" x2="80%" y2="100%"><stop offset="0" stop-color="#BDB3FF"/><stop offset=".45" stop-color="#8573F6"/><stop offset="1" stop-color="#5646DA"/></linearGradient></defs>
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E7DF8"/><stop offset="1" stop-color="#6252E6"/></linearGradient></defs>
     <ellipse class="shadow" cx="102" cy="216" rx="46" ry="6"/>
     <g class="gb">
       ${p.front?'':arms}
-      <path d="M98 26 C94 10 106 0 118 8 C109 9 106 17 108 26 Z" fill="#A99DFC"/>
+      <path d="M98 26 C94 10 106 0 118 8 C109 9 106 17 108 26 Z" fill="#8E7DF8"/>
       <path d="${BODY}" fill="url(#${id})"/>
-      <ellipse cx="72" cy="52" rx="24" ry="13" fill="#fff" opacity=".32" transform="rotate(-28 72 52)"/>
-      <rect x="50" y="74" width="100" height="54" rx="27" fill="#fff"/>
-      <ellipse class="blush" cx="63" cy="113" rx="6" ry="3.5"/><ellipse class="blush" cx="137" cy="113" rx="6" ry="3.5"/>
+      <rect x="60" y="78" width="80" height="40" rx="20" fill="#fff"/>
       ${EYES[d.e]}${MOUTH[d.m]}
       ${PROPS[mood]||''}
       ${p.front?arms:''}
