@@ -15,6 +15,6 @@ export default async function Profile({ params }: { params: Promise<{ locale: st
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect(`/${locale}/login`);
-  const { data } = await supabase.from('profiles').select('prefs, resume').eq('user_id', user.id).maybeSingle();
-  return <ProfileForm initialPrefs={{ ...EMPTY_PREFS, ...data?.prefs }} initialResume={data?.resume ?? EMPTY_RESUME} />;
+  const { data } = await supabase.from('profiles').select('prefs, resume, profile_version').eq('user_id', user.id).maybeSingle();
+  return <ProfileForm key={data?.profile_version} initialPrefs={{ ...EMPTY_PREFS, ...data?.prefs }} initialResume={data?.resume ?? EMPTY_RESUME} />;
 }
