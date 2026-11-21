@@ -1,0 +1,32 @@
+{
+  "ghost": {
+    "name": {
+      "idle": "Little Ghost Idle",
+      "wave": "Little Ghost Waving",
+      "searching": "Little Ghost Searching",
+      "thinking": "Little Ghost Thinking",
+      "happy": "Little Ghost Happy",
+      "celebrate": "Little Ghost Celebrating",
+      "spooked": "Little Ghost Spooked",
+      "sad": "Little Ghost Sad",
+      "cheer": "Little Ghost Cheering",
+      "sleepy": "Little Ghost Sleepy"
+    },
+    "say": {
+      "idle": "Little Ghost is right here",
+      "wave": "Hi, let's find you a job today",
+      "searching": "Let me peek at the new jobs",
+      "thinking": "How well does this job fit you?",
+      "happy": "Found a good one, score 88",
+      "celebrate": "Interview booked, nice work",
+      "spooked": "This job looks odd, it may be a ghost job",
+      "sad": "Too bad, this one didn't work out",
+      "cheer": "There are 4 more jobs that fit you",
+      "sleepy": "No new jobs today, see you tomorrow"
+    },
+    "cheerBanner": "You got this"
+  },
+  "home": {
+    "login": "Go to login"
+  }
+}

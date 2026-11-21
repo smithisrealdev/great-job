@@ -1,0 +1,38 @@
+/* ---------- ghost ---------- */
+.ghost{display:block;overflow:visible;flex:none}
+.ghost .ink{fill:#1C1C21} .ghost .line{fill:none;stroke:#1C1C21;stroke-width:4;stroke-linecap:round;stroke-linejoin:round} /* face sits on the always-white visor */
+.ghost .blush{fill:var(--blush);opacity:.6}
+.ghost .shadow{fill:var(--ink);opacity:.1}
+.ghost .prop{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round}
+.ghost .t{font-family:var(--font);font-weight:700}
+.ghost .gb,.ghost .eye,.ghost .arm,.ghost .a{transform-box:fill-box;transform-origin:center}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1,1)}35%{transform:translateY(-16px) scale(.97,1.04)}60%{transform:translateY(0) scale(1.04,.95)}}
+@keyframes sway{0%,100%{transform:translateX(-6px) rotate(-3deg)}50%{transform:translateX(6px) rotate(3deg)}}
+@keyframes shake{0%,100%{transform:translateX(-2.5px)}50%{transform:translateX(2.5px)}}
+@keyframes party{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-14px) rotate(8deg)}}
+@keyframes breathe{50%{transform:scale(1.03,.97)}}
+@keyframes droop{50%{transform:translateY(3px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes wave{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(18deg)}}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes fall{0%{transform:translateY(-10px);opacity:0}20%{opacity:1}100%{transform:translateY(70px) rotate(160deg);opacity:0}}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(24px);opacity:0}}
+@keyframes zz{0%{transform:translate(0,6px);opacity:0}40%{opacity:1}100%{transform:translate(8px,-14px);opacity:0}}
+@keyframes bubble{50%{transform:scale(1.5)}}
+.g-idle .gb,.g-wave .gb{animation:float 3.4s ease-in-out infinite}
+.g-thinking .gb{animation:float 4.2s ease-in-out infinite;rotate:-6deg}
+.g-searching .gb{animation:sway 2.4s ease-in-out infinite}
+.g-happy .gb,.g-cheer .gb{animation:bounce 1s ease-in-out infinite}
+.g-celebrate .gb{animation:party .85s ease-in-out infinite}
+.g-spooked .gb{animation:shake .13s linear infinite}
+.g-sad .gb{animation:droop 3s ease-in-out infinite}
+.g-sleepy .gb{animation:breathe 4s ease-in-out infinite}
+.ghost .eye{animation:blink 4.6s infinite}
+.g-wave .arm.r{animation:wave .55s ease-in-out infinite;transform-origin:0% 50%}
+.ghost .dot{animation:pulse 1.2s infinite} .ghost .dot:nth-child(2){animation-delay:.2s} .ghost .dot:nth-child(3){animation-delay:.4s}
+.ghost .conf{animation:fall 1.5s linear infinite} .ghost .conf:nth-child(2n){animation-delay:.5s} .ghost .conf:nth-child(3n){animation-delay:1s}
+.ghost .tear{animation:tear 1.9s ease-in infinite}
+.ghost .z{animation:zz 2.4s ease-out infinite} .ghost .z2{animation-delay:1.2s}
+.ghost .snot{animation:bubble 4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){ .ghost *{animation:none!important} }
