@@ -30,7 +30,7 @@ export async function reuseSharedJob(source: string, externalId: string): Promis
 
 /** Shared rows (ownerId null) go through the admin client, private rows through the user's own client so RLS applies. */
 export async function upsertJob(
-  raw: RawJob, parsed: Pick<ParsedJob, 'skills' | 'vagueDescription' | 'evergreen'> | null, ownerId: string | null,
+  raw: RawJob, parsed: Pick<ParsedJob, 'skills' | 'vagueDescription' | 'evergreen'> | null, ownerId: string | null, companyId: string | null = null,
 ): Promise<{ id: string; created: boolean }> {
   const admin = createAdminSupabase();
   const c = ownerId ? await createServerSupabase() : admin;
@@ -42,7 +42,7 @@ export async function upsertJob(
     await touch(c, id);
   } else {
     const { data, error } = await c.from('jobs').insert({
-      owner_id: ownerId, source: raw.source, external_id: raw.externalId, url: raw.url || null, company_name: raw.companyName,
+      owner_id: ownerId, source: raw.source, external_id: raw.externalId, url: raw.url || null, company_id: companyId, company_name: raw.companyName,
       title: raw.title, location: raw.location, remote: raw.remote, salary_text: raw.salaryText, description: raw.description,
       posted_at: validDate(raw.postedAt), fingerprint: fp, skills: parsed?.skills ?? [],
       vague_description: parsed?.vagueDescription ?? false, evergreen: parsed?.evergreen ?? false,

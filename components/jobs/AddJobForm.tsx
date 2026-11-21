@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { Ghost } from '@/components/ghost/Ghost';
+import { FollowCompanyForm } from './FollowCompanyForm';
 import { addJobFromText, addJobFromUrl, type AddJobResult } from '@/lib/actions/jobs';
 
 export function AddJobForm() {
@@ -48,6 +49,7 @@ export function AddJobForm() {
         <button className="btn" type="submit" disabled={pending || !text.trim()} aria-busy={pending}>{t('addJob.textButton')}</button>
       </form>
       {error && <p role="alert">{t(`addJob.errors.${error}`)}</p>}
+      <FollowCompanyForm />
     </main>
   );
 }

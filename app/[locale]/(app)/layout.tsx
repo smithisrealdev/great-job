@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { GhostPill } from '@/components/ghost/GhostPill';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
 import { Sidebar } from '@/components/Sidebar';
-import { getNavCounts } from '@/lib/db/jobQueries';
+import { getFollowedCompanies, getNavCounts } from '@/lib/db/jobQueries';
 
 export const dynamic = 'force-dynamic'; // reads the session cookie
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'; // reads the session cookie
 export default async function AppLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, nav] = await Promise.all([getTranslations(), getNavCounts()]);
+  const [t, nav, companies] = await Promise.all([getTranslations(), getNavCounts(), getFollowedCompanies()]);
   const stale = nav.stale > 0;
   return (
     <>
@@ -26,7 +26,7 @@ export default async function AppLayout({ children, params }: { children: React.
         </div>
       </div>
       <div className="app">
-        <Suspense><Sidebar counts={nav.status} recommended={nav.recommended} all={nav.all} /></Suspense>
+        <Suspense><Sidebar counts={nav.status} recommended={nav.recommended} all={nav.all} companies={companies} /></Suspense>
         <main className="main">{children}</main>
         <div className="float" style={{ position: 'fixed' }}>
           <GhostPill

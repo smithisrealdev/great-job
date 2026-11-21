@@ -134,6 +134,15 @@
       "failed": "Adding the job did not work. Please try again.",
       "quota": "You have used today's job readings. Try again tomorrow.",
       "db_failed": "Saving the job did not work. Please try again."
+    },
+    "followTitle": "Follow a company",
+    "followLabel": "Link to the company's careers page (Greenhouse, Lever or Ashby)",
+    "followButton": "Follow company",
+    "followed": "Followed. Little Ghost will fetch new jobs every day.",
+    "followErrors": {
+      "unsupported_url": "We can only read careers pages from Greenhouse, Lever and Ashby.",
+      "board_not_found": "We could not find a job board for that company. Check the link and try again.",
+      "failed": "Following the company did not work. Please try again."
     }
   },
   "nav": {
@@ -142,6 +151,7 @@
     "recommended": "Recommended",
     "myJobs": "My jobs",
     "profile": "Résumé and profile",
+    "followedHeading": "Followed companies",
     "statusHeading": "Status",
     "switchLang": "Change language",
     "brand": "Great Job"

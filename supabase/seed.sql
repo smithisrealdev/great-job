@@ -1,0 +1,28 @@
+-- Generated from supabase/companies.seed.csv (the source of truth); regenerate when the CSV changes.
+insert into public.companies (name, ats, board_token) values
+  ('Stripe', 'greenhouse', 'stripe'),
+  ('Airbnb', 'greenhouse', 'airbnb'),
+  ('Discord', 'greenhouse', 'discord'),
+  ('Cloudflare', 'greenhouse', 'cloudflare'),
+  ('Datadog', 'greenhouse', 'datadog'),
+  ('Figma', 'greenhouse', 'figma'),
+  ('GitLab', 'greenhouse', 'gitlab'),
+  ('Coinbase', 'greenhouse', 'coinbase'),
+  ('Databricks', 'greenhouse', 'databricks'),
+  ('Pinterest', 'greenhouse', 'pinterest'),
+  ('Twilio', 'greenhouse', 'twilio'),
+  ('Okta', 'greenhouse', 'okta'),
+  ('Asana', 'greenhouse', 'asana'),
+  ('Dropbox', 'greenhouse', 'dropbox'),
+  ('Reddit', 'greenhouse', 'reddit'),
+  ('Vercel', 'greenhouse', 'vercel'),
+  ('MongoDB', 'greenhouse', 'mongodb'),
+  ('Elastic', 'greenhouse', 'elastic'),
+  ('Spotify', 'lever', 'spotify'),
+  ('Palantir', 'lever', 'palantir'),
+  ('Notion', 'ashby', 'notion'),
+  ('Ramp', 'ashby', 'ramp'),
+  ('Linear', 'ashby', 'linear'),
+  ('OpenAI', 'ashby', 'openai'),
+  ('Supabase', 'ashby', 'supabase')
+on conflict (ats, board_token) do nothing;

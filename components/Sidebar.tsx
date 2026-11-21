@@ -14,7 +14,7 @@ const ICON = {
   doc: 'M4 1.5h5.5L12.5 4.5v10h-8.5zM6.5 8h3.5M6.5 11h3.5',
 };
 
-export function Sidebar({ counts, recommended, all }: { counts: Record<Status, number>; recommended: number; all: number }) {
+export function Sidebar({ counts, recommended, all, companies }: { counts: Record<Status, number>; recommended: number; all: number; companies: string[] }) {
   const t = useTranslations();
   const locale = useLocale();
   const path = usePathname();
@@ -41,6 +41,8 @@ export function Sidebar({ counts, recommended, all }: { counts: Record<Status, n
           <i className="dot" style={{ background: DOT[s] }} />{t(`status.${s}`)}<b>{counts[s]}</b>
         </Link>
       ))}
+      {companies.length > 0 && <div className="hd">{t('nav.followedHeading')}</div>}
+      {companies.map((name) => <div key={name} className="it">{name}</div>)}
     </nav>
   );
 }

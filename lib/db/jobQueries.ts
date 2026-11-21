@@ -65,6 +65,12 @@ export async function getNavCounts() {
   };
 }
 
+/** Names of followed companies for the sidebar; companies are shared and readable by every signed-in user. */
+export async function getFollowedCompanies(): Promise<string[]> {
+  const { data } = await (await createServerSupabase()).from('companies').select('name');
+  return ((data ?? []) as { name: string }[]).map((c) => c.name).sort((a, b) => a.localeCompare(b)).slice(0, 8);
+}
+
 export async function getStatusCounts(): Promise<Record<Status, number>> {
   return (await getNavCounts()).status;
 }

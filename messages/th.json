@@ -134,6 +134,15 @@
       "failed": "เพิ่มงานไม่สำเร็จ ลองอีกครั้งนะ",
       "quota": "วันนี้ใช้สิทธิ์อ่านประกาศงานครบแล้ว ลองใหม่พรุ่งนี้นะ",
       "db_failed": "บันทึกงานไม่สำเร็จ ลองอีกครั้งนะ"
+    },
+    "followTitle": "ติดตามบริษัท",
+    "followLabel": "ลิงก์หน้ารับสมัครงานของบริษัท (Greenhouse, Lever หรือ Ashby)",
+    "followButton": "ติดตามบริษัท",
+    "followed": "ติดตามแล้ว ผีน้อยจะดึงงานใหม่ให้ทุกวัน",
+    "followErrors": {
+      "unsupported_url": "อ่านได้เฉพาะลิงก์หน้ารับสมัครงานจาก Greenhouse, Lever และ Ashby",
+      "board_not_found": "ไม่พบบอร์ดงานของบริษัทนี้ ลองตรวจลิงก์อีกครั้ง",
+      "failed": "ติดตามบริษัทไม่สำเร็จ ลองอีกครั้งนะ"
     }
   },
   "nav": {
@@ -142,6 +151,7 @@
     "recommended": "งานแนะนำ",
     "myJobs": "งานของฉัน",
     "profile": "Resume และ profile",
+    "followedHeading": "บริษัทที่ติดตาม",
     "statusHeading": "สถานะ",
     "switchLang": "เปลี่ยนภาษา",
     "brand": "Great Job"

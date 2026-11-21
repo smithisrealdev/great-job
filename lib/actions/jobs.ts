@@ -8,7 +8,7 @@ import { fingerprint } from '@/lib/core/fingerprint';
 import { consumeQuota } from '@/lib/db/quota';
 import { evaluateForUser, reuseSharedJob, upsertJob } from '@/lib/db/ingest';
 import { createServerSupabase } from '@/lib/db/server';
-import { fetchOne, postingId } from '@/lib/sources';
+import { fetchBoard, fetchOne, postingId } from '@/lib/sources';
 import { STATUSES } from '@/lib/statuses';
 import type { Status } from '@/lib/types';
 
@@ -87,4 +87,19 @@ export async function retryEvaluation(jobId: string): Promise<'done' | 'quota' |
   const result = await evaluateForUser(z.string().min(1).max(64).parse(jobId), 'evaluate_manual');
   revalidatePath('/[locale]/jobs', 'layout');
   return result;
+}
+
+export type FollowCompanyResult = { ok: true } | { ok: false; reason: 'unsupported_url' | 'board_not_found' };
+
+export async function followCompany(url: string): Promise<FollowCompanyResult> {
+  await userId();
+  const found = detectAts(z.string().max(2048).parse(url));
+  if (!found) return { ok: false, reason: 'unsupported_url' };
+  let jobs;
+  try { jobs = await fetchBoard(found.ats, found.token); } catch { return { ok: false, reason: 'board_not_found' }; }
+  if (!jobs.length) return { ok: false, reason: 'board_not_found' };
+  const { error } = await (await createServerSupabase()).from('companies').insert({ name: jobs[0].companyName, ats: found.ats, board_token: found.token });
+  if (error && error.code !== '23505') return { ok: false, reason: 'board_not_found' }; // duplicate (ats, board_token) is already followed: success
+  revalidatePath('/[locale]', 'layout');
+  return { ok: true };
 }
