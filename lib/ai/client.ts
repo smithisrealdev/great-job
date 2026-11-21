@@ -36,3 +36,6 @@ export async function callStructured<T>(o: { model: string; system: string; cont
   if (!parsed.success) throw new AiError('invalid_output', parsed.error.message);
   return parsed.data;
 }
+
+/** Wrap untrusted text as data; escaping `<` means the body can never close or open a tag. */
+export const wrap = (tag: 'posting' | 'profile' | 'prefs', body: string) => `<${tag}>${body.replaceAll('<', '&lt;')}</${tag}>`;
