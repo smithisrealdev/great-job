@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { GhostPill } from '@/components/ghost/GhostPill';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
 import { Sidebar } from '@/components/Sidebar';
+import { signOut } from '@/app/[locale]/login/actions';
 import { getFollowedCompanies, getNavCounts } from '@/lib/db/jobQueries';
 
 export const dynamic = 'force-dynamic'; // reads the session cookie
@@ -23,6 +24,7 @@ export default async function AppLayout({ children, params }: { children: React.
           <Link href={`/${locale}/jobs/new`}>{t('nav.addJob')}</Link>
           <Link href={`/${locale}/profile`}>{t('nav.profile')}</Link>
           <Suspense><LocaleSwitch /></Suspense>
+          <form action={signOut.bind(null, locale)}><button type="submit" className="linkbtn">{t('nav.signOut')}</button></form>
         </div>
       </div>
       <div className="app">

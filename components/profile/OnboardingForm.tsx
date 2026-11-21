@@ -28,7 +28,7 @@ export function OnboardingForm() {
         if (!res.ok) return setError(res.reason);
       }
     } catch { return setError('save_failed'); }
-    router.push(`/${locale}`);
+    router.push(`/${locale}/jobs`);
   });
 
   return (
@@ -42,7 +42,7 @@ export function OnboardingForm() {
         <label htmlFor="resume">{t('resume.label')}</label>
         <input id="resume" type="file" accept="application/pdf,.pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
       </div>
-      <p className="note">{t('resume.privacy')} <a href={`/${locale}/privacy`}>{t('resume.privacyLink')}</a></p>
+      <p className="note">{t('resume.privacy')}</p>
       <p className="note">{t('onboarding.optional')}</p>
       {error && <p role="alert">{t(`resume.errors.${error}`)}</p>}
       {!ready && <p className="note">{t('onboarding.pickFirst')}</p>}

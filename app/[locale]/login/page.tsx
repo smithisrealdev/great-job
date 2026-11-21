@@ -23,7 +23,7 @@ export default async function Login({ params, searchParams }: {
         <input id="email" name="email" type="email" required autoComplete="email" />
         <button className="btn" type="submit">{t('login.sendLink')}</button>
       </form>
-      {process.env.NEXT_PUBLIC_E2E === '1' && (
+      {process.env.NEXT_PUBLIC_E2E === '1' && process.env.NODE_ENV !== 'production' && (
         <form action={signInWithPassword.bind(null, locale)} data-testid="e2e-login" style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
           <label htmlFor="e2e-email">{t('login.emailLabel')}</label>
           <input id="e2e-email" name="email" type="email" required />

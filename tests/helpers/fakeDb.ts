@@ -64,7 +64,10 @@ function builder(table: string) {
 
 export const db = {
   client: {
-    auth: { getUser: async () => ({ data: { user: state.signedIn ? { id: USER_ID } : null }, error: null }) },
+    auth: {
+      getUser: async () => ({ data: { user: state.signedIn ? { id: USER_ID } : null }, error: null }),
+      signOut: async () => { state.signedIn = false; return { error: null }; },
+    },
     from: builder,
     rpc: async () => ({ data: state.rpcResult, error: null }),
     storage: { from: (bucket: string) => ({ upload: async (path: string, body: { size?: number; byteLength?: number }) => {

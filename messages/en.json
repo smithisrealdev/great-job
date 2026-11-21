@@ -34,9 +34,6 @@
       "evergreen": "This looks like an always-open posting, not a real vacancy"
     }
   },
-  "home": {
-    "login": "Go to login"
-  },
   "login": {
     "e2ePassword": "E2E password",
     "e2eSignIn": "Sign in (test only)",
@@ -76,7 +73,6 @@
   "resume": {
     "label": "Résumé file (PDF, up to 5 MB)",
     "privacy": "Your résumé is sent to an AI to read it.",
-    "privacyLink": "Read the privacy policy",
     "errors": {
       "not_pdf": "That file is not a PDF. Please send a PDF.",
       "too_large": "The file is over 5 MB. Compress it and try again.",
@@ -156,7 +152,8 @@
     "followedHeading": "Followed companies",
     "statusHeading": "Status",
     "switchLang": "Change language",
-    "brand": "Great Job"
+    "brand": "Great Job",
+    "signOut": "Sign out"
   },
   "lang": {
     "th": "ไทย",
