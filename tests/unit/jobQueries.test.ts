@@ -3,7 +3,7 @@ import { db, USER_ID } from '../helpers/fakeDb';
 
 vi.mock('@/lib/db/server', () => ({ createServerSupabase: async () => db.client }));
 
-import { getJobList, getNavCounts, getStatusCounts } from '@/lib/db/jobQueries';
+import { getJobDetail, getJobList, getNavCounts, getStatusCounts } from '@/lib/db/jobQueries';
 
 const ago = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
 const ev = (job_id: string, score: number | null) => ({ user_id: USER_ID, job_id, score, ghost_level: 'low', ghost_signals: [], error: null });
@@ -32,4 +32,8 @@ test('no session reads as empty', async () => {
   db.signOut();
   expect(await getJobList('all')).toEqual([]);
   expect((await getNavCounts()).all).toBe(0);
+});
+test('job detail keeps only known ghost signals', async () => {
+  db.seed('evaluations', [{ ...ev('a', 60), ghost_level: 'high', ghost_signals: ['reposted', 'toString', 'made_up', 3] }]);
+  expect((await getJobDetail('a'))?.evaluation?.ghost_signals).toEqual(['reposted']);
 });

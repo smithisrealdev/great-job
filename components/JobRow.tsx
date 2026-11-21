@@ -17,8 +17,8 @@ export interface JobRowEvaluation { score: number | null; ghost_level?: GhostLev
 
 const DAY = 86_400_000;
 
-export function JobRow({ job, evaluation, onRetry = () => {} }: {
-  job: JobRowJob; evaluation: JobRowEvaluation | null; status: Status; onRetry?: (jobId: string) => void;
+export function JobRow({ job, evaluation, onRetry = () => {}, retrying = false }: {
+  job: JobRowJob; evaluation: JobRowEvaluation | null; status: Status; onRetry?: (jobId: string) => void; retrying?: boolean;
 }) {
   const t = useTranslations('jobs');
   const locale = useLocale();
@@ -43,7 +43,7 @@ export function JobRow({ job, evaluation, onRetry = () => {} }: {
         {days !== null && <span className="chip">{t('age', { days })}</span>}
         {level && <RiskChip level={level} />}
         {score === null && evaluation && (
-          <button type="button" className="chip" onClick={(e) => { e.stopPropagation(); onRetry(job.id); }}>{t('retry')}</button>
+          <button type="button" className="chip" disabled={retrying} aria-busy={retrying} onClick={(e) => { e.stopPropagation(); onRetry(job.id); }}>{t('retry')}</button>
         )}
         {job.source === 'remoteok' && safeHttps(job.url) && (
           <a className="chip" href={safeHttps(job.url)!} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>{t('source.remoteok')}</a>

@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 afterEach(() => { cleanup(); push.mockClear(); });
 const push = vi.fn();
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }));
+vi.mock('@/lib/actions/jobs', () => ({ retryEvaluation: vi.fn() }));
 
 import { JobRow, type JobRowJob } from '@/components/JobRow';
 import th from '@/messages/th.json';
@@ -52,4 +53,13 @@ test('clicking the row opens the job', () => {
   const { container } = draw(<JobRow job={jobPosted(1)} evaluation={null} status="found" />);
   fireEvent.click(container.querySelector('.row')!);
   expect(push).toHaveBeenCalledWith('/th/jobs/j1');
+});
+
+test('a retry from the list that hits the quota says so', async () => {
+  const { retryEvaluation } = await import('@/lib/actions/jobs');
+  vi.mocked(retryEvaluation).mockResolvedValue('quota');
+  const { JobList } = await import('@/components/JobList');
+  draw(<JobList rows={[{ job: jobPosted(2), evaluation: { score: null, error: 'timeout' }, status: 'found' } as never]} />);
+  fireEvent.click(screen.getByRole('button', { name: /ลองใหม่|retry/i }));
+  expect((await screen.findByRole('status')).textContent).toBe(th.detail.quota);
 });

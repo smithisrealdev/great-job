@@ -1,5 +1,6 @@
 import { createServerSupabase } from '@/lib/db/server';
 import type { JobRowEvaluation, JobRowJob } from '@/components/JobRow';
+import { isGhostSignal } from '@/lib/core/ghost';
 import { STATUSES } from '@/lib/statuses';
 import type { GhostSignal, Status } from '@/lib/types';
 
@@ -98,6 +99,6 @@ export async function getJobDetail(jobId: string): Promise<JobDetail | null> {
   return {
     job: job as JobDetail['job'],
     status: (app.data?.status as Status | undefined) ?? 'found',
-    evaluation: e && { score: e.score, matches: strings(e.matches), gaps: strings(e.gaps), notes: strings(e.notes), ghost_level: e.ghost_level, ghost_signals: strings(e.ghost_signals) as GhostSignal[], error: e.error },
+    evaluation: e && { score: e.score, matches: strings(e.matches), gaps: strings(e.gaps), notes: strings(e.notes), ghost_level: e.ghost_level, ghost_signals: strings(e.ghost_signals).filter(isGhostSignal), error: e.error },
   };
 }

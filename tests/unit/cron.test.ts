@@ -58,3 +58,11 @@ test('cron route runs the ingest with the right secret', async () => {
   expect(res.status).toBe(200);
   expect(await res.json()).toMatchObject({ boards: 0, jobs: 0 });
 });
+
+test('a failed companies read is reported, not a silent empty run', async () => {
+  vi.spyOn(db.client, 'from').mockImplementationOnce(() => ({ select: async () => ({ data: null, error: { message: 'db down' } }) }) as never);
+  mockFetch({ 'remoteok.com': fixture('remoteok') });
+  const r = await runDailyIngest();
+  expect(r.errors).toContainEqual({ source: 'companies', message: 'db down' });
+  expect(console.error).toHaveBeenCalledWith(expect.stringContaining('db down'));
+});

@@ -52,7 +52,8 @@ export default async function JobDetail({ params }: { params: Promise<{ locale: 
             <FindList kind="info" title={t('detail.info')} items={ev.notes} />
           </>
         )}
-        {(level === 'mid' || level === 'high') && ev && (
+        {/* A risk level is never shown without at least one known signal behind it. */}
+        {(level === 'mid' || level === 'high') && ev && ev.ghost_signals.length > 0 && (
           <div className="alert">
             <Ghost mood="spooked" size={64} label={t('ghost.name.spooked')} />
             <div>

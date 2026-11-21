@@ -8,8 +8,12 @@ type Company = { id: string; name: string; ats: Ats; board_token: string };
 
 /** Shared rows only (owner null, no AI); never deletes, so a job that left the board simply stops being refreshed. */
 export async function runDailyIngest(): Promise<{ boards: number; jobs: number; errors: { source: string; message: string }[] }> {
-  const { data } = await createAdminSupabase().from('companies').select('id, name, ats, board_token');
+  const { data, error } = await createAdminSupabase().from('companies').select('id, name, ats, board_token');
   const errors: { source: string; message: string }[] = [];
+  if (error) {
+    console.error(`ingest failed: companies: ${error.message}`);
+    errors.push({ source: 'companies', message: error.message });
+  }
   let boards = 0, jobs = 0;
   const run = async (source: string, load: () => Promise<RawJob[]>, companyId: string | null, name?: string) => {
     try {

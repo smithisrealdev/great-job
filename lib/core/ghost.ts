@@ -4,6 +4,8 @@ const WEIGHT: Record<GhostSignal, number> = {
   age_30: 1, age_60: 2, reposted: 2, missing_from_careers: 2, vague_description: 1, evergreen: 2,
 };
 
+export const isGhostSignal = (s: unknown): s is GhostSignal => typeof s === 'string' && Object.hasOwn(WEIGHT, s);
+
 export function ghostSignals(i: {
   postedAt: string | null; now: Date; sightingDays: number;
   onCareersPage: boolean | null; vagueDescription: boolean; evergreen: boolean;
